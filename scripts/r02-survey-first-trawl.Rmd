@@ -1,0 +1,56 @@
+---
+title: "Vietnam Survey Analysis - First Trawl"
+author: "mz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+html_document: default
+bibliography: "../misc/vn-lit.bib"
+---
+  
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require("knitr")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+
+This report has three sections:
+
+1. **A list of issues with dataset as provided** - this is feedback on the quality of data and whatever issues were uncovered in the first trawl through the data. It is not a final verdict!
+
+2. As new variables are derived they are documented here, using a simple `nXX` naming system where XX are consequtive numbers. 
+
+3. For each variable (where it makes sense), the univariate distribution or frequency is provided with a chart, as well as the regional split. 
+
+  
+  
+# List of issues with dataset as provided
+
+1. **The data was not annonymized. **
+* The names of the respondents and heads of household are in the dataset.
+* Less controversially, so are the names of the interviewers. 
+
+2. There is no variable indicating if the head of HH is also the respondent (-> n1)
+* It's easy enough to derive one - comparing names of HoH and names of respondents, but because of errors at data input this needed to be manually checked. 
+* Out of 136 "different names" manual inspeciton found six names that were actually the same e.g. *do tuan thin* != *do tuaan thin*. These were corrected manually. 
+
+
+# List of new variables derived during first trawl
+
+* *id - Unique ID* - why did this not exist?
+* *n1 - Was the respondent also the head of household?* derived from `hhhead` and `respondent`, then checked **manually** for errors. 
+
+  
+# Summary statistics or Frequency tables, both Univariate and split by region
+
+
+
+
+<!--
+rmarkdown::render("scripts/r02-survey-first-trawl.Rmd", output_format = "pdf_document", output_dir = "reports")
+-->

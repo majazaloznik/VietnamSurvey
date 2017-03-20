@@ -8,8 +8,15 @@ output:
     toc: yes
     toc_depth: 3
   html_document: default
+bibliography: "../misc/vn-lit.bib"
 ---
 
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require("knitr")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
 
 # Vietnam Survey Data Analysis Journal
   
@@ -21,3 +28,81 @@ Recieved clean data from SH, in package:
 * `OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf` Copy of our TOR
 * `full_data_v1_no_dup.dta` - the dataset in STATA format
 
+## Monday 20.3.2017
+
+Asked by SH to do a quick first trawl of the dataset by Thursday and report. 
+
+* Initialised a new GitHub repository https://github.com/majazaloznik/VietnamSurvey for the project, for version control, transparency and reproducibility **(All data and any dynamically generated outputs are kept offline)**.
+
+### Setup dir structure:
+`*` indicate the folders and all their contents are hidden/non-public material. 
+
+```
+VietnamSurvey/
+|---data/*
+|   |---RawData/*
+|   |   |---full_data_v1_no_dup.dta
+|   |   |---OIPA_FoF Farming Quest_Eng_final_20161220.docx
+|   |   `---OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf
+|   |---outputs/*
+|   |   `---
+|   |---working-copy.RData
+|   `---full_data_v1_no_dup.dta
+|---scripts/
+|   |---00-scratchpad.R
+|   |---01-data-import.R
+|   `---r01-data-analysis-journal.Rmd
+|---reports/*
+|   `---r01-data-analysis-journal.pdf
+|---misc/
+|   `---vn-lit.bib
+|---.gitignore
+`---VietnamSurvey.Rproj
+```
+
+### Data Import
+
+This is a Stata 14 .dta file, imported using the `readstata13` package [@2016read]. Upon first inspection of the file:
+
+* was created 26 Dec 2016 21:48, from "EpiData based on full_data.rec"
+* 414 cases 
+* 441 variables 
+
+### Annonymization of the data
+
+The data has three sets of *name* variables: 
+
+1. `[7] hhhead` - *Name of Household head*
+2. `[9] respondent` - *Name of respondent*
+3. `[10] phongvan` - *Name of interviewer*
+
+All three will be removed:
+
+* The interviewer name can be easily removed, there is a `interviewer code` variable, so names are not necessary. 
+* before the indentifiable naems of the respondent and HoH are removed, a new variable is created to check if the two are the same. **ISSUE** since it has already been established that there are typos in data input the only way to be sure that this is correct is manually! There were 6 typos found.. 
+* **New** `id` - *Unique ID* - why did this not exist?
+* **New** `n1` - *Was the respondent also the head of household?* derived from `hhhead` and `respondent`, then checked
+* Now I can remove the three variables with names. 
+
+### Working copy of data
+
+Create a working copy of the data instead (`data\working-copy.RData`), so it keeps the
+dataframe with attributes, especially useful for the full descriptions in `$var.labels`. 
+
+### Commit `01-data-import.R`
+This should be a good working copy of the data, as the output of `01-data-import.R`, which is done for now. Next stop: new variables. 
+
+### Start `02-new-variables.R`
+
+Setup: OK, so new variables are added at the end, all need a var.labels attribute, and then should be slotted into the position just after the last variable it was derived from. Both the column, and the var.labels. attribute need to change order as well.
+
+
+<!--
+RANDOM COMMENTS, TO DO, KEEP FOR LATER..
+`province` variable is poorly coded, instead of two possible categories there are 7 due to typos. 204 ostensibly from Thai Binh (a few misstypings) and 210 from Vinh Phuc
+-->
+
+
+<!--
+rmarkdown::render("scripts/r01-data-analysis-journal.Rmd", output_format = "pdf_document", output_dir = "reports")
+-->
