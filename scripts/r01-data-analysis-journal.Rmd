@@ -1,0 +1,23 @@
+---
+title: "Vietnam Survey Analysis - Journal"
+author: "mz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  html_document: default
+---
+
+
+# Vietnam Survey Data Analysis Journal
+  
+## Thursday 16.3.2017 
+
+Recieved clean data from SH, in package:
+
+* `OIPA_FoF Farming Quest_Eng_final_20161220.docx` - final version of the questionnaire in English
+* `OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf` Copy of our TOR
+* `full_data_v1_no_dup.dta` - the dataset in STATA format
+
