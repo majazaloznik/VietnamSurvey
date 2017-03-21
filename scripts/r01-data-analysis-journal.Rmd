@@ -1,5 +1,5 @@
 ---
-title: "Vietnam Survey Analysis - Journal"
+title: "Vietnam FoF Survey Analysis - Journal"
 author: "mz"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -18,17 +18,15 @@ require("knitr")
 opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
-# Vietnam Survey Data Analysis Journal
-  
-## Thursday 16.3.2017 
+# Thursday 16.3.2017 
 
-Recieved clean data from SH, in package:
+Received clean data from SH, in package:
 
 * `OIPA_FoF Farming Quest_Eng_final_20161220.docx` - final version of the questionnaire in English
 * `OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf` Copy of our TOR
 * `full_data_v1_no_dup.dta` - the dataset in STATA format
 
-## Monday 20.3.2017
+# Monday 20.3.2017
 
 Asked by SH to do a quick first trawl of the dataset by Thursday and report. 
 
@@ -47,7 +45,8 @@ VietnamSurvey/
 |   |---outputs/*
 |   |   `---
 |   |---working-copy.RData
-|   `---full_data_v1_no_dup.dta
+|   |---full_data_v1_no_dup.dta
+|   `---full_data_v1_no_dup_stata-12-11.dta
 |---scripts/
 |   |---00-scratchpad.R
 |   |---01-data-import.R
@@ -79,7 +78,7 @@ The data has three sets of *name* variables:
 All three will be removed:
 
 * The interviewer name can be easily removed, there is a `interviewer code` variable, so names are not necessary. 
-* before the indentifiable naems of the respondent and HoH are removed, a new variable is created to check if the two are the same. **ISSUE** since it has already been established that there are typos in data input the only way to be sure that this is correct is manually! There were 6 typos found.. 
+* before the identifiable names of the respondent and HoH are removed, a new variable is created to check if the two are the same. **ISSUE** since it has already been established that there are typos in data input the only way to be sure that this is correct is manually! There were 6 typos found.. 
 * **New** `id` - *Unique ID* - why did this not exist?
 * **New** `n1` - *Was the respondent also the head of household?* derived from `hhhead` and `respondent`, then checked
 * Now I can remove the three variables with names. 
@@ -87,7 +86,7 @@ All three will be removed:
 ### Working copy of data
 
 Create a working copy of the data instead (`data\working-copy.RData`), so it keeps the
-dataframe with attributes, especially useful for the full descriptions in `$var.labels`. 
+data frame with attributes, especially useful for the full descriptions in `$var.labels`. 
 
 ### Commit `01-data-import.R`
 This should be a good working copy of the data, as the output of `01-data-import.R`, which is done for now. Next stop: new variables. 
@@ -95,6 +94,41 @@ This should be a good working copy of the data, as the output of `01-data-import
 ### Start `02-new-variables.R`
 
 Setup: OK, so new variables are added at the end, all need a var.labels attribute, and then should be slotted into the position just after the last variable it was derived from. Both the column, and the var.labels. attribute need to change order as well.
+
+# Tuedsay 21.3.2017
+
+Setup of **first trawl** through the data is as follows:
+
+1. Report file with issues as they come up - this is feedback on the quality of data and whatever issues are uncovered in the first trawl through the data. It is not a final verdict.. Written in `r02-survey-first-trawl.Rmd`, to be compiled to .docx for SH et al and tracking changes, etc. 
+
+2. A table/list of the variables, both original and derived as the trawl progresses. Actually I'll do two, one of the original(anon) file, and one that builds up as I go along. 
+  * `r00-survey-variable-list-originals-only.Rmd
+  * `r00-survey-variable-list.Rmd
+
+3. A report - first cut type thing:  For each variable (where it makes sense), the univariate distribution or frequency is provided with a chart, as well as the regional split. 
+
+* OK, so turns out the .dta file does not actually have any labels for the variable values!! At all! So I will need to manually add them, and for this reason it's easier if I use `memsic` datasets to manage the data, especially since it has better support for attributes and labels [@2016memi]. 
+
+* This means a non reproducible step: Loading the data on SZ's machine, opening in Stata 14 and saving as a Stata 12 file. Now editing the `01-data-import.R` script to use memisc instead. 
+
+* But cool, get to work with datasets as a type, which I've already been doing for MNM, so easier to get into it. 
+
+* Set up `00-my-functions.R`
+
+* **New function** `FunSwap` to swap order of items in dataset and slotting newly derived vars where they logically belong. 
+
+* Now set up new slots in the   `annotation()` slot of the dataset, to add a flag to each variable if it's derived or original, and where derived from. 
+
+* Fixed `01-data-import.R` to use both FunSwap on the new varz, and to give them annotations. Also give annotations to all old a.k.a. original variables. 
+
+* Now that import is cool and all fields are available, can do `r00-survey-variable-list-originals-only.Rmd
+
+* OK, now the variable table list can be run from import, so it is always the same as the working-copy.RData
+
+`01-data-import.R`  now **finished** - committed. Also creates list of original variables - to `r00-survey-variable-list-originals-only.pdf` in `reports\`
+
+OK, now finally to trawling through.. 
+
 
 
 <!--

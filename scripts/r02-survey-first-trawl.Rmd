@@ -1,5 +1,5 @@
 ---
-title: "Vietnam Survey Analysis - First Trawl"
+title: "Vietnam FoF Survey Analysis - First Trawl - Issues"
 author: "mz"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -17,18 +17,6 @@ bibliography: "../misc/vn-lit.bib"
 require("knitr")
 opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
-
-
-This report has three sections:
-
-1. **A list of issues with dataset as provided** - this is feedback on the quality of data and whatever issues were uncovered in the first trawl through the data. It is not a final verdict!
-
-2. As new variables are derived they are documented here, using a simple `nXX` naming system where XX are consequtive numbers. 
-
-3. For each variable (where it makes sense), the univariate distribution or frequency is provided with a chart, as well as the regional split. 
-
-  
-  
 # List of issues with dataset as provided
 
 1. **The data was not annonymized. **
@@ -37,7 +25,14 @@ This report has three sections:
 
 2. There is no variable indicating if the head of HH is also the respondent (-> n1)
 * It's easy enough to derive one - comparing names of HoH and names of respondents, but because of errors at data input this needed to be manually checked. 
-* Out of 136 "different names" manual inspeciton found six names that were actually the same e.g. *do tuan thin* != *do tuaan thin*. These were corrected manually. 
+* Out of 136 "different names" manual inspeciton found six names that were actually the same e.g. *do tuan thin* != *do tuaan thin*. These had to be corrected manually. 
+
+3. **The `.dta` file has no value labels**. The value labels for the variables are abailable in the questionnaire file, but there is no way of automating their extraction or checking their accuracy. This will have to be done manually. 
+
+4. Furthermore, it seems all categorical type variables had been saved as interval type. This again has to be fixed manually. 
+
+
+
 
 
 # List of new variables derived during first trawl
@@ -46,9 +41,6 @@ This report has three sections:
 * *n1 - Was the respondent also the head of household?* derived from `hhhead` and `respondent`, then checked **manually** for errors. 
 
   
-# Summary statistics or Frequency tables, both Univariate and split by region
-
-
 
 
 <!--

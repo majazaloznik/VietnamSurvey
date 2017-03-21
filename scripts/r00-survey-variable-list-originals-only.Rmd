@@ -1,0 +1,51 @@
+---
+title: "Vietnam FoF Survey - Variables Original"
+author: "mz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+classoption: landscape
+header-includes:
+  - \usepackage{longtable}
+---
+
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require("knitr")
+require("xtable")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+```{r "load data", include=FALSE}
+load("data/working-copy.RData")
+```
+
+<!-- Just list of original variables in dataset. -->
+  
+```{r xtable, results="asis", echo = FALSE}
+library(xtable)
+glossary <- data.frame(ID = names(ds), 
+                       `Variable Label` = unlist(description(ds)),
+                       Flag = sapply(annotation(ds), function(x) x[2]),
+                       Origin = sapply(annotation(ds), function(x) x[3]))
+glossaryprint <- xtable(glossary)
+align(glossaryprint) <- "l|l|p{12cm}|l|p{7cm}|"
+addtorow          <- list()
+addtorow$pos      <- list()
+addtorow$pos[[1]] <- c(0)
+addtorow$command  <- c(paste("\\hline \n",
+                             "\\endhead \n",
+                             "\\hline \n",
+                             "\\endfoot \n",
+                             "\\endlastfoot \n",sep=""))
+print(glossaryprint,  
+      tabular.environment='longtable', 
+      include.rownames=FALSE, floating = FALSE,  add.to.row = addtorow,
+      hline.after=c(-1),
+      comment = FALSE)
+```
+
+
+<!--
+  rmarkdown::render("scripts/r00-survey-variable-list-originals-only.Rmd", output_format = "pdf_document", output_dir = "reports")
+-->
