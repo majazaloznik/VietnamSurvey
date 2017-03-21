@@ -18,6 +18,11 @@ require("knitr")
 opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
+
+```{r "load data", include=FALSE}
+# has to be in separate chunk from setup!
+load("data/working-copy.RData")
+```
 # Thursday 16.3.2017 
 
 Received clean data from SH, in package:
@@ -125,15 +130,39 @@ Setup of **first trawl** through the data is as follows:
 
 * OK, now the variable table list can be run from import, so it is always the same as the working-copy.RData
 
-`01-data-import.R`  now **finished** - committed. Also creates list of original variables - to `r00-survey-variable-list-originals-only.pdf` in `reports\`
+`01-data-import.R`  now **finished** - committed. Also creates list of original variables - to `r00-survey-variable-list-originals-only.pdf` in `reports\` 
+
+This is now the annonymised version of the data. should have 439 variables. 
 
 OK, now finally to trawling through.. 
 
+1. remove `province` - 6 typos
+2. label `procode` correctly instead
+3. remove `distric` - 5 typos
+4. label `distcode` correctly instead
+5. remove `commune` - 3 typos
+6. label `commcode` correctly instead
+7. weird missing value in `hhcode`, replace with 99 as new missing var. [!! come back to this?]
+8. measurelement level for `cphongvan`
+9. double check `cphongvan` and `phongvan` as well as (apparently supervisor) `cnhaptin` and `nhaptin`, loads of typos, non unique mapping.. Need to kludge the `cphongvan` one. - this needs to be done in import, before annonymizing. 
+10. two `cphongvan` codes, 1 and 12, map to teh sam `phongvan` name, need to merge (to 1)
+11. `a1` - measurement, labels
+12. `a2` - YoB checked for within interviewer patterns, eyeballed and looks ok. 
+
+```{r, echo = FALSE}
+plot(ds$a2, jitter(ds$cphongvan), ylab = "Interviewer code", xlab = "Year of Birth")
+```
+
+13. `a3` - measurement, labels
+14. `a5` - measurement, labels
+
+Break: Next step, set up Functions for First cut. 
+ToDo update folder and file structure!
 
 
 <!--
 RANDOM COMMENTS, TO DO, KEEP FOR LATER..
-`province` variable is poorly coded, instead of two possible categories there are 7 due to typos. 204 ostensibly from Thai Binh (a few misstypings) and 210 from Vinh Phuc
+
 -->
 
 

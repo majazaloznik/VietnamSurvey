@@ -17,23 +17,40 @@ bibliography: "../misc/vn-lit.bib"
 require("knitr")
 opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
+
+```{r "load data", include=FALSE} 
+# has to be in separate chunk from setup!
+load("data/working-copy.RData")
+```
+
 # List of issues with dataset as provided
 
 1. **The data was not annonymized. **
 * The names of the respondents and heads of household are in the dataset.
 * Less controversially, so are the names of the interviewers. 
 
-2. There is no variable indicating if the head of HH is also the respondent (-> n1)
-* It's easy enough to derive one - comparing names of HoH and names of respondents, but because of errors at data input this needed to be manually checked. 
-* Out of 136 "different names" manual inspeciton found six names that were actually the same e.g. *do tuan thin* != *do tuaan thin*. These had to be corrected manually. 
+2. There is no variable indicating if the head of HH is also the respondent.
+* It's easy enough to derive one - comparing names of HoH (`hhhead`) and names of respondents(`respondent`), but because of errors at data input this needed to be manually checked. 
+* Out of 136 "different names" manual inspeciton found six names that were actually the same but misspelled to look different e.g. *do tuan thin* != *do tuaan thin*. These had to be corrected manually. 
 
-3. **The `.dta` file has no value labels**. The value labels for the variables are abailable in the questionnaire file, but there is no way of automating their extraction or checking their accuracy. This will have to be done manually. 
+3. **The `.dta` file has no value labels**. The value labels for the variables are available only in the questionnaire file, which is a .docx file, so there is no way of automating their extraction or checking their accuracy. This will have to be done manually, for each variable individually. In some cases it is clear the coding is different than the questionnaire, which increases the chance of errors.. 
 
-4. Furthermore, it seems all categorical type variables had been saved as interval type. This again has to be fixed manually. 
+4. Variables were not saved with accurate *types*. For example it seems all categorical (nominal()) type variables had been saved as interval type. This again has to be fixed manually, for each variable separately. This means all 440 or so variables individually. 
 
+## Individual variables:
 
-
-
+1. `province` has 6 cases with typos. Luckily `procode` seems to be OK, have checked it manually.
+2. `distric` has 5 cases with typos. Luckily `distcode` seems to be OK, have checked it manually.
+3. `commune` has 3 cases with typos. Luckily `commcode` seems to be OK, have checked it manually.
+4. `hhcode` is missing in case `r which(is.na(as.vector(ds$hhcode)))`. This isn't terribly important, but not clear why this would happen. Code is `*101`, what does that mean, there should be no asterisk symbols?
+5. `phongvan` and `nhaptin` both have the same label "Name of internewer". Clearly they are not,  I guess `nhaptin` is a supervisor?
+6. `phongvan` has 100 typos, `nhaptin` has 15. The names are not important, but `nhaptin` seems to be non uniquely coded into `cnhaptin` (see point 8.)
+7. `cphongvan` and `cnhaptin` both have the same label "Code interviewer". Clearly they are not, I guess `cnhaptin` is a supervisor?
+8. The "interviewer name" (`phongvan`) value *nguyen cong thinh* corresponds to two different codes `cphongvan` (1 and 12). This is worrisome?
+9. `a2` is OK - but it is Year of birth, not age as the questionnaire states. Which begs the question as to which version of the questionnaire this is and whether it might be possible to get the VN one as well?
+10. `a4` four missing values for school. Just curious as to why?
+11. `a5` two responses *Other (specify)* according to the questionnaire, but where are the open ended questions?
+11. `a6` eight responses *Other (specify)* according to the questionnaire, but where are the open ended questions?
 
 # List of new variables derived during first trawl
 

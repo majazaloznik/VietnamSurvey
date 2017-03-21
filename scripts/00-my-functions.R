@@ -22,3 +22,9 @@ FunSwap <- function(ds = ds, New, After) {# only use to move back!!
   index <- index[-(from+1)] # remove from old
   ds <<- ds[index]
 }
+
+
+FunRemove <- function(col.names){
+  removing <- which(names(ds) %in% col.names)
+  ds <<- ds[-removing]
+}
