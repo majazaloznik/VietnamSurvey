@@ -69,6 +69,14 @@ measurement(ds$cnhaptin) <- "nominal"
 measurement(ds$a1) <- "nominal"
 labels(ds$a1) <- c("Male" = 1,
                    "Female" = 2)
+# n2 - age
+
+ds$n2 <- 2016 - ds$a2
+measurement(ds$n2) <- "interval"
+description(ds$n2) <- "Age - approx"
+FunSwap(ds, "n2", "a2")
+annotation(ds$n2)["flag"] <- "Deriv."
+annotation(ds$n2)["origin"] <- "a2"
 
 # a3 marital status
 measurement(ds$a3) <- "nominal"
@@ -78,6 +86,9 @@ labels(ds$a3) <- c("Never married" = 1,
                    "Divorced" = 4,
                    "Widow/widower" = 5)
 
+# a4 completed grade
+labels(ds$a4) <- c("NA" = 101)
+annotation(ds$a4)["flag"] <- "Orig.*"
 
 # a5 general education
 measurement(ds$a5) <- "nominal"
@@ -100,6 +111,7 @@ labels(ds$a6) <- c(
   "Vocational college" = 4,
   "Others (Specify)" = 96)
 
+
 ## 2.  New variables  B
 ###############################################################################
 
@@ -108,3 +120,38 @@ labels(ds$a6) <- c(
 
 
 
+
+
+
+## 3.  New variables  C
+###############################################################################
+
+
+
+## 4.  New variables  D
+###############################################################################
+
+# d1 - no longer rice
+measurement(ds$d1) <- "nominal"
+labels(ds$d1) <- c(
+  "I am still able to do and not think about this yet" = 0, 
+  "My children will continue to farm them" = 1,
+  "I will rent them out" = 2,
+  "I will return them to the commune" = 3,
+  "My neighbours will have them" = 4,
+  "Other family members will farm them" = 5,
+  "Others (Specify)" = 96)
+
+
+
+
+
+
+
+
+
+
+
+
+save(ds, file = "data/updated-copy.RData")
+rmarkdown::render("scripts/r00-survey-variable-list.Rmd", output_format = "pdf_document", output_dir = "reports")

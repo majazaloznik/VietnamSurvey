@@ -1,0 +1,126 @@
+---
+title: "Vietnam FoF Survey - First Cut"
+tables: yes
+output:
+  html_document:
+    css: ../misc/style.css
+    toc: yes
+---
+
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require("knitr")
+require("memisc")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+  
+```{r intro, echo = FALSE, warning = FALSE, message = FALSE}
+source("scripts/00-my-functions.R")
+load("data/updated-copy.RData")
+```  
+
+* *All  frequency tables are in column percentages*
+* *Widths of barplots are proportional to size of group*
+
+
+# A. Personal Information
+
+`r var <- ds$a1`
+## a1-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=5}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+
+`r var <- ds$a2`
+## a2-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+
+```{r results='asis', echo=FALSE, fig.height=5}
+FunTop(var)
+FunIntervalTable(var)
+FunIntervalBoxplot(var)
+```
+
+`r var <- ds$n2`
+## n2-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunIntervalTable(var)
+FunIntervalBoxplot(var)
+```
+
+`r var <- ds$a3`
+## a3-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+
+`r var <- ds$a4`
+## a4-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+
+`r var <- ds$a5`
+## a5-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+`r var <- ds$a6`
+## a6-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+
+
+# B. Information about those who are currently living in the same household
+
+
+# C. Information about those who are currently NOT living in the same household
+
+
+# D. Information about rice farming and family responsibilities 
+
+`r var <- ds$d1`
+## d1-`r description(I(var))` 
+[N = `r sum(!is.na(var))`] 
+
+```{r results='asis', echo=FALSE, fig.height=4}
+FunTop(var)
+FunNominalTable(var)
+FunNominalBarplot(var)
+```
+
+<!--
+rmarkdown::render("scripts/r03-first-cut.Rmd", output_format = "html_document", output_dir = "reports")
+-->

@@ -16,7 +16,7 @@ opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurv
 ```
 
 ```{r "load data", include=FALSE}
-load("data/working-copy.RData")
+load("data/updated-copy.RData")
 ```
 
 <!-- Just list of original variables in dataset. -->
