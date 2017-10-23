@@ -41,6 +41,8 @@ FunNominal <- function(var) {
               table(var ,ds$procode))
   row_sub = apply(x, 1, function(row) !all(row == 0 ))
   x <- x[row_sub,]# remove rows with no cases at all
+  #row_sub = row.names(x) != 101
+  #x <- x[row_sub,]# remove rows with NA
   prop.table(x, 2)*100
 }
 

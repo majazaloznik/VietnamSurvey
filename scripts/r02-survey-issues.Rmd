@@ -3,11 +3,13 @@ title: "Vietnam FoF Survey Analysis - First Trawl - Issues"
 author: "mz"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  word_document:
+    reference_docx: style.docx 
   pdf_document:
     number_sections: yes
     toc: yes
     toc_depth: 3
-html_document: default
+  html_document: default
 bibliography: "../misc/vn-lit.bib"
 ---
   
@@ -15,7 +17,7 @@ bibliography: "../misc/vn-lit.bib"
 ## this is to set up the main folder as the root
 ## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
 require("knitr")
-opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+opts_knit$set(root.dir = "/home/mz/Documents/Copy/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
 ```{r "load data", include=FALSE} 
@@ -25,29 +27,31 @@ load("data/working-copy.RData")
 
 # List of issues with dataset as provided
 
-1. **The data was not annonymized. **
+1. **The data was not anonymized. **
 * The names of the respondents and heads of household are in the dataset.
 * Less controversially, so are the names of the interviewers. 
 
 2. There is no variable indicating if the head of HH is also the respondent.
 * It's easy enough to derive one - comparing names of HoH (`hhhead`) and names of respondents(`respondent`), but because of errors at data input this needed to be manually checked. 
-* Out of 136 "different names" manual inspeciton found six names that were actually the same but misspelled to look different e.g. *do tuan thin* != *do tuaan thin*. These had to be corrected manually. 
+* Out of 136 "different names" manual inspection found six names that were actually the same but misspelled to look different e.g. *do tuan thin* != *do tuaan thin*. These had to be corrected manually. 
 
 3. **The `.dta` file has no value labels**. The value labels for the variables are available only in the questionnaire file, which is a .docx file, so there is no way of automating their extraction or checking their accuracy. This will have to be done manually, for each variable individually. In some cases it is clear the coding is different than the questionnaire, which increases the chance of errors.. 
 
 4. Variables were not saved with accurate *types*. For example it seems all categorical (nominal()) type variables had been saved as interval type. This again has to be fixed manually, for each variable separately. This means all 440 or so variables individually. 
 
-5. Also this file was created just after Christmas, so why were we given it almost three months later? 
+5. Also this the rush now seems disingenuous given the data was ready almost three months ago. 
 
-6. And is there any metadata, sampling frames etc? The sample looks extremely odd, understanding how it was collected might be helpful?
+6. And is there any metadata, sampling frames etc? The sample looks extremely odd, understanding how it was collected might be helpful? Referring to the TOR is no help, as the sampling frame listed there was most certainly not used (e.g. instead of 100 respondents under 30 there are zero, instead of 200 aged 30-50 there are 22..)
 
 ## Individual variables:
+
+### Section A
 
 1. `province` has 6 cases with typos. Luckily `procode` seems to be OK, have checked it manually.
 2. `distric` has 5 cases with typos. Luckily `distcode` seems to be OK, have checked it manually.
 3. `commune` has 3 cases with typos. Luckily `commcode` seems to be OK, have checked it manually.
 4. `hhcode` is missing in case `r which(is.na(as.vector(ds$hhcode)))`. This isn't terribly important, but not clear why this would happen. Code is `*101`, what does that mean, there should be no asterisk symbols?
-5. `phongvan` and `nhaptin` both have the same label "Name of internewer". Clearly they are not,  I guess `nhaptin` is a supervisor?
+5. `phongvan` and `nhaptin` both have the same label "Name of interviewer". Clearly they are not,  I guess `nhaptin` is a supervisor?
 6. `phongvan` has 100 typos, `nhaptin` has 15. The names are not important, but `nhaptin` seems to be non uniquely coded into `cnhaptin` (see point 8.)
 7. `cphongvan` and `cnhaptin` both have the same label "Code interviewer". Clearly they are not, I guess `cnhaptin` is a supervisor?
 8. The "interviewer name" (`phongvan`) value *nguyen cong thinh* corresponds to two different codes `cphongvan` (1 and 12). This is worrisome?
@@ -59,11 +63,36 @@ load("data/working-copy.RData")
 13. `a6` eight responses *Other (specify)* according to the questionnaire, but where are the open ended questions?
 
 
-. `d1` 18 responses *Other (specify)* according to the questionnaire, but where are the open ended questions?
+### Section D:
+1.  `d1` there are 18 responses *Other (specify)* according to the questionnaire, but where are the open ended questions? Also the variable label was clipped - missing last 5 characters, manual fix. 
+
+2.  `d21` - and all the Likert scales. There is no coding in the Questionnaire - and of course there is none in the data. So I am just guessing how 1-5 map on the answers. 
+Also in the English version of the questionnaire there are two "agree" answers, instead of one agree and one disagree. Now it is still possible to reasonably assume what the correct codes and labels are, but this is cutting it really close with no room left for error i.e. double checking. 
+
+3.  Same applies to `d22` and `d23`. All three also have their variable labels clipped and had to be fixed manually. 
+
+4. `d31` to `d34` again there is no coding!! 1-3 could mean anything?
 
 
+### Section E:
+
+1. `e211`, `e212`, `e213`, `e214`, `e215` - what does code 0 mean?! According to the questionnaire 1 is Yes and 2 is No, so what is 0? 
+2. `e231`, `e232`, `e233`, `e234`, `e235` are coded 1 for Yes and 2 for no, standard should be 0 for no, minor gripe. 
 
 
+### Module 2 / Section G:
+
+1. `g1`One person has the value `96` answering how old they were when they started farming. And since they are 72 years old, 96 might instead mean "other specify" as it does in a few other variables. But that makes no sense here. It's not a missing value, and it is not coded. ?
+2. `g2` No one said they grow rice for both subsistence and selling (code = 3 according to the questionnaire)? That is hard to believe?
+
+### Module 3 / Section H:
+
+1. questions `h1a` to `h1c` have a total of 76 answers "other, specify"!! Again, there is no record of what they are. And how did this get through piloting? 
+2. ALSO  in  questions `h1a` to `h1c`  there is a code 9 here that is not in the questionnaire. What does that code mean?
+
+### Module 4 / Section I:
+
+1. question `i3` the questionnaire indicates the value should be a percentage,  in data is actually square meters. 
 <!--
 rmarkdown::render("scripts/r02-survey-issues.Rmd", output_format = "pdf_document", output_dir = "reports")
 -->

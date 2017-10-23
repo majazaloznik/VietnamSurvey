@@ -12,7 +12,7 @@ header-includes:
 ## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
 require("knitr")
 require("xtable")
-opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+opts_knit$set(root.dir = "/home/mz/Documents/Copy/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
 ```{r "load data", include=FALSE}
