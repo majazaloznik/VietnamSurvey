@@ -4,281 +4,120 @@ author: "mz"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
-  html_document: default
+  number_sections: yes
+toc: yes
+toc_depth: 3
+html_document: default
 bibliography: "../misc/vn-lit.bib"
 ---
-
-```{r "setup", include=FALSE}
+  
+  ```{r "setup", include=FALSE}
 ## this is to set up the main folder as the root
 ## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
 require("knitr")
-opts_knit$set(root.dir = "/home/mz/Documents/Copy/Dropbox/analysis/Vietnam/VietnamSurvey")
+# opts_knit$set(root.dir = "/home/mz/Documents/Copy/Dropbox/analysis/Vietnam/VietnamSurvey")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
 
 ```{r "load data", include=FALSE}
 # has to be in separate chunk from setup!
-load("data/working-copy.RData")
+#load("data-old/working-copy.RData")
 ```
-# Thursday 16.3.2017 
 
-Received clean data from SH, in package:
+# Monday 23.10.2017 
 
-* `OIPA_FoF Farming Quest_Eng_final_20161220.docx` - final version of the questionnaire in English
-* `OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf` Copy of our TOR
-* `full_data_v1_no_dup.dta` - the dataset in STATA format
+Start checking new data.
 
-# Monday 20.3.2017
+Asked by GL to do a quick first trawl of the dataset. 
 
-Asked by SH to do a quick first trawl of the dataset by Thursday and report. 
+Move previous data into `data-old` folder start new journal - v.2
 
-* Initialised a new GitHub repository https://github.com/majazaloznik/VietnamSurvey for the project, for version control, transparency and reproducibility **(All data and any dynamically generated outputs are kept offline)**.
 
-### Setup dir structure:
+### Updated dir structure:
+
 `*` indicate the folders and all their contents are hidden/non-public material. 
-
+<!-- use tree /f /a > tree.txt to get output below -->
 ```
 VietnamSurvey/
-|---data/*
-|   |---RawData/*
-|   |   |---full_data_v1_no_dup.dta
-|   |   |---OIPA_FoF Farming Quest_Eng_final_20161220.docx
-|   |   `---OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf
-|   |---working-copy.RData
-|   |---updated-copy.RData
-|   |---full_data_v1_no_dup.dta
-|   `---full_data_v1_no_dup_stata-12-11.dta
-|---scripts/
-|   |---00-my-functions.R
-|   |---00-scratchpad.R
-|   |---01-data-import.R
-|   |---02-new-variables.R
-|   |---r00-survey-variable-list-originals-only.Rmd
-|   |---r00-survey-variable-list.Rmd
-|   |---r01-data-analysis-journal.Rmd
-|   |---r02-survey-issues.Rmd
-|   `---r03-first-cut-Rmd
-|---reports/*
-|   |---r00-survey-variable-list-originals-only.pdf
-|   |---r00-survey-variable-list.pdf
-|   |---r01-data-analysis-journal.pdf
-|   |---r02-survey-issues.pdf
-|   `---r03-first-cut.html
-|---misc/
-|   |---vn-lit.bib
-|   |---style.css
-|   `---style.docx
-|---.gitignore
-`---VietnamSurvey.Rproj
+|   .gitignore
+|   .Rhistory
+|   VietnamSurvey.Rproj
+|   
++---data/*
+|   |   
+|   \---data-raw/
+|       +---DATA/
+|       |   +---Excel/
+|       |   |       Section_A-G.xls
+|       |   |       Section_B.xls
+|       |   |       Section_C.xls
+|       |   |       Section_G3.xls
+|       |   |       Section_H_K.xls
+|       |   |       
+|       |   \---Stata/
+|       |           Section_A-G.dta
+|       |           Section_B.dta
+|       |           Section_C.dta
+|       |           Section_G3.dta
+|       |           Section_H_K.dta
+|       |           
+|       +---REPORT/
+|       |       OIPA Farming Survey_IPPM Report_20170411.docx
+|       |       
+|       \---TOOLS/
+|               OIPA_FoF Farming Quest_Eng_final_20161220.docx
+|               OIPA_FoF Farming Quest_Vie_final_20161220.docx
+|               
++---misc/
+|       style.css
+|       style.docx
+|       vn-lit.bib
+|       
++---old/*
+|   +---data-old/*
+|   |   |   full_data_v1_no_dup.dta
+|   |   |   full_data_v1_no_dup_stata-12-11.dta
+|   |   |   updated-copy.RData
+|   |   |   working-copy.RData
+|   |   |   
+|   |   \---RawData/*
+|   |           full_data_v1_no_dup.dta
+|   |           OIPA_FoF Farming Quest_Eng_final_20161220.docx
+|   |           OIPA_IPPM ToR for Survey in TB & VP Dec2016_final.pdf
+|   |           
+|   +---reports-old/*
+|   |       r00-survey-variable-list-originals-only.pdf
+|   |       r00-survey-variable-list.pdf
+|   |       r01-data-analysis-journal-v01.pdf
+|   |       r02-survey-issues.pdf
+|   |       r03-first-cut.html
+|   |       
+|   \---scripts-old/*
+|           00-my-functions.R 
+|           00-scratchpad.R
+|           01-data-import.R
+|           02-new-variables.R
+|           r00-survey-variable-list-originals-only.Rmd
+|           r00-survey-variable-list.Rmd
+|           r01-data-analysis-journal.pdf
+|           r01-data-analysis-journal.Rmd
+|           r02-survey-issues.docx
+|           r02-survey-issues.Rmd
+|           r03-first-cut.Rmd
+|           
++---reports/*
+\---scripts
+        01-data-import.R
+        r01-data-analysis-journal.Rmd
+        style.docx
 ```
 
-### Data Import
 
-This is a Stata 14 .dta file, imported using the `readstata13` package [@2016read]. Upon first inspection of the file:
+# Tuesday 24.10.2017 
 
-* was created 26 Dec 2016 21:48, from "EpiData based on full_data.rec"
-* 414 cases 
-* 441 variables 
-
-### Annonymization of the data
-
-The data has three sets of *name* variables: 
-
-1. `[7] hhhead` - *Name of Household head*
-2. `[9] respondent` - *Name of respondent*
-3. `[10] phongvan` - *Name of interviewer*
-
-All three will be removed:
-
-* The interviewer name can be easily removed, there is a `interviewer code` variable, so names are not necessary. 
-* before the identifiable names of the respondent and HoH are removed, a new variable is created to check if the two are the same. **ISSUE** since it has already been established that there are typos in data input the only way to be sure that this is correct is manually! There were 6 typos found.. 
-* **New** `id` - *Unique ID* - why did this not exist?
-* **New** `n1` - *Was the respondent also the head of household?* derived from `hhhead` and `respondent`, then checked
-* Now I can remove the three variables with names. 
-
-### Working copy of data
-
-Create a working copy of the data instead (`data\working-copy.RData`), so it keeps the
-data frame with attributes, especially useful for the full descriptions in `$var.labels`. 
-
-### Commit `01-data-import.R`
-This should be a good working copy of the data, as the output of `01-data-import.R`, which is done for now. Next stop: new variables. 
-
-### Start `02-new-variables.R`
-
-Setup: OK, so new variables are added at the end, all need a var.labels attribute, and then should be slotted into the position just after the last variable it was derived from. Both the column, and the var.labels. attribute need to change order as well.
-
-# Tuedsay 21.3.2017
-
-Setup of **first trawl** through the data is as follows:
-
-1. Report file with issues as they come up - this is feedback on the quality of data and whatever issues are uncovered in the first trawl through the data. It is not a final verdict.. Written in `r02-survey-issues.Rmd`, to be compiled to .docx for SH et al and tracking changes, etc. 
-
-2. A table/list of the variables, both original and derived as the trawl progresses. Actually I'll do two, one of the original(anon) file, and one that builds up as I go along. 
-  * `r00-survey-variable-list-originals-only.Rmd
-  * `r00-survey-variable-list.Rmd
-
-3. A report - first cut type thing:  For each variable (where it makes sense), the univariate distribution or frequency is provided with a chart, as well as the regional split. 
-
-* OK, so turns out the .dta file does not actually have any labels for the variable values!! At all! So I will need to manually add them, and for this reason it's easier if I use `memsic` datasets to manage the data, especially since it has better support for attributes and labels [@2016memi]. 
-
-* This means a non reproducible step: Loading the data on SZ's machine, opening in Stata 14 and saving as a Stata 12 file. Now editing the `01-data-import.R` script to use memisc instead. 
-
-* But cool, get to work with datasets as a type, which I've already been doing for MNM, so easier to get into it. 
-
-* Set up `00-my-functions.R`
-
-* **New function** `FunSwap` to swap order of items in dataset and slotting newly derived vars where they logically belong. 
-
-* Now set up new slots in the   `annotation()` slot of the dataset, to add a flag to each variable if it's derived or original, and where derived from. If the Original is only slightly altered (e.g. missing values are coded, then the flag is `Orig.*`)
-
-* Fixed `01-data-import.R` to use both FunSwap on the new varz, and to give them annotations. Also give annotations to all old a.k.a. original variables. 
-
-* Now that import is cool and all fields are available, can do `r00-survey-variable-list-originals-only.Rmd
-
-* OK, now the variable table list can be run from import, so it is always the same as the working-copy.RData
-
-`01-data-import.R`  now **finished** - committed. Also creates list of original variables - to `r00-survey-variable-list-originals-only.pdf` in `reports\` 
-
-This is now the annonymised version of the data. should have 439 variables. 
-
-OK, now finally to trawling through.. 
-
-1. remove `province` - 6 typos
-2. label `procode` correctly instead
-3. remove `distric` - 5 typos
-4. label `distcode` correctly instead
-5. remove `commune` - 3 typos
-6. label `commcode` correctly instead
-7. weird missing value in `hhcode`, replace with 99 as new missing var. [!! come back to this?]
-8. measurelement level for `cphongvan`
-9. double check `cphongvan` and `phongvan` as well as (apparently supervisor) `cnhaptin` and `nhaptin`, loads of typos, non unique mapping.. Need to kludge the `cphongvan` one. - this needs to be done in import, before annonymizing. 
-10. two `cphongvan` codes, 1 and 12, map to the same `phongvan` name, need to merge (to 1)
-11. `a1` - measurement, labels
-12. `a2` - YoB checked for within interviewer patterns, eyeballed and looks ok. 
-
-```{r, echo = FALSE}
-plot(ds$a2, jitter(ds$cphongvan), ylab = "Interviewer code", xlab = "Year of Birth")
-```
-
-13. `a3` - measurement, labels
-14. `a5` - measurement, labels
-
-
-# Wednesday 22.3.2017
-
-### Set up functions for first cut
-
-Set up Functions for First cut. In addition to univariate descriptives SH also asked for a province split to be included in the first cut. 
-
-Thus I need four functions:
-
-1. `FunNominalTable` to print out a frequency table for nominal variables, univariate and by province;
-2. `FunNominalBarplot` to plot a barplot for nominal variables, univariate and by province
-3. `FunIntervalTable` to print out a table of summary stats for interval variables, univariate and by province;
-2. `FunIntervalBoxplot` to plot a boxplot for interval variables, univariate and by province
-
-
-Also print out the origin of the variable (`FunTop()`).
-
-And rejig the plots so they take up less room with the legend etc. 
-
-### Structure of project, organization
-
-Looking good, all work, now back to making new variables
-
-Also, while working on 02-new-vars, the intermediate dataset is getting saved to `data/updated-copy.RData` and also running the Variable list Rmd.
-
-At this point I can in parallel  start doing the first cut (`r03-first-cut.Rmd`, which compiles to html) as well as deriving new variables, all the while updating the r02-report. 
-
-For compiling to html, add the `style.css` file to the `misc/` folder, for creating the clickable table of contents. 
-For compiling to Microsoft word add the `style.docx` file  to the `misc/` folder, just for generally nicer formatting. 
-
-Updated folder and file structure!
-
-### New variables and first cut
-
-15. `n2` age = `a2`-2016, this isn't great, but is all we've got. 
-16. `a4` - complete education, add missing value label for 101
-17. `a5`- crosstab with `a4` to see if the missing ones in a4 aren't actually just zeros instead. Yes, they are. 
-
-**Section A complete**
-
-### Skip to section D quick
-
-Just because B and C are multilevel tables and are more complicated, and we're in a rush. 
-18. `d1` -  measurement, labels, variable label clipped. 
-
-
-# Thursday 23.3.2017
-
-### Trawl continutes, new vars and first cut Section D
-
-19. `d21` - measurement, labels, variable label clipped. guess codes?
-20. `d22` - measurement, labels, variable label clipped. guess codes?
-21. `d23` - measurement, labels, variable label clipped. guess codes?
-22. `d31` = measurement, labels. guess codes?
-23. `d32` = measurement, labels. guess codes?
-24. `d33` = measurement, labels. guess codes?
-25. `d34` = measurement, labels. guess codes?
-
-**Section D complete**
-
-
-### Trawl continutes, new vars and first cut Section E
-
-26. `e1`= measurement, labels
-27. `e211` - measurement, labels. guess codes?
-28. `e221` - measurement, labels
-29. `e231` - measurement, labels, Yes/No codes -> 0,1 
-30. `e212` - measurement, labels. guess codes?
-31. `e222` - measurement, labels
-32. `e232` - measurement, labels, Yes/No codes -> 0,1 
-33. `e213` - measurement, labels. guess codes?
-34. `e223` - measurement, labels
-35. `e233` - measurement, labels, Yes/No codes -> 0,1 
-36. `e214` - measurement, labels. guess codes?
-37. `e224` - measurement, labels
-38. `e234` - measurement, labels, Yes/No codes -> 0,1 
-39. `e215` - measurement, labels. guess codes?
-40. `e225` - measurement, labels
-41. `e235` - measurement, labels, Yes/No codes -> 0,1 
-42. `e216` - measurement, labels. guess codes?
-43. `e226` - measurement, labels
-44. `e236` - measurement, labels, Yes/No codes -> 0,1 
-
-**Section E complete**
-
-
-### Dealing with missing values. 
-
-So the missing values are coded differently for dif variables, coercing them to NA when needed:
-
-* as.numeric() whenever counting N in first cut,
-
-Fixing table and chart functions to only looking at non-missing values? Do this later though, no time now. 
-
-
-
-### Trawl continutes, new vars and first cut Section G = Module 2
-
-45. `g1` has the one person with `96`, which is not coded and makes no sense. 
-46. `g2`  - measurement, labels
-
-**skip ahead**
-
-### Trawl continutes, new vars and first cut Section H = Module 3
-
-47. `h1a`- `h1c`. All three measurement and labels. Missing code?
-
-
-
-### Trawl continutes, new vars and first cut Section I = Module 4
-
-48. `i1` measurement, labels, Yes/no swap. 
+* Clean up old stuff, now celar project
+* Start import of data - `.dta` version
 
 
 
@@ -286,7 +125,7 @@ Fixing table and chart functions to only looking at non-missing values? Do this 
 
 
 <!--
-RANDOM COMMENTS, TO DO, KEEP FOR LATER..
+  RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 
 TODO - missing values in table and chart
 -->
