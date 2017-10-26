@@ -118,10 +118,12 @@ VietnamSurvey/
 
 * Clean up old stuff, now celar project
 * Start import of data - `.dta` version
+* Import Section_A-G.dta as `ds.1` 148 variables, 413 cases
 
 
+# Thursday 26.10.2017 
 
-
+* Import all 5 stata files, all 5 excel files and old stata file and compare number of cases
 
 
 <!--

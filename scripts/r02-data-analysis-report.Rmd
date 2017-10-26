@@ -1,0 +1,134 @@
+---
+title: "Vietnam FoF Survey Analysis - Second dataset - First Trawl - Issues"
+author: "mz"
+html_document: default
+output:
+  pdf_document: 
+    fig_caption: yes
+  number_sections: yes
+  html_document: default
+  word_document:
+    reference_docx: style.docx
+bibliography: ../misc/vn-lit.bib
+toc: yes
+toc_depth: 3
+---
+  
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require("knitr")
+library("captioner")
+# opts_knit$set(root.dir = "/home/mz/Documents/Copy/Dropbox/analysis/Vietnam/VietnamSurvey")
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+tbls <- captioner(prefix="Table")
+```
+
+```{r "load data", include=FALSE} 
+# has to be in separate chunk from setup!
+# load("data/working-copy.RData")
+```
+
+# Notes on first trawl 
+
+This is a (slighlty) rambling write-up of things that came up during the first trawl of the dataset. 
+
+## Import
+
+We are provided with two versions of the data, one in `.dta` (stata) files and one in `.xls` (Excel) files. 
+
+THESE ARE NOT THE SAME.
+
+Importing the data is therefore an __opportinity__ to check for discrepancies. While I am at it, I check for how the new data compares with the old one as well.
+
+### Section A-G
+```{r captions, echo = FALSE, results='hide'}
+tbls("T1","Row numbers for Sections A to G -- heads of household")
+tbls("T2","Anomaly cases - heads of households")
+
+```
+* Importing section A-G from new files ( and comparing also to old)
+* There are different numbers of cases, see table below.
+
+`r tbls("T1")`
+```{r table1, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', fig_caption="Table 1"}
+
+tabl <- "  
+|  section      | Stata-new | Excel-new| [Stata-old] |
+|---------------|:-------------:|:------:|:-----:|
+| Section A-G   | 413 | 412 | [414] |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+
+
+`r tbls("T1", display = "cite")`:  413-412 means there is an one person missing in the new Excel tables:
+
+ * this is row 6 in `r tbls("T2", display = "cite")` below)
+ 
+The difference wbetween 414 and 413 is actually more complicated: 
+
+* Then there are two typos -(rows 1 and 3, and rows 2 and 4 below are presumably the same people)
+* and finally there is row 5 in `r tbls("T2", display = "cite")`, a respondent that was in the original stata files, but not in the new ones. 
+
+`r tbls("T2")`
+
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+
+tab2 <- read.csv( "data/outputs/00.missing.cases.csv")
+
+kable(tab2) # output the table in a format good for HTML/PDF/docx conversion
+
+
+```
+
+
+
+### Section B (hh members)
+* Importing section B from new files 
+* There are different numbers of cases, see table below.
+* In old dataset B was in the same table as columns, and several rows actually have the wron hh
+
+```{r table3, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
+tabl <- "  
+|  section      | Stata-new | Excel-new| [Stata-old] |
+|---------------|:-------------:|:------:|:-----:|
+| Section B   | 1483 | 1482 | [1485] |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+There are two types of anomalies:
+* one person only in the new stata file, but not in the new Excel file (row 3 below) 
+* two family members that were in the original data, but not in the new one (row 1 and 2 below) -- incidentally, these belong to the same hh as the now missing head of in row 5 above. 
+
+```{r table4, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tab4 <- read.csv( "data/outputs/01.missing.cases.2.csv")
+
+kable(tab4) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+
+### Section C (hh members living away)
+* Importing section C from new files 
+* Number of cases looks OK, matched for main key variables as well.
+
+```{r table5, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
+tabl <- "  
+|  section      | Stata-new | Excel-new| [Stata-old] |
+|---------------|:-------------:|:------:|:-----:|
+| Section C   | 113 | 113 | [113] |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+
+## Random niggles
+
+* Seriously, why are there no IDs, this is making my life incredibly difficult... 
+
+
+<!--
+rmarkdown::render("scripts/r02-survey-issues.Rmd", output_format = "pdf_document", output_dir = "reports")
+-->
