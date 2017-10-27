@@ -4,8 +4,7 @@ author: "mz"
 html_document: default
 output:
   pdf_document: 
-    fig_caption: yes
-  number_sections: yes
+    number_sections: yes
   html_document: default
   word_document:
     reference_docx: style.docx
@@ -37,15 +36,22 @@ This is a (slighlty) rambling write-up of things that came up during the first t
 
 We are provided with two versions of the data, one in `.dta` (stata) files and one in `.xls` (Excel) files. 
 
-THESE ARE NOT THE SAME.
+__THESE ARE NOT THE SAME.__Importing the data is therefore an __opportinity__ to check for discrepancies. While I am at it, I check for how the new data compares with the old one as well.
 
-Importing the data is therefore an __opportinity__ to check for discrepancies. While I am at it, I check for how the new data compares with the old one as well.
-
-### Section A-G
+### Section A-G (hh heads)
 ```{r captions, echo = FALSE, results='hide'}
-tbls("T1","Row numbers for Sections A to G -- heads of household")
-tbls("T2","Anomaly cases - heads of households")
-
+tbls("T1","Row numbers for Sections A to G--heads of household")
+tbls("T2","Anomaly cases Sections A to G--heads of households")
+tbls("T3","Row numbers for Section B--household members in hh")
+tbls("T4","Anomaly cases Section B--household members in hh")
+tbls("T5","Row numbers for Section C--household members living away")
+tbls("T6","Anomaly cases Section C--household members living away")
+tbls("T7","Row numbers for Section C--plots of land growing rice")
+tbls("T8","Row numbers for Sections G to H--heads of households")
+tbls("T9","Anomaly cases Sections G to H--heads of households")
+tbls("T10","Consolidated datasets after clean import")
+tbls("T11","Anomaly cases--have Sections A-G, but wihtout section B")
+tbls("T12","Anomaly cases--wrong relationship in section B")
 ```
 * Importing section A-G from new files ( and comparing also to old)
 * There are different numbers of cases, see table below.
@@ -63,7 +69,7 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 
 
 
-`r tbls("T1", display = "cite")`:  413-412 means there is an one person missing in the new Excel tables:
+In the above `r tbls("T1", display = "cite")`:  the difference 413-412 means there is an one person missing in the new Excel tables:
 
  * this is row 6 in `r tbls("T2", display = "cite")` below)
  
@@ -90,6 +96,8 @@ kable(tab2) # output the table in a format good for HTML/PDF/docx conversion
 * There are different numbers of cases, see table below.
 * In old dataset B was in the same table as columns, and several rows actually have the wron hh
 
+`r tbls("T3")`
+
 ```{r table3, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
 tabl <- "  
 |  section      | Stata-new | Excel-new| [Stata-old] |
@@ -100,8 +108,11 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
 There are two types of anomalies:
+
 * one person only in the new stata file, but not in the new Excel file (row 3 below) 
 * two family members that were in the original data, but not in the new one (row 1 and 2 below) -- incidentally, these belong to the same hh as the now missing head of in row 5 above. 
+
+`r tbls("T4")`
 
 ```{r table4, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 tab4 <- read.csv( "data/outputs/01.missing.cases.2.csv")
@@ -109,10 +120,42 @@ tab4 <- read.csv( "data/outputs/01.missing.cases.2.csv")
 kable(tab4) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
+Aah, but there is another problem as well. Because hh. members also inlcudes respondents, I can do another check and compare hh members in this file who are coded as the respondents, with the cases in the first section. (only noticed this later, but had to go back and fix here in the import to keep it tidy)
+
+So there are two issues here.
+
+1. There are two households that are completely missing from Section B:
+
+`r tbls("T11")`
+```{r table11, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tab4 <- read.csv( "data/outputs/04.missing.cases.5.csv")
+
+kable(tab4) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+And it is clear even from this that one of them (the one in row 2) had at least one other household member __because their name is right there__. Anyway, having another hh member is not a prerequisite for Seciton B, so both of these should be there.
+
+2. There are three household where Section B has two people listed as respondents in each of them: 
+`r tbls("T12")`
+```{r table12, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tab4 <- read.csv( "data/outputs/05.missing.cases.6.csv")
+
+kable(tab4) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+I guess I can assume the second in each of these is not actually the respondent. But who are they? The one in row 2 could be  the spouse reasonably? The one in row 4 could be tge daughter? And thw last one? Presumably not same sex partner?
+
+
+OK, so all the ones in `r tbls("T12", display = "cite")` I have to make their relationship "missing". 
+
+And the two households in `r tbls("T11", display = "cite")`, I'll leave them in, but make sure when household stuff is derived they will have missing values there, so can't get included in the analysis. So there are only 411 respondents in the hh members file, not 413 as we would expect. 
+
 
 ### Section C (hh members living away)
 * Importing section C from new files 
 * Number of cases looks OK, matched for main key variables as well.
+
+`r tbls("T5")`
 
 ```{r table5, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
 tabl <- "  
@@ -123,12 +166,95 @@ tabl <- "
 cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
+* So this looks good, but comparing the new stata and Excel files in more detail shows that there is at least one error: A missing value `c4` in the stata file, that is in the Excel one however. 
+* (this is not the year of birth, 1989 is also wrong, this should be the answer to the question 'where is this family member residing')
+* Furthermore this person is both 'male' and a 'daughter', which is clearly an issue. [checked gender cosnistency for the rest of Section C and this was teh only error]. 
+* This case __is removed from the dataset__. (number of cases is now 112)
+
+`r tbls("T6")`
+```{r table6, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tab6 <- read.csv( "data/outputs/02.missing.cases.3.csv")
+
+kable(tab6) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+
+### Section G3 (rice plots)
+* Importing section G3 from new files 
+* Number of cases looks OK, matched for main key variables as well.
+
+`r tbls("T7")`
+
+```{r table7, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
+tabl <- "  
+|  section      | Stata-new | Excel-new| [Stata-old] |
+|---------------|:-------------:|:------:|:-----:|
+| Section G3   | 1396 | 1396 | [1396] |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+* Double checking shows __both new files are in fact identical__. 
+* Comparison to old file showed there were a few missing values in the old one that seem to have been replaced now, nothing worth mentioning I guess though. 
+
+
+### Section G-H (heads of households again)
+* Importing section G-H from new files 
+* Number of cases again missing one in the Excel files. and one extra one from the old files
+
+`r tbls("T8")`
+
+```{r table8, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
+tabl <- "  
+|  section      | Stata-new | Excel-new| [Stata-old] |
+|---------------|:-------------:|:------:|:-----:|
+| Section G-H   | 413 | 412 | [414] |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+* The respondent missing from the new Excel files (row 6 in `r tbls("T9", display = "cite")` below) is __not the same one as was missing from the first section__ (row 6 in `r tbls("T2", display = "cite")` above)!!
+* the differences with the old data are the same however: two typos (row 1=3 and row 2=4) and the same person in row 5 is only in the original data (and their family) but not in the new one. 
+
+`r tbls("T9")`
+
+```{r table9, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+
+tab9 <- read.csv( "data/outputs/03.missing.cases.4.csv")
+
+kable(tab9) # output the table in a format good for HTML/PDF/docx conversion
+
+```
+
+## Clean import
+
+From now on everything is based on the new stata files:
+
+* with the removal of the case described in  `r tbls("T6", display = "cite")` above
+* merge together section S-G and G-H files as both have heads of households as basic units. 
+* merge together section B and C files as both have household members as basic units. 
+* add unique IDs to households and members. 
+
+The numbers of cases and variables are described in the `r tbls("T10", display = "cite")` 
+
+
+```{r table10, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
+tabl <- "  
+|  table name | section names     | case type   | number of cases  | number of variables |
+|---------|---------|-------------|------|-----|
+| ds.hohh  | Section A,D,E, G, H, I, K  | head of household | 413 | 262 |
+| ds.mmbr  |  Section B and C | hh members in hh | 1483 + 112 = 1595 | 11 |
+| ds.plot |  Section G3 | rice plots | 1396 | 9 |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
 
 ## Random niggles
 
 * Seriously, why are there no IDs, this is making my life incredibly difficult... 
-
-
+* also, if they had IDs then most of the errors I found could never have occured... 
+* english and vietnamese questionnaires are not the same. e.g codes C4- there are 8 in the vietnamese and 6 in english. 
 <!--
 rmarkdown::render("scripts/r02-survey-issues.Rmd", output_format = "pdf_document", output_dir = "reports")
 -->

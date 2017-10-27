@@ -126,6 +126,22 @@ VietnamSurvey/
 * Import all 5 stata files, all 5 excel files and old stata file and compare number of cases
 
 
+# Friday 27.10.2017 
+
+* continue with checking three versions of data for missing cases. and write up.
+
+After checks final import is based on:
+* new stata files;
+* removing hh member moved away 122-25 in section C 
+* Saved into `tmp.clean.import.RData`
+* `01-data-import.R` is finished = one off
+
+Now start working on `02-data-clean.R`:
+
+* merge into 3 tables
+* add unique identifiers 
+* this is where i Noticed Section B (hh menmbers) who are residents - there are actually 414 of them, so one too many...
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 

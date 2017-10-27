@@ -35,6 +35,7 @@
 
 ## 0. Preliminaries  ##########################################################
 ###############################################################################
+rm(list = ls())
 library(memisc)
 library(tidyverse)
 library(readxl)
@@ -184,6 +185,31 @@ write.csv(file = "data/outputs/01.missing.cases.2.csv",
           rbind( df.2.old.only[5:6,], df.2.stata.only))
 
 rm(df.2, df.2.new.only, df.2.old.only, df.2.stata.only, df.2.old, ds.x.2)
+
+## 2.5 count number of respondents ############################################
+ds.2.respondents <- as.data.frame(ds.2[ds.2$b3 == 1,])
+nrow(ds.2.respondents)
+ds.1.respondents <- as.data.frame(ds.1[3:6])
+
+not.in.sectionB <- anti_join(ds.1.respondents, ds.2.respondents)
+write.csv(file = "data/outputs/04.missing.cases.5.csv", 
+          not.in.sectionB)
+
+both <- full_join(ds.1.respondents, ds.2.respondents)
+
+two.respondents.per.hh <- 
+  both[both$hhhead %in% c("tran ngoc tien", "vu van tien", "duong van can"),] 
+
+write.csv(file = "data/outputs/05.missing.cases.6.csv", 
+          two.respondents.per.hh)
+
+rm(ds.1.respondents, ds.2.respondents, both, not.in.sectionB, two.respondents.per.hh)
+# remove respondent values for the three doubles 
+ds.2[ds.2$b1 == "vu kim thuong","b3"]<- 100
+ds.2[ds.2$hhcode == 31 &  ds.2$mcode == 2 & ds.2$b1 == "tien","b3"] <-  100
+ds.2[ds.2$hhcode == 15 &  ds.2$mcode == 2 & ds.2$b1 == "sam","b3"] <-  100
+
+
 
 ## 3. Import and check Section C    ###########################################
 ## 3.1 Import stata version ###################################################
@@ -335,11 +361,7 @@ colnames(df.4.old)[1] <-  c("commune")
 
 df.4.new.only <- anti_join(df.4, df.4.old)
 
-
 df.4.old.only <- anti_join(df.4.old, df.4)
-
-write.csv(file = "data/outputs/02.missing.cases.3.csv", 
-          rbind(df.3.stata.only, df.3.excel.only))
 
 rm(df.4, df.4.new.only, df.4.old.only, df.4.stata.only, df.4.excel.only, df.4.old, ds.x.4)
 
@@ -401,7 +423,7 @@ df.5.old.only$old.stata <- TRUE
 write.csv(file = "data/outputs/03.missing.cases.4.csv", 
           rbind(df.5.new.only, df.5.old.only, df.5.stata.only))
 
-rm(df.5, df.5.new.only, df.5.old.only, df.5.stata.only, df.5.excel.only, df.5.old, ds.x.5)
+rm(df.5, df.5.new.only, df.5.old.only, df.5.stata.only,  ds.x.5)
 rm(df.old, ds.old, i)
 
 
