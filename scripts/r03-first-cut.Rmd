@@ -1,0 +1,54 @@
+---
+title: "Vietnam FoF Survey---First Cut (second try)"
+tables: yes
+output:
+  html_document:
+  css: ../misc/style.css
+toc: yes
+---
+  
+```{r "setup", include=FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require(knitr)
+require(memisc)
+require(RColorBrewer)
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+
+```{r intro, echo = FALSE, warning = FALSE, message = FALSE}
+source("scripts/00-functions.R")
+load("data/outputs/clean.Rdata")
+```  
+
+* *All  frequency tables are in column percentages*
+* *Widths of barplots are proportional to size of group*
+  
+  
+# A. Personal Information
+
+
+```{r results='asis', echo=FALSE, fig.height=5}
+i <- 10
+FunTop(i)
+```
+
+
+```{r results='asis', echo=FALSE, fig.height=5}
+i <- 11
+FunTop(i)
+```
+
+```{r results='asis', echo=FALSE, fig.height=5}
+i <- 12
+FunTop(i)
+```
+
+```{r results='asis', echo=FALSE, fig.height=5}
+i <- 14
+FunTop(i)
+```
+<!--
+  rmarkdown::render("scripts/r03-first-cut.Rmd", output_format = "html_document", output_dir = "reports")
+-->

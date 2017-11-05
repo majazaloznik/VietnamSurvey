@@ -142,6 +142,27 @@ Now start working on `02-data-clean.R`:
 * add unique identifiers 
 * this is where i Noticed Section B (hh menmbers) who are residents - there are actually 414 of them, so one too many...
 
+# Monday 30.10.2017
+
+* clean up plot table and add hh ids and unique identifiers. 
+* 01-data-import is done
+* 02-clean-data consolidates all files into 3 datasets in one RData file (`clean.RData`)
+
+
+# Sunday 5.11.2017
+
+* prepare variable list: `r00-survey-variable-list.Rmd`
+* a few var (g19, g20) have unknown characters in descriptions, clean up in 02-data-clean
+* do tables for all three datasets. 
+* in ds.membr one var (mcode) has no description
+
+
+Then the first trawl of the data: `r03-first-cut.Rmd`
+
+* OK, table and plotting funcitons seem to be still working OK for nominal, just tweak for ds.hohh 
+* If I add measurement type to the variable list, nominal and interval, i can maybe automate this more
+* OK, semi automated now, but need to deal with missing values. tomorrow. 
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 

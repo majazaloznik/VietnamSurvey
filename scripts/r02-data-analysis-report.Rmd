@@ -1,13 +1,13 @@
 ---
-title: "Vietnam FoF Survey Analysis - Second dataset - First Trawl - Issues"
-author: "mz"
+title: "Vietnam FoF Survey Analysis---Second dataset---Issues"
+author: "mz---30.10.17"
 html_document: default
 output:
-  pdf_document: 
-    number_sections: yes
-  html_document: default
   word_document:
     reference_docx: style.docx
+  pdf_document:
+    number_sections: yes
+  html_document: default
 bibliography: ../misc/vn-lit.bib
 toc: yes
 toc_depth: 3
@@ -28,15 +28,49 @@ tbls <- captioner(prefix="Table")
 # load("data/working-copy.RData")
 ```
 
-# Notes on first trawl 
+# Overview
+
+## Sampling of districts
+
+The report on the survey that accompanies this dataset has a description of the district and commune selection. Their "Section 1.2: choice of surveyed locations" describes the methodology and Appendix 1. and 2. the data for selecting the districts. I didn't go into detail, but there are errors in how the tables were calculated, e.g. all the totals and averages in the last 4 columns of the Table A1-1 are wrong. Presumably that measn the districts were based on these wrong statistics. 
+
+## Sampling of households
+It is to be concluded from the report that respondents were required to be doing __only__ agriculural jobs. I'm not sure if I got this right, but it seems like respondents who were doing any casual or part time non-agricultural work were excluded? [This is the reason tehre are only 22 people unde 50 in the sample]
+
+There is still no explanation in the survey report for the dramatic gender ratio in the Vinh Phuc province (32 Males to 178 Females).
+
+## Questionnaires
+
+Comared to the previous version the stata files are now correctly annotated and labeled. But reference to English questionnaires shows the labels are not the same - i.e. the Vientamese categories were changed and the English version of the questionnaire not updated (e.g. question c4 or g33). 
+
+## Data files
+
+See next section for details on this, but essentially the 10 data files provided (5 stata and 5 Excel) are not perfectly compatible. 
+
+1. There is a household missing in two of the Excel files
+2. (There is also household in the original data, that is missing in the new data.)
+3. There is a household member missing in the Excel file
+4. (The hh members of the hh from point 2 are also missing in the new data.)
+5. There are two households who's members are missing from the new files completely
+6. There are 3 miscoded 'relationship to head' members in Section B.
+7. There was at least one hh member in the Section C files that had been wrongly entered and I had to delete. 
+
+
+## Other
+
+Most of the other issues in the previous dataset had to do with no coding, or no labels, and these seem to have mostly been fixed in this version - but I'll only be able to confirm when I do the first trawl through. 
+
+
+
+
+
+# Notes on data Import  
 
 This is a (slighlty) rambling write-up of things that came up during the first trawl of the dataset. 
 
-## Import
-
 We are provided with two versions of the data, one in `.dta` (stata) files and one in `.xls` (Excel) files. 
 
-__THESE ARE NOT THE SAME.__Importing the data is therefore an __opportinity__ to check for discrepancies. While I am at it, I check for how the new data compares with the old one as well.
+__THESE ARE NOT THE SAME.__ Importing the data is therefore an opportinity to check for discrepancies. While I am at it, I check for how the new data compares with the old one as well.
 
 ### Section A-G (hh heads)
 ```{r captions, echo = FALSE, results='hide'}
@@ -237,14 +271,14 @@ From now on everything is based on the new stata files:
 
 The numbers of cases and variables are described in the `r tbls("T10", display = "cite")` 
 
-
+`r tbls("T10")`
 ```{r table10, echo=FALSE, message=FALSE, warnings=FALSE, results='asis', tab.cap="Table 1"}
 tabl <- "  
 |  table name | section names     | case type   | number of cases  | number of variables |
 |---------|---------|-------------|------|-----|
 | ds.hohh  | Section A,D,E, G, H, I, K  | head of household | 413 | 262 |
 | ds.mmbr  |  Section B and C | hh members in hh | 1483 + 112 = 1595 | 11 |
-| ds.plot |  Section G3 | rice plots | 1396 | 9 |
+| ds.plot |  Section G3 | rice plots | 1396 | 10 |
 "
 cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
@@ -254,7 +288,7 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 
 * Seriously, why are there no IDs, this is making my life incredibly difficult... 
 * also, if they had IDs then most of the errors I found could never have occured... 
-* english and vietnamese questionnaires are not the same. e.g codes C4- there are 8 in the vietnamese and 6 in english. 
+
 <!--
 rmarkdown::render("scripts/r02-survey-issues.Rmd", output_format = "pdf_document", output_dir = "reports")
 -->
