@@ -163,6 +163,31 @@ Then the first trawl of the data: `r03-first-cut.Rmd`
 * If I add measurement type to the variable list, nominal and interval, i can maybe automate this more
 * OK, semi automated now, but need to deal with missing values. tomorrow. 
 
+# Monday 6.11.2017
+
+Fix tables in first trawl
+
+* Make sure missing values are labeled as such (in nominal tables)
+* Make sure missing values in interval variables don't mess up the tables eiter (e.g. if one province has them and other doesnt)
+* Make sure plots of interval variables also don't use missing 101s. 
+* and then change the box plots to violin plots cause they're better
+
+* whole section E is not coded properly. Labels need to be added/ 
+* then there is the problem of missing horses and other vars with no valid answers.. 
+* and the problem if one province has missing all values, but not the other 
+
+More issues:
+
+* Then note that there are some 'other' questions that have not been translated (g1119other, g1129other, g1139other)
+* H12 and H13 should be main reason, but mulitple reasons are given 
+* H15, H17 value 3 not labeled
+* H1396, I1, I2, I3, K1, K31, K32, K33, K34, K396  wrong measurement, no labels.
+
+
+Now have a look at the household member data as well. 
+
+
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 

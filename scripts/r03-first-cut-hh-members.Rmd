@@ -1,0 +1,62 @@
+---
+title: "Vietnam FoF Survey---First Cut--Household Members"
+tables: yes
+output:
+  html_document:
+    css: ../misc/style.css
+  pdf_document: default
+  word_document: default
+toc: yes
+---
+  
+```{r "setup", include=FALSE, message = FALSE, warning = FALSE, echo= FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require(knitr)
+require(memisc)
+
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+
+```{r intro, echo = FALSE, warning = FALSE, message = FALSE}
+source("scripts/00-functions.R")
+load("data/outputs/clean.Rdata")
+```  
+
+* *All  frequency tables are in column percentages*
+  * *Widths of barplots are proportional to size of group*
+  
+  
+# Household members - all 1595 of them
+
+This first cut uses all 1595 household members in the dataset, this is both Section B, those living in the household (inlcuidng respondents) and Section C (not living in Household)
+  
+  
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in c(6, 8:11)){
+  FunTopM(i)
+}
+```
+
+# Household members living in Household, but without respondents themselves. 
+
+This second one  cut uses all 1072 household members in the dataset, except respondents, this is both Section B, those living in the household and Section C (not living in Household)
+  
+  
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in c( 8:11)){
+  FunTopM.no.resp(i)
+}
+```
+
+# Household members not living in Household
+
+This third one  cut uses  112 household members in the dataset who are not living in the hosuehold ( Section C -not living in Household)
+  
+  
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in c( 8:11)){
+  FunTopM.C(i)
+}
+```

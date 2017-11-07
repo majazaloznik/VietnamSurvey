@@ -2,17 +2,20 @@
 title: "Vietnam FoF Survey---First Cut (second try)"
 tables: yes
 output:
+  word_document: default
+  pdf_document: default
   html_document:
-  css: ../misc/style.css
+    css: ../misc/style.css
+    toc: yes
 toc: yes
 ---
   
-```{r "setup", include=FALSE}
+```{r "setup", include=FALSE, message = FALSE, warning = FALSE, echo= FALSE}
 ## this is to set up the main folder as the root
 ## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
 require(knitr)
 require(memisc)
-require(RColorBrewer)
+
 opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
 ```
 
@@ -26,28 +29,63 @@ load("data/outputs/clean.Rdata")
 * *Widths of barplots are proportional to size of group*
   
   
-# A. Personal Information
+# Section A. Personal information
 
 
 ```{r results='asis', echo=FALSE, fig.height=5}
-i <- 10
+for (i in 10:15){
 FunTop(i)
+}
+```
+
+  
+#  Section D. Information about rice farming and family responsibilities 
+
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in 16:23){
+FunTop(i)
+}
+```
+
+# Section E. Health situation and capability to follow farming tasks 
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in 24:42){
+FunTop(i)
+}
 ```
 
 
-```{r results='asis', echo=FALSE, fig.height=5}
-i <- 11
-FunTop(i)
-```
+
+# Module 2. FARMING – GENERAL DESCRIPTION -- Section G
 
 ```{r results='asis', echo=FALSE, fig.height=5}
-i <- 12
+for (i in 43:149){
 FunTop(i)
+}
 ```
 
+# Module 3. FARMING – BEHAVIOUR, KNOWLEDGE/CHOICES, OPINIONS -- Section H
+
 ```{r results='asis', echo=FALSE, fig.height=5}
-i <- 14
+for (i in 149:208){
 FunTop(i)
+}
+```
+
+# Module 4-- Section I – Rice Varieties
+
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in 209:236){
+FunTop(i)
+}
+```
+
+# Module 4-- Section K – Pesticide Use
+
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in 237:262){
+FunTop(i)
+}
 ```
 <!--
   rmarkdown::render("scripts/r03-first-cut.Rmd", output_format = "html_document", output_dir = "reports")

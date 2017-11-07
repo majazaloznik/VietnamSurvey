@@ -1,0 +1,101 @@
+---
+title: "Vietnam FoF Survey - Variables Original and Derived"
+author: "mz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+classoption: landscape
+header-includes:
+  - \usepackage{longtable}
+---
+```{r "setup", include=FALSE, echo = FALSE, message = FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require(knitr)
+require(xtable)
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+```{r "load data", include=FALSE, echo = FALSE, message = FALSE}
+load("data/outputs/clean.Rdata")
+```
+
+# Household Variables - Sections A-G & G-H
+<!-- Just list of original variables in dataset. -->
+  
+```{r xtable, results="asis", echo = FALSE, message = FALSE}
+glossary.hohh <- data.frame(ID = names(ds.hohh), 
+                       `Variable Label` = unlist(description(ds.hohh)),
+                       Flag = sapply(annotation(ds.hohh), function(x) x[2]),
+                       Origin = sapply(annotation(ds.hohh), function(x) x[3]))
+glossaryprint <- xtable(glossary.hohh)
+align(glossaryprint) <- "l|l|p{12cm}|l|p{6cm}|"
+addtorow          <- list()
+addtorow$pos      <- list()
+addtorow$pos[[1]] <- c(0)
+addtorow$command  <- c(paste("\\hline \n",
+                             "\\endhead \n",
+                             "\\hline \n",
+                             "\\endfoot \n",
+                             "\\endlastfoot \n",sep=""))
+print(glossaryprint,  
+      tabular.environment='longtable', 
+      include.rownames=FALSE, floating = FALSE,  add.to.row = addtorow,
+      hline.after=c(-1),
+      comment = FALSE)
+```
+
+# Household Member Variables - Sections B and C
+
+<!-- Just list of original variables in dataset. -->
+  
+```{r xtable2, results="asis", echo = FALSE, message = FALSE}
+glossary.mmbr <- data.frame(ID = names(ds.mmbr), 
+                       `Variable Label` = unlist(description(ds.mmbr)),
+                       Flag = sapply(annotation(ds.mmbr), function(x) x[2]),
+                       Origin = sapply(annotation(ds.mmbr), function(x) x[3]))
+glossaryprint <- xtable(glossary.mmbr)
+align(glossaryprint) <- "l|l|p{12cm}|l|p{6cm}|"
+addtorow          <- list()
+addtorow$pos      <- list()
+addtorow$pos[[1]] <- c(0)
+addtorow$command  <- c(paste("\\hline \n",
+                             "\\endhead \n",
+                             "\\hline \n",
+                             "\\endfoot \n",
+                             "\\endlastfoot \n",sep=""))
+print(glossaryprint,  
+      tabular.environment='longtable', 
+      include.rownames=FALSE, floating = FALSE,  add.to.row = addtorow,
+      hline.after=c(-1),
+      comment = FALSE)
+```
+
+# Rice field plots - Section G3
+
+<!-- Just list of original variables in dataset. -->
+  
+```{r xtable3, results="asis", echo = FALSE, message = FALSE}
+glossary.plot <- data.frame(ID = names(ds.plot), 
+                       `Variable Label` = unlist(description(ds.plot)),
+                       Flag = sapply(annotation(ds.plot), function(x) x[2]),
+                       Origin = sapply(annotation(ds.plot), function(x) x[3]))
+glossaryprint <- xtable(glossary.plot)
+align(glossaryprint) <- "l|l|p{12cm}|l|p{6cm}|"
+addtorow          <- list()
+addtorow$pos      <- list()
+addtorow$pos[[1]] <- c(0)
+addtorow$command  <- c(paste("\\hline \n",
+                             "\\endhead \n",
+                             "\\hline \n",
+                             "\\endfoot \n",
+                             "\\endlastfoot \n",sep=""))
+print(glossaryprint,  
+      tabular.environment='longtable', 
+      include.rownames=FALSE, floating = FALSE,  add.to.row = addtorow,
+      hline.after=c(-1),
+      comment = FALSE)
+```
+
+<!--
+rmarkdown::render("scripts/r00-survey-variable-list.Rmd", output_format = "pdf_document", output_dir = "reports")
+-->

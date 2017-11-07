@@ -19,7 +19,7 @@
 library(memisc)
 library(tidyverse)
 rm(list = ls())
-load("data/outputs/tmp.clean.import.RData ")
+load("data/outputs/tmp.clean.import.RData")
 source("scripts/00-functions.R")
 
 ## 1. CONSOLIDATE head of hh  TABLES###########################################
@@ -45,7 +45,56 @@ all.equal(ds.1[1:9], ds.5[1:9])
 ds.hohh <- cbind(ds.1,  ds.5[10:122])
 colnames(ds.hohh) <- c(colnames(ds.1),  colnames(ds.5[10:122]))
 
+# some descriptions have elipsis need to be removed
+description(ds.hohh$g19) <- substr(description(ds.hohh$g19), 1, 52)
+description(ds.hohh$g20) <- substr(description(ds.hohh$g20), 1, 47)
+
+# missing labels
+labels(ds.hohh$e221) <- c(Respondent       =  1,
+                     Spouse             =  2,
+                     Son =  3, 
+                     Daughter      =  4,
+                     "Son/daughter in law " = 5,
+                     "Adopted child" = 6,
+                     Parent = 7,
+                     "Parent in law" = 8,
+                     Grandparent = 9,
+                     "(Great) Grandchildren"= 10,
+                     Siblings = 11,
+                     "Other relatives" = 12,
+                     "House servant" = 13,
+                     "other" = 96)
+
+labels(ds.hohh$e222) <- labels(ds.hohh$e221)
+labels(ds.hohh$e223) <- labels(ds.hohh$e221)
+labels(ds.hohh$e224) <- labels(ds.hohh$e221)
+labels(ds.hohh$e225) <- labels(ds.hohh$e221)
+labels(ds.hohh$e226) <- labels(ds.hohh$e221)
+
+measurement(ds.hohh$h1396) <- "nominal"
+labels(ds.hohh$h1396)<- labels(ds.hohh$h135)
+measurement(ds.hohh$i1) <- "nominal"
+labels(ds.hohh$i1)<- labels(ds.hohh$h135)
+measurement(ds.hohh$i2) <- "nominal"
+labels(ds.hohh$i2)<- labels(ds.hohh$i1)
+measurement(ds.hohh$i3) <- "nominal"
+labels(ds.hohh$i3)<- labels(ds.hohh$i1)
+measurement(ds.hohh$k1) <- "nominal"
+labels(ds.hohh$k1)<- labels(ds.hohh$i1)
+measurement(ds.hohh$k31) <- "nominal"
+labels(ds.hohh$k31)<- labels(ds.hohh$i1)
+
+measurement(ds.hohh$k32) <- "nominal"
+labels(ds.hohh$k32)<- labels(ds.hohh$i1)
+measurement(ds.hohh$k33) <- "nominal"
+labels(ds.hohh$k33)<- labels(ds.hohh$i1)
+measurement(ds.hohh$k34) <- "nominal"
+labels(ds.hohh$k34)<- labels(ds.hohh$i1)
+measurement(ds.hohh$k396) <- "nominal"
+labels(ds.hohh$k396)<- labels(ds.hohh$i1)
+
 rm(ds.1, ds.5)
+
 
 ## 2. CONSOLIDATE household member TABLES######################################
 ###############################################################################
@@ -56,7 +105,7 @@ ds.2$n1 <- as.item(rep(1, nrow(ds.2)))
 measurement(ds.2$n1) <- "nominal"
 description(ds.2$n1) <- "Type of hh member"
 annotation(ds.2$n1)["flag"] <- "Deriv."
-annotation(ds.2$n1)["origin"] <- "which table was source"
+annotation(ds.2$n1)["origin"] <- "based on which table (section) was the source"
 labels(ds.2$n1) <- c(
   "In same household"        =  1,
   "Not living in same household"=  2)
@@ -66,7 +115,7 @@ ds.3$n1 <- as.item(rep(2, nrow(ds.3)))
 measurement(ds.3$n1) <- "nominal"
 description(ds.3$n1) <- "Type of hh member"
 annotation(ds.3$n1)["flag"] <- "Deriv."
-annotation(ds.3$n1)["origin"] <- "which table was source"
+annotation(ds.3$n1)["origin"] <- "based on which table (section) was the source"
 labels(ds.3$n1) <- c(
   "In same household"        =  1,
   "Not living in same household"=  2)
@@ -114,8 +163,7 @@ ds.mmbr <- FunSwap(ds=ds.mmbr, New = "n1", After =  "mcode")
 ds.mmbr <- FunSwap(ds=ds.mmbr, New = "n5", After =  "n4")
 rm(ds.2, ds.3)
 ## 2.4. add household id and member id ########################################
-
-ds.mmbr$hh.id <- as.item(full_join(as.data.frame(ds.mmbr), 
+ds.mmbr$hh.id <- as.item(left_join(as.data.frame(ds.mmbr), 
                                    as.data.frame(ds.hohh[c(3,5,6)]))$hh.id)
 
 measurement(ds.mmbr$hh.id) <- "interval"
@@ -136,7 +184,32 @@ annotation(ds.mmbr$hh.member.id)["origin"] <- "nrows"
 ds.mmbr <- FunSwap(ds=ds.mmbr, New = "hh.id", After =  "hhcode")
 ds.mmbr <- FunSwap(ds=ds.mmbr, New = "hh.member.id", After =  "mcode")
 
+# add missing description
+description(ds.mmbr$mcode) <- "Member code within hh (and type of member)"
+annotation(ds.mmbr$mcode) <- annotation(ds.mmbr$mcode)[c(3,1,2)]
+ # add back province 
+ds.mmbr$province <- memisc::recode(ds.mmbr$commune,   
+                                   "Thai Binh" = 1 <- c(111, 112, 121, 122),
+                                   "Vinh Phuc" = 2 <- c(211, 212, 221, 222))
 
-save.image("data/outputs/clean.Rdata")
+
 ## 3. add hh ids to the plots #################################################
 ###############################################################################
+## 3.4. add household id and member id ########################################
+ds.plot <- ds.4
+ds.plot$hh.id <- as.item(left_join(as.data.frame(ds.plot), 
+                                   as.data.frame(ds.hohh[c(3,5,6)]))$hh.id)
+description(ds.plot$hh.id) <- "Household ID - unique"
+measurement(ds.plot$hh.id) <- "interval"
+annotation(ds.plot$hh.id)["flag"] <- "Deriv."
+annotation(ds.plot$hh.id)["origin"] <- "nrows"
+ds.plot <- FunSwap(ds=ds.plot, New = "hh.id", After =  "hhcode")
+description(ds.plot$plot) <- "Plot code within hh"
+annotation(ds.plot$plot) <- annotation(ds.plot$plot)[c(3,1,2)]
+# add back province 
+ds.plot$province <- memisc::recode(ds.plot$commune,   
+                                   "Thai Binh" = 1 <- c(111, 112, 121, 122),
+                                   "Vinh Phuc" = 2 <- c(211, 212, 221, 222))
+
+rm(ds.4)
+save(ds.hohh, ds.mmbr, ds.plot, file = "data/outputs/clean.Rdata")

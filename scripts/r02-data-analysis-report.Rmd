@@ -1,13 +1,13 @@
 ---
 title: "Vietnam FoF Survey Analysis---Second dataset---Issues"
-author: "mz---30.10.17"
+author: "mz---6.11.17"
 html_document: default
 output:
-  word_document:
-    reference_docx: style.docx
   pdf_document:
     number_sections: yes
   html_document: default
+  word_document:
+    reference_docx: style.docx
 bibliography: ../misc/vn-lit.bib
 toc: yes
 toc_depth: 3
@@ -58,10 +58,12 @@ See next section for details on this, but essentially the 10 data files provided
 
 ## Other
 
-Most of the other issues in the previous dataset had to do with no coding, or no labels, and these seem to have mostly been fixed in this version - but I'll only be able to confirm when I do the first trawl through. 
+Most of the other issues in the previous dataset had to do with no coding, or no labels, and these seem to have mostly been fixed in this version - but I'll only be able to confirm when I do the first trawl through:
 
-
-
+* Then note that there are some 'other' questions that have not been translated (`g1119other`, `g1129other`, `g1139other`)
+* `h12` and `h13` should be "main reason", but mulitple reasons are given instead.
+* `h15`, `h17` value 3 not labeled, what does it mean?
+* `h1396`, `i1`, `i2`, `i3`, `k1`, `k31`, `k32`, `k33`, `k34`, `k396`  wrong measurement, no labels.
 
 
 # Notes on data Import  

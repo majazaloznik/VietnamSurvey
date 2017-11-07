@@ -300,7 +300,7 @@ write.csv(file = "data/outputs/02.missing.cases.3.csv",
 ## 3.5 check gender consistency for sons and daughters  #######################
 table(ds.3$c2, ds.3$c3) # ok
 ## 3.6. remove this case from stata file  #####################################
-ds.3 <- ds.3[-(ds.3$c1 == "pham thi hong uyen"),]
+ds.3 <- ds.3[(ds.3$c1 != "pham thi hong uyen"),]
 
 rm(df.3, df.3.new.only, df.3.old.only, df.3.stata.only, df.3.excel.only, df.3.old, ds.x.3)
 
