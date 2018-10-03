@@ -35,7 +35,9 @@ This first cut uses all 1595 household members in the dataset, this is both Sect
   
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){
-  FunTopM(i)
+  FunTop(i , 
+            tab = ds.mmbr,
+                   group.by = "province")
 }
 ```
 
@@ -43,20 +45,19 @@ for (i in c(6, 8:11)){
 
 This second one  cut uses all 1072 household members in the dataset, except respondents, this is both Section B, those living in the household and Section C (not living in Household)
   
-  
 ```{r results='asis', echo=FALSE, fig.height=5}
-for (i in c( 8:11)){
-  FunTopM.no.resp(i)
+ds.mmbr[]
+for (i in c(6, 8:11)){
+  FunTop(i , 
+            tab = subset(ds.mmbr, n1 != 1 ),
+                   group.by = "province")
 }
 ```
+
 
 # Household members not living in Household
 
 This third one  cut uses  112 household members in the dataset who are not living in the hosuehold ( Section C -not living in Household)
   
   
-```{r results='asis', echo=FALSE, fig.height=5}
-for (i in c( 8:11)){
-  FunTopM.C(i)
-}
-```
+

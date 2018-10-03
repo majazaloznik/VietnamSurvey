@@ -186,6 +186,74 @@ More issues:
 
 Now have a look at the household member data as well. 
 
+* Prepared household member first cut as well
+
+# Tuesday 7.11.2017
+
+Meeting with SH, GL and KH. Agree that I prepare the methods outline paper in two weeks. 
+GL will have a look at the first cut and also try to get out of Long the methodology of the sampling.
+
+# Wednesday 8.11.2017
+
+Attempting clean up of project. 
+
+In this process I note that there are duplicate labels in ds.hohh, which gets picked up by `as.data.frame` converting from  `memisc datasets, which I've never noticed before. Anyway, now I need to fix them manually: 
+
+* Vars `d21`, `d22`, `d23` changed `2 = Agree` to `2 = Disagree`. This seems obviously to be a typo. Update `02-data-clean.R` with these. 
+
+Funviton generalisation@
+
+* FunNominal = table any combination of variables from any data set
+
+
+# Monday 30.4.
+
+Reboot.
+
+# Tuesday 2.10.
+
+Actually reboot here - these get a separate file, `r04-clarificaiton-questions.Rmd`, so look there for most up to date version. 
+
+Questions for clarificaiton of the sampling procedure based on the Report. 
+
+In the report you say: "The first condition was that households were active in farming activities in 2016 and then ranked them along with the size of farming."
+
+1. Why did you rank them? 
+
+2. Did you use the ranking in the sampling process - if so, how?
+
+3. Was the selection of the households done by the communal admistrators? 
+
+4. Was there a list of eligible households? How were they sampled?
+
+In the report you go on to say: "The second condition to choose a representative for each selected household was that such a representative person was actively involved in farming work (doing the work directly) or decisively involved in investment for farming."
+
+4. Was the sampling of households and choice of representative in each household done at the same time?
+
+5. Was the respondent in each household decided in the field?
+
+6. What if there were two respondents that fit this criteria, how did you decide between them?
+
+In the report you say: "there were few people aged 30-50 to do farming, as they were doing some non-agricultural jobs (such as self-employed house constructors, and workers at foreign-invested factories)"
+
+7. Does that mean that if someone was also some non-agricultural jobs, did you exclude them from the survey?
+
+8. Does this mean that all respondents in the survey were doing only farming work?
+
+9. Was this known before going into the field - did you know if heads of households were doing non-agricultural jobs before the interviews or did you find out during the interview and exclude them then?
+
+10. Was there any difference in the sampling procedure of households between the two provinces?
+
+11. Was there any difference in the sampling procedure of the respondents between the two provinces?
+
+12. Did the following organisations help in the selection of households and respondents: The Vietnamese Association of the Elderly, the Farmer's Union, Vienam Women's Union? What was their role?
+
+13. The average household size (including members that have migrated) is 3.1 in Thai Binh and 4.6 in Vinh Phuc. Is that what you would expect? If not, why the discrepancy?
+
+14. The migration rates (household members not living in the household) are higher in Thai Bing (7 %) than in Vinh Phuc (10 %). Is that what you would expect?
+
+
+
 
 
 <!--

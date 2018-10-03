@@ -93,6 +93,10 @@ labels(ds.hohh$k34)<- labels(ds.hohh$i1)
 measurement(ds.hohh$k396) <- "nominal"
 labels(ds.hohh$k396)<- labels(ds.hohh$i1)
 
+# duplicate labels
+labels(ds.hohh$d21)[2] <- "Disagree"
+labels(ds.hohh$d22)[2] <- "Disagree"
+labels(ds.hohh$d23)[2] <- "Disagree"
 rm(ds.1, ds.5)
 
 

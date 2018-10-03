@@ -1,0 +1,61 @@
+---
+title: "Vietnam FoF Survey Data - Clarifications"
+author: "mz"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document
+---
+  
+
+Questions for clarification of the sampling procedure based on the Survey Report. 
+
+In the report you say: "The first condition was that households were active in farming activities in 2016 and then ranked them along with the size of farming."
+
+1. Why did you rank them? 
+  
+2. Did you use the ranking in the sampling process?
+  
+3. Was the selection of the households done by the communal administrators? 
+  
+4. How were the households selected from the list of farming households ?
+
+5. Was there any difference in the household list was compiled and how households were sampled from the list in the Thai Binh and in Vinh Phuc?
+  
+In the report you go on to say: "The second condition to choose a representative for each selected household was that such a representative person was actively involved in farming work (doing the work directly) or decisively involved in investment for farming."
+
+6. Was the sampling of households and choice of representative in each household done at the same time?
+  
+7. Was the respondent in each household decided in the field?
+  
+8. What if there were two respondents that fit this criteria, how did you decide between them?
+  
+9. Was there any difference in how the representative person was selected in each household in Thai Binh and Vinh Phuc?
+
+In the report you say: "there were few people aged 30-50 to do farming, as they were doing some non-agricultural jobs (such as self-employed house constructors, and workers at foreign-invested factories)"
+
+10. Does that mean that if someone was also some non-agricultural jobs, did you exclude them from the survey?
+  
+11. Does this mean that all respondents in the survey were doing only farming work?
+  
+12. Was this known before going into the field - did you know if heads of households were doing non-agricultural jobs before the interviews or did you find out during the interview and exclude them then?
+  
+13. Did any of following organisations help in the selection of households and respondents in Thai Binh: The Vietnamese Association of the Elderly, the Farmer's Union, Vietnam Women's Union? What was their role?
+ 
+14. Did any of following organisations help in the selection of households and respondents in Vinh Phuc: The Vietnamese Association of the Elderly, the Farmer's Union, Vietnam Women's Union? What was their role? 
+
+
+You advised that the dramatic difference in gender ratios between the two provinces is due to (1) rural-urban migration and (2) traditional work allocation in agriculture.
+
+15. The average household size (including members that have migrated) in the survey is 3.1 in Thai Binh and 4.6 in Vinh Phuc. Is that what you would expect? If not, why the discrepancy?
+  
+16. The migration rates (household members not living in the household) are higher in Thai Binh (7 %) than in Vinh Phuc (10 %). Is that what you would expect? If not, why the discrepancy?
+  
+17. Are the answers to the previous two questions consistent with a larger rate of rural-urban migration in Vinh Phuc?
+
+18. Can you supply other data sources to show that the rural-urban migration is higher in Vinh Phuc than in Thai Binh?
+
+19. What are the differences in the traditional work allocation in agriculture between Vinh Phuc than in Thai Binh?
+
+
+
+  
