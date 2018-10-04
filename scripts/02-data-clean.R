@@ -18,7 +18,6 @@
 ###############################################################################
 library(memisc)
 library(tidyverse)
-rm(list = ls())
 load("data/outputs/tmp.clean.import.RData")
 source("scripts/00-functions.R")
 
@@ -48,6 +47,98 @@ colnames(ds.hohh) <- c(colnames(ds.1),  colnames(ds.5[10:122]))
 # some descriptions have elipsis need to be removed
 description(ds.hohh$g19) <- substr(description(ds.hohh$g19), 1, 52)
 description(ds.hohh$g20) <- substr(description(ds.hohh$g20), 1, 47)
+
+# some descriptions are clipped
+description(ds.hohh$d1) <- "When you are no longer able to farm rice, what will you do with your rice fields?"
+description(ds.hohh$d21) <- "It is the duty of a parent to do his/her best for his/her children even at the expense of their own well-being"
+description(ds.hohh$d22) <- "It is the duty of grandparents to be there for their grandchildren in times of difficulty (e.g. illness, divorce)"
+description(ds.hohh$d23) <- "It is the duty of grandparents to contribute to the economic security of their family (i.e., their children and their grandchildren)"
+description(ds.hohh$e231) <- "Is it done for free?"
+description(ds.hohh$e232) <- "Is it done for free?"
+description(ds.hohh$e233) <- "Is it done for free?"
+description(ds.hohh$e234) <- "Is it done for free?"
+description(ds.hohh$e235) <- "Is it done for free?"
+description(ds.hohh$e236) <- "Is it done for free?"
+description(ds.hohh$d31) <- "	Who should be primarily responsible for	Financial support for older persons in need?"
+description(ds.hohh$d32) <- "	Who should be primarily responsible for	Practical help in the home for older persons in need? (e.g. cleaning, shopping, cooking)"
+description(ds.hohh$d33) <- "	Who should be primarily responsible for Personal care for older persons in need? (e.g. nursing, bathing, dressing)their children and their grandchildren)?"
+description(ds.hohh$d34) <- "	Who should be primarily responsible for Help in farming for older person in need?"
+description(ds.hohh$g13) <-  "Does the Co-op/Commune/Plant Protection Agency influence the way in hich you farm?"
+description(ds.hohh$h1a) <- "When choosing the sort of rice seed to plant, the three most important things you consider are:"
+description(ds.hohh$h1b) <- "When choosing the sort of rice seed to plant, the three most  important things you consider are:"
+description(ds.hohh$h1c) <- "When choosing the sort of rice seed to plant, the three most  important things you consider are:"
+description(ds.hohh$h2a) <- "The three most important sources of my knowledge of rice seed are "
+description(ds.hohh$h2b) <- "The three most important sources of my knowledge of rice seed are "
+description(ds.hohh$h2c) <- "The three most important sources of my knowledge of rice seed are "
+description(ds.hohh$h3a) <- "When choosing the type of fertilizer to use on my crops, , the three most important things you consider are"
+description(ds.hohh$h3b) <- "When choosing the type of fertilizer to use on my crops, , the three most important things you consider are"
+description(ds.hohh$h3c) <- "When choosing the type of fertilizer to use on my crops, , the three most important things you consider are"
+description(ds.hohh$h4a) <- "The three most important sources of my knowledge of the type of fertilizer to use are"
+description(ds.hohh$h4b) <- "The three most important sources of my knowledge of the type of fertilizer to use are"
+description(ds.hohh$h4c) <- "The three most important sources of my knowledge of the type of fertilizer to use are"
+description(ds.hohh$h5a) <- "When determining when is the best time to use fertilizer, the three most important things you consider are "
+description(ds.hohh$h5b) <- "When determining when is the best time to use fertilizer, the three most important things you consider are "
+description(ds.hohh$h5c) <- "When determining when is the best time to use fertilizer, the three most important things you consider are "
+description(ds.hohh$h6a) <- "The three most important sources of my knowledge of when is the best time to use fertilizer comes are"
+description(ds.hohh$h6b) <- "The three most important sources of my knowledge of when is the best time to use fertilizer comes are"
+description(ds.hohh$h6c) <- "The three most important sources of my knowledge of when is the best time to use fertilizer comes are"
+description(ds.hohh$h7a) <- "When choosing the pesticides to use, the three most important things you consider are"
+description(ds.hohh$h7b) <- "When choosing the pesticides to use, the three most important things you consider are"
+description(ds.hohh$h7c) <- "When choosing the pesticides to use, the three most important things you consider are"
+description(ds.hohh$h8a) <- "The three most important sources of my knowledge of the sort of pesticides to choose are"
+description(ds.hohh$h8b) <- "The three most important sources of my knowledge of the sort of pesticides to choose are"
+description(ds.hohh$h8c) <- "The three most important sources of my knowledge of the sort of pesticides to choose are"
+description(ds.hohh$h9a) <- "When determining when is the best time to use pesticides, the three most important things you consider are"
+description(ds.hohh$h9b) <- "When determining when is the best time to use pesticides, the three most important things you consider are"
+description(ds.hohh$h9c) <- "When determining when is the best time to use pesticides, the three most important things you consider are"
+description(ds.hohh$h10a) <- "The three most important sources of my knowledge of when is the best time to use pesticides are"
+description(ds.hohh$h10b) <- "The three most important sources of my knowledge of when is the best time to use pesticides are"
+description(ds.hohh$h10c) <- "The three most important sources of my knowledge of when is the best time to use pesticides are"
+description(ds.hohh$i1) <- "Do you grow any other rice varieties than the ones recommended by the co-operative?"
+
+description(ds.hohh$i51) <- "Do you think in your commune experimenting with new rice varieties can lead to Higher yields?"
+description(ds.hohh$i52) <- "Do you think in your commune experimenting with new rice varieties can lead to Greater use of chemicals?"
+description(ds.hohh$i53) <- "Do you think in your commune experimenting with new rice varieties can lead to Fewer pests?"
+description(ds.hohh$i54) <- "Do you think in your commune experimenting with new rice varieties can lead to Better rice quality/taste?"
+
+description(ds.hohh$i61) <- "When you personally decide about experimenting with new rice varieties, how important is the effect on Higher yields?"
+description(ds.hohh$i62) <- "When you personally decide about experimenting with new rice varieties, how important is the effect on Greater use of chemicals?"
+description(ds.hohh$i63) <- "When you personally decide about experimenting with new rice varieties, how important is the effect on Fewer pests?"
+description(ds.hohh$i64) <- "When you personally decide about experimenting with new rice varieties, how important is the effect on Better rice quality/taste?"
+
+description(ds.hohh$i71) <- "Do you think in your commune experimenting with new rice varieties is limited by: Insufficient knowledge/information"
+description(ds.hohh$i72) <- "Do you think in your commune experimenting with new rice varieties is limited by: Limited access to seeds"
+description(ds.hohh$i73) <- "Do you think in your commune experimenting with new rice varieties is limited by: Farmers being afraid of failure"
+description(ds.hohh$i74) <- "Do you think in your commune experimenting with new rice varieties is limited by: Field characteristics"
+
+description(ds.hohh$i81) <- "How important is Insufficient knowledge-information, when you decide about experimenting with new rice varieties"
+description(ds.hohh$i82) <- "How important is Limited access to seeds, when you decide about experimenting with new rice varieties"
+description(ds.hohh$i83) <- "How important is Farmers being afraid of failure, when you decide about experimenting with new rice varieties"
+description(ds.hohh$i84) <- "How important are Field characteristics, when you decide about experimenting with new rice varieties"
+
+description(ds.hohh$i91) <- "How much is experimenting with new rice varieties appreciated by your neighbouring farmers"
+description(ds.hohh$i92) <- "How much is experimenting with new rice varieties appreciated by your household members"
+
+description(ds.hohh$i101) <- "When you decide about experimenting with new rice varieties, how much do you personally care about the opinion of Neighbouring farmers"
+description(ds.hohh$i101) <- "When you decide about experimenting with new rice varieties, how much do you personally care about the opinion of Household members"
+
+description(ds.hohh$k51) <- "When you personally decide whether or not to spray preventatively, how important is its effect on: Pest damage"
+description(ds.hohh$k52) <- "When you personally decide whether or not to spray preventatively, how important is its effect on: Crop yield"
+description(ds.hohh$k53) <- "When you personally decide whether or not to spray preventatively, how important is its effect on: Levels of chemical pollution"
+description(ds.hohh$k54) <- "When you personally decide whether or not to spray preventatively, how important is its effect on: NUmber of 'good animals'"
+  
+description(ds.hohh$k61) <- "Do you think in your commune correct pesticide application is limited by	Insufficient knowledge/Information of farmers"
+description(ds.hohh$k62) <- "Do you think in your commune correct pesticide application is limited by How frequently farmers check their fields"
+description(ds.hohh$k63) <- "Do you think in your commune correct pesticide application is limited by	How accurate the public announcements are"
+description(ds.hohh$k64) <- "Do you think in your commune correct pesticide application is limited by How afraid farmers are of pest damage"
+
+description(ds.hohh$k71) <-  "How important is Insufficient knowledge-Information of farmers for you personally when you decide about spraying with pesticides"
+description(ds.hohh$k72) <-  "How important is How frequently farmers check their fields for you personally when you decide about spraying with pesticides"
+description(ds.hohh$k73) <-  "How important is How accurate the public announcements are for you personally when you decide about spraying with pesticides"
+description(ds.hohh$k74) <-  "How important is How afraid farmers are of pest damage for you personally when you decide about spraying with pesticides"
+
+description(ds.hohh$k8) <- "How much is correct pesticide application important for the neighbouring farmers"
+description(ds.hohh$k9) <- "When you decide about pesticide spraying, how much do you personally care about the opinion of the neightbouring farmers?"
 
 # missing labels
 labels(ds.hohh$e221) <- c(Respondent       =  1,

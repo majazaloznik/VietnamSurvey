@@ -27,8 +27,9 @@ glossary.hohh <- data.frame(ID = names(ds.hohh),
                        `Variable Label` = unlist(description(ds.hohh)),
                        Flag = sapply(annotation(ds.hohh), function(x) x[2]),
                        Origin = sapply(annotation(ds.hohh), function(x) x[3]))
+glossary.hohh <- tibble::rowid_to_column(glossary.hohh, "n")
 glossaryprint <- xtable(glossary.hohh)
-align(glossaryprint) <- "l|l|p{12cm}|l|p{6cm}|"
+align(glossaryprint) <- "l|l|l|p{12cm}|l|p{6cm}|"
 addtorow          <- list()
 addtorow$pos      <- list()
 addtorow$pos[[1]] <- c(0)

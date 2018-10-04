@@ -25,7 +25,7 @@ load("data/outputs/clean.Rdata")
 ```  
 
 * *All  frequency tables are in column percentages*
-  * *Widths of barplots are proportional to size of group*
+ * *Widths of barplots are proportional to size of group*
   
   
 # Household members - all 1595 of them
@@ -43,13 +43,12 @@ for (i in c(6, 8:11)){
 
 # Household members living in Household, but without respondents themselves. 
 
-This second one  cut uses all 1072 household members in the dataset, except respondents, this is both Section B, those living in the household and Section C (not living in Household)
+This second one  cut uses all 1072 household members in the dataset, except respondents, living in the household 
   
 ```{r results='asis', echo=FALSE, fig.height=5}
-ds.mmbr[]
 for (i in c(6, 8:11)){
   FunTop(i , 
-            tab = subset(ds.mmbr, n1 != 1 ),
+            tab = subset(ds.mmbr, n1 == 1 & n4 != 1 ),
                    group.by = "province")
 }
 ```
@@ -59,5 +58,11 @@ for (i in c(6, 8:11)){
 
 This third one  cut uses  112 household members in the dataset who are not living in the hosuehold ( Section C -not living in Household)
   
-  
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in c(6, 8:11)){
+  FunTop(i , 
+            tab = subset(ds.mmbr, n1 != 1 ),
+                   group.by = "province")
+}
+```
 

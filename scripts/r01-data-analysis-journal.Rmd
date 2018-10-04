@@ -253,6 +253,40 @@ In the report you say: "there were few people aged 30-50 to do farming, as they 
 14. The migration rates (household members not living in the household) are higher in Thai Bing (7 %) than in Vinh Phuc (10 %). Is that what you would expect?
 
 
+# Wednesday 3.10.
+
+Send off questions for Long to George - see version above. 
+
+SH wants a first cut of all the questions for only women over 50. 
+
+# Thursday 4.10.
+
+
+1. Hm, there is an issue in vars 48-149. 
+
+2. Let me first add var id- (i) to the variable list file, just jo make it easier to look for variables. (Also, there was an overlap in 149, but no big deal)
+
+3. OK, the error in 1. is caused by there being no horses, so all the values are `*101`, i.e. missing. The `FunIntervalBoxplot()` function has to be fixed so it can accommodate that. 
+
+4. So I've added a condition that the (province!) split has to have at least one vector that has lenght >0. Should work now, but lemme find an example with one completely missing and one not. 
+
+5. And furthermore, there will be an issue when the group.by variable has more than two options, so i'd better deal with that now. 
+
+6. Hmm, in order for this to work, I had to rewrite the vioplot funciton, since it had a weird thing where you passed it a number of vectors and it then created a list. Which doesnt' really work if you don't know how many vectors you have. 
+
+7. Very annolyingly there seem to be some clipping of variable labels - descriptions. Which will be a pain for SH et al to have to deal with. But they were limited in the stata file to begin with - confirmed. So I guess I'll have to update them manually. 
+
+8. So I have manually changed the variabel descriptions for about 40 vasriables in the `02-data-clean.R` file.
+
+9. OK, let's also try to add the household member stuff to the same file, to the women over 50. 
+
+10. Hmm, looks like i stopped somewhere half way through changins sth in the members file, so that it's now missing the third section completley.. ffs. 
+
+11. OK, i fixed the full members cut
+
+12. Adding members to the women over 50, looks like there is at least one household where the respondent isn't in the B table. figure it out!
+
+13. Christ, also looks like the female headed households are way larger than the others. 4.1 vs 3.4
 
 
 
