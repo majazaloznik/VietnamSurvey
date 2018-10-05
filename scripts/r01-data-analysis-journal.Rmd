@@ -272,21 +272,46 @@ SH wants a first cut of all the questions for only women over 50.
 
 5. And furthermore, there will be an issue when the group.by variable has more than two options, so i'd better deal with that now. 
 
-6. Hmm, in order for this to work, I had to rewrite the vioplot funciton, since it had a weird thing where you passed it a number of vectors and it then created a list. Which doesnt' really work if you don't know how many vectors you have. 
+6. Hmm, in order for this to work, I had to rewrite the vioplot function, since it had a weird thing where you passed it a number of vectors and it then created a list. Which doesnt' really work if you don't know how many vectors you have. 
 
 7. Very annolyingly there seem to be some clipping of variable labels - descriptions. Which will be a pain for SH et al to have to deal with. But they were limited in the stata file to begin with - confirmed. So I guess I'll have to update them manually. 
 
-8. So I have manually changed the variabel descriptions for about 40 vasriables in the `02-data-clean.R` file.
+8. So I have manually changed the variable descriptions for about 40 vasriables in the `02-data-clean.R` file.
 
 9. OK, let's also try to add the household member stuff to the same file, to the women over 50. 
 
 10. Hmm, looks like i stopped somewhere half way through changins sth in the members file, so that it's now missing the third section completley.. ffs. 
 
-11. OK, i fixed the full members cut
+11. OK, i fixed the full members cut. 
 
 12. Adding members to the women over 50, looks like there is at least one household where the respondent isn't in the B table. figure it out!
 
 13. Christ, also looks like the female headed households are way larger than the others. 4.1 vs 3.4
+
+# Friday 5.10. 
+
+1. Clean up some details in the women over 50 cut in section B and C. There are clearly issues with the groups: in hh, not in hh, respondent. SO these household members dont' add up as one might wish..
+
+OK, so do the following checks:
+
+2. Is the number of unique housholds the same as the number of responents? The answer is no, there are actually two households where there was no 'respondent' logged in section B, these have been found and fixed.
+
+3. By chance also found a family where the respondent was a widow, but there seemed to be a spouse in the household. i changed him to a son, since there was also a daughter in law, so was most likely. 
+
+4. OK, so number of households and respondents are now the same. 
+
+5. What are the numbers of respondents, other people in the same household, and other members not living there anymore. For total and for women over 50. OK, this is done, and the B-C section is celaned up in the over 50s women. I also added the group of all in household people. 
+
+6. Added the "in household" group to the 03 cut of all the households.. 
+
+7. OK, quick test: instead of provinces, which we have no reason to think will be interesting anyway, how about splitting the women into married and not married?
+
+8. OK, did that, doesn't actually look particularly interesting.. 
+
+9. OK, make all three versions of the women over 
+!! Should I have a systematic system for dealing with errors like this that I fixed manually? That I guesstimate to be errors that I know how to fix? Or shoudl these cases be thrown out?
+
+
 
 
 

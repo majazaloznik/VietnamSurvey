@@ -2,11 +2,13 @@
 title: "Vietnam FoF Survey---First Cut--Household Members"
 tables: yes
 output:
+  pdf_document: default
   html_document:
     css: ../misc/style.css
-  pdf_document: default
   word_document: default
 toc: yes
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
 ---
   
 ```{r "setup", include=FALSE, message = FALSE, warning = FALSE, echo= FALSE}
@@ -41,9 +43,21 @@ for (i in c(6, 8:11)){
 }
 ```
 
+# Household members living in Household 
+
+This second one  cut uses all 1483 household members in the dataset living in the household 
+  
+```{r results='asis', echo=FALSE, fig.height=5}
+for (i in c(6, 8:11)){
+  FunTop(i , 
+            tab = subset(ds.mmbr, n1 == 1),
+                   group.by = "province")
+}
+```
+
 # Household members living in Household, but without respondents themselves. 
 
-This second one  cut uses all 1072 household members in the dataset, except respondents, living in the household 
+This second one  cut uses all 1070 household members in the dataset, except respondents, living in the household 
   
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){

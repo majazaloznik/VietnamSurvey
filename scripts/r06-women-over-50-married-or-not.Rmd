@@ -1,12 +1,11 @@
 ---
-title: "Vietnam FoF Survey---Women over 50"
+title: "Vietnam FoF Survey---Women over 50: Married vs non-married"
 tables: yes
 output:
-  html_document:
-    css: ../misc/style.css
-    toc: yes
-  word_document: default
   pdf_document: default
+word_document: default
+html_document:
+  css: ../misc/style.css
 toc: yes
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
@@ -41,46 +40,46 @@ ds.mmbr[ds.mmbr$hh.id %in% ds.hohh.w.50$hh.id , ] -> ds.mmbr.w.50
   
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 10:15){
-  FunTop(i, tab = ds.hohh.w.50)
+  FunTop(i, tab = ds.hohh.w.50, group.by = "n7")
 }
 ```
 
 # Sections B and C on household members
-  
+
 ## Household members - all 1033 of them
 
 This first cut uses all 1033 household members in households where the respondents were women over 50. 
-  
-  
+
+
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){
   FunTop(i , 
-            tab = ds.mmbr.w.50,
-                   group.by = "province")
+         tab = ds.mmbr.w.50,
+         group.by = "n8")
 }
 ```
 
 ## Household members living in Household. 
 
 This second one  cut uses all  household members in the dataset living in the household, that's 960 people
-  
+
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){
-  FunTop(i , 
-            tab = subset(ds.mmbr.w.50, n1 == 1 ),
-                   group.by = "province")
+FunTop(i , 
+tab = subset(ds.mmbr.w.50, n1 == 1 ),
+group.by = "n8")
 }
 ```
 
 ## Household members living in Household, but without respondents themselves. 
 
 This second one  cut uses all  household members in the dataset living in the household, except for the respondents, that's 702 people
-  
+
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){
   FunTop(i , 
-            tab = subset(ds.mmbr.w.50, n1 == 1 & n4 != 1 ),
-                   group.by = "province")
+         tab = subset(ds.mmbr.w.50, n1 == 1 & n4 != 1 ),
+         group.by = "n8")
 }
 ```
 
@@ -88,12 +87,12 @@ for (i in c(6, 8:11)){
 ## Household members not living in Household
 
 This third one  cut uses  73 household members in the dataset who are not living in the hosuehold ( Section C -not living in Household)
-  
+
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in c(6, 8:11)){
   FunTop(i , 
-            tab = subset(ds.mmbr.w.50, n1 != 1 ),
-                   group.by = "province")
+         tab = subset(ds.mmbr.w.50, n1 != 1 ),
+         group.by = "n8")
 }
 ```
 
@@ -102,14 +101,16 @@ for (i in c(6, 8:11)){
 
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 16:23){
-  FunTop(i, tab = ds.hohh.w.50)
+  FunTop(i, tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
 
 # Section E. Health situation and capability to follow farming tasks
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 24:42){
-  FunTop(i, tab = ds.hohh.w.50)
+  FunTop(i, tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
 
@@ -117,7 +118,8 @@ for (i in 24:42){
 
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 43:148){
-  FunTop(i, tab = ds.hohh.w.50)
+  FunTop(i, tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
 
@@ -125,7 +127,8 @@ for (i in 43:148){
 
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 149:208){
-  FunTop(i, tab = ds.hohh.w.50)
+  FunTop(i, tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
 
@@ -133,7 +136,8 @@ for (i in 149:208){
 
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 209:236){
-  FunTop(i,tab = ds.hohh.w.50)
+  FunTop(i,tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
 
@@ -141,9 +145,7 @@ for (i in 209:236){
 
 ```{r results='asis', echo=FALSE, fig.height=5}
 for (i in 237:262){
-  FunTop(i,tab = ds.hohh.w.50)
+  FunTop(i,tab = ds.hohh.w.50,
+         group.by = "n7")
 }
 ```
-<!-- <!-- -->
-<!--   rmarkdown::render("scripts/r03-first-cut.Rmd", output_format = "html_document", output_dir = "reports") -->
-<!-- --> -->

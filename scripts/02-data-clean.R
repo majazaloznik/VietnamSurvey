@@ -188,6 +188,20 @@ labels(ds.hohh$k396)<- labels(ds.hohh$i1)
 labels(ds.hohh$d21)[2] <- "Disagree"
 labels(ds.hohh$d22)[2] <- "Disagree"
 labels(ds.hohh$d23)[2] <- "Disagree"
+
+# new variables:
+# married or not married 
+
+ds.hohh$n7 <- memisc::recode(ds.hohh$a3,   
+                             "Married" = 1 <- 2,
+                             "Not married" = 2 <- c(1,3,4,5))
+description(ds.hohh$n7) <- "Married or not married"
+measurement(ds.hohh$n7) <- "nominal"
+annotation(ds.hohh$n7)["flag"] <- "Deriv."
+annotation(ds.hohh$n7)["origin"] <- "recode from a3"
+
+ds.hohh <- FunSwap(ds=ds.hohh, New = "n7", After =  "a3")
+
 rm(ds.1, ds.5)
 
 
@@ -286,6 +300,22 @@ annotation(ds.mmbr$mcode) <- annotation(ds.mmbr$mcode)[c(3,1,2)]
 ds.mmbr$province <- memisc::recode(ds.mmbr$commune,   
                                    "Thai Binh" = 1 <- c(111, 112, 121, 122),
                                    "Vinh Phuc" = 2 <- c(211, 212, 221, 222))
+
+## additional errors fixed 5.10. 
+ds.mmbr$n4[ds.mmbr$hh.member.id == 99] <- 1 # "Respondent"
+ds.mmbr$n4[ds.mmbr$hh.member.id == 115] <- 3 #"Son"
+ds.mmbr$n4[ds.mmbr$hh.member.id == 370] <- 1 # "Respondent"
+
+# add married respondent variable
+ds.mmbr$n8 <- ds.hohh$n7[match(ds.mmbr$hh.id, ds.hohh$hh.id)]  
+
+
+description(ds.mmbr$n8) <- "Respondent married or not married"
+measurement(ds.mmbr$n8) <- "nominal"
+annotation(ds.mmbr$n8)["flag"] <- "Deriv."
+annotation(ds.mmbr$n8)["origin"] <- "recode from a3"
+
+ds.mmbr <- FunSwap(ds=ds.mmbr, New = "n8", After =  "province")
 
 
 ## 3. add hh ids to the plots #################################################
