@@ -10,6 +10,7 @@
 ## 2.2. rename columns in ds2 and 3 so they match##############################
 ## 2.3. merge  ds2 and 3 and polish up items ##################################
 ## 2.4. add household id and member id ########################################
+## 2.5 more variables - 10.10. ################################################
 ###############################################################################
 ## 3. add hh ids to the plots #################################################
 ###############################################################################
@@ -209,25 +210,28 @@ rm(ds.1, ds.5)
 ###############################################################################
 
 ## 2.1. type of hh member## in ds2 and ds3#####################################
+# changed the measurement to interval here, because i use sum at some point, 
+# and the conversion to numeric only works this way, otherwise it turns them 
+# into factors. 
 ds.2$n1 <- as.item(rep(1, nrow(ds.2)))
 
-measurement(ds.2$n1) <- "nominal"
+measurement(ds.2$n1) <- "interval"
 description(ds.2$n1) <- "Type of hh member"
 annotation(ds.2$n1)["flag"] <- "Deriv."
 annotation(ds.2$n1)["origin"] <- "based on which table (section) was the source"
 labels(ds.2$n1) <- c(
   "In same household"        =  1,
-  "Not living in same household"=  2)
+  "Not living in same household"=  0)
 
-ds.3$n1 <- as.item(rep(2, nrow(ds.3)))
+ds.3$n1 <- as.item(rep(0, nrow(ds.3)))
 
-measurement(ds.3$n1) <- "nominal"
+measurement(ds.3$n1) <- "interval"
 description(ds.3$n1) <- "Type of hh member"
 annotation(ds.3$n1)["flag"] <- "Deriv."
 annotation(ds.3$n1)["origin"] <- "based on which table (section) was the source"
 labels(ds.3$n1) <- c(
   "In same household"        =  1,
-  "Not living in same household"=  2)
+  "Not living in same household"=  0)
 
 ## 2.2. rename columns in ds2 and 3 so they match##############################
 colnames(ds.3)[3] <- "mcode"
@@ -301,7 +305,7 @@ ds.mmbr$province <- memisc::recode(ds.mmbr$commune,
                                    "Thai Binh" = 1 <- c(111, 112, 121, 122),
                                    "Vinh Phuc" = 2 <- c(211, 212, 221, 222))
 
-## additional errors fixed 5.10. 
+## additional errors fixed 5.10. (see x1-data-checking-additional for reasons)
 ds.mmbr$n4[ds.mmbr$hh.member.id == 99] <- 1 # "Respondent"
 ds.mmbr$n4[ds.mmbr$hh.member.id == 115] <- 3 #"Son"
 ds.mmbr$n4[ds.mmbr$hh.member.id == 370] <- 1 # "Respondent"
@@ -316,6 +320,58 @@ annotation(ds.mmbr$n8)["flag"] <- "Deriv."
 annotation(ds.mmbr$n8)["origin"] <- "recode from a3"
 
 ds.mmbr <- FunSwap(ds=ds.mmbr, New = "n8", After =  "province")
+
+## 2.5 more variables - 10.10. ################################################
+
+# household size
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.size = n()) %>% 
+  pull(hh.size) %>% 
+  as.item() -> ds.mmbr$hh.size
+
+description(ds.mmbr$hh.size) <- "Household size"
+measurement(ds.mmbr$hh.size) <- "interval"
+annotation(ds.mmbr$hh.size)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.size)["origin"] <- "recode from hh.id"
+
+# Household size net - only people living in household 
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  mutate(hh.size.net = sum(n1))%>% 
+  pull(hh.size.net) -> ds.mmbr$hh.size.net
+
+description(ds.mmbr$hh.size) <- "Household size net of migrants"
+measurement(ds.mmbr$hh.size) <- "interval"
+annotation(ds.mmbr$hh.size)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.size)["origin"] <- "recode from hh.id and n1"
+
+# gen - generation relative to respondent 
+ds.mmbr$gen <- memisc::recode(ds.mmbr$n4, 
+                              0  <- 1:2,
+                              1 <- 3:6, 
+                              -1 <- 7:8,
+                              -2 <- 9,
+                              2 <- 10,
+                              0 <- 11,
+                              otherwise = NA)
+description(ds.mmbr$gen) <- "Generation relative to respondent"
+measurement(ds.mmbr$gen) <- "interval"
+annotation(ds.mmbr$gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$gen)["origin"] <- "recode from n4"
+
+# n.gens - number of generations in hosuehold
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(n.gens = FunNumberGens(gen))
+
+description(ds.mmbr$gen) <- "Number of different generations in household"
+measurement(ds.mmbr$gen) <- "interval"
+annotation(ds.mmbr$gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$gen)["origin"] <- "recode from gen and hh.id"
 
 
 ## 3. add hh ids to the plots #################################################

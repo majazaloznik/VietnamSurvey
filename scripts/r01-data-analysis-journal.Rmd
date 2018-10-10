@@ -288,7 +288,7 @@ SH wants a first cut of all the questions for only women over 50.
 
 13. Christ, also looks like the female headed households are way larger than the others. 4.1 vs 3.4
 
-# Friday 5.10. 
+# Friday 5.10. 2018
 
 1. Clean up some details in the women over 50 cut in section B and C. There are clearly issues with the groups: in hh, not in hh, respondent. SO these household members dont' add up as one might wish..
 
@@ -308,11 +308,30 @@ OK, so do the following checks:
 
 8. OK, did that, doesn't actually look particularly interesting.. 
 
-9. OK, make all three versions of the women over 
+9. OK, make all three versions of the women over over 50 and sent to SH.
+
 !! Should I have a systematic system for dealing with errors like this that I fixed manually? That I guesstimate to be errors that I know how to fix? Or shoudl these cases be thrown out?
 
+# Wednesday 10.10. 2018
 
+1. OK, now the family typology, lets se what we have. 
 
+2. Start report number 7 `r07-household-composition-typology.Rmd` with details on how it's done. 
+
+3. Also added the file `X1-data-checking-additional.R` for the stuff from last time that lead to some people's relationship status to be changed. So this file is not on the pipeline, but explains some of the stuff in `02-data-clean`
+
+4. OK so outline of report 7: 
+* definitions of household types
+* derivaiton of new variables
+?! what about people in/out of the household?
+
+5. OK, so definitions done. But need to figure out what to do about members migrated
+
+6. New variables: 
+
+* `hh.size` np
+* `hh.size.net` - number of people in household - needed to change `n1` to an interval variable, because ohterwise it gets changed to a factor and can't be summed up
+* `gen` - generation relative to respondent
 
 
 <!--

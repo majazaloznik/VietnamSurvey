@@ -8,6 +8,8 @@
 ## 4. consolidate all table and plot funcitons for household data
 ## 5. consolidate all table and plot funcitons for member data - 
 ## 6. consolidate all table and plot funcitons for member data in HH, not respondent
+## 8 My vioplot
+## 9 FunNumberGens
 ###############################################################################
 
 ## 0. preliminaires
@@ -322,4 +324,11 @@ FunVioplot <- function(x, range = 1.5, h = NULL, ylim = NULL, names = NULL,
   }
   invisible(list(upper = upper, lower = lower, median = med, 
                  q1 = q1, q3 = q3))
+}
+
+## 9 Number of different generatiosn in household #############################
+FunNumberGens <- function(test){
+  if(is.na(test[1])){return(1)} else {
+    return(length(unique(test[!is.na(test)])))
+  }
 }

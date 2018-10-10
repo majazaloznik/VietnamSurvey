@@ -1,0 +1,96 @@
+---
+title: "Vietnam FoF Survey---Household Composition Typology"
+author: maja
+date: "10.10.2018"
+tables: yes
+output:
+  pdf_document: default
+  word_document: default
+toc: yes
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
+bibliography: ../reports/bib.bib
+---
+  
+```{r setup, include=FALSE, message = FALSE, warning = FALSE, echo= FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require(knitr)
+require(dplyr)
+require(memisc)
+
+opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+```
+
+
+```{r intro, echo = FALSE, warning = FALSE, message = FALSE}
+load("data/outputs/clean.Rdata")
+
+#  select only women over the age of 50 
+ds.hohh[ds.hohh$a1 == "Female"& ds.hohh$a2 <= 1966, ] -> ds.hohh.w.50
+ds.mmbr[ds.mmbr$hh.id %in% ds.hohh.w.50$hh.id , ] -> ds.mmbr.w.50
+
+```  
+# Intro
+
+This material is prepared as discussed in the 3.10. meeting with SH, GWL and KH as a potential basis for SH's paper on older women based on the Vientam survey data. 
+
+I set out the typologies and the data first. 
+
+# Household typologies
+
+I start out with two typologies: 
+
+1. *Family-based*: The UN recommended household classification based on family nuclei and the relationship between the nuclei and other members in the hosuehold (see @un2017principles)
+2. *Generation-based*: An ad-hoc classification I used in the household living arrangemnts factsheet (@2016mz) and is based on the generational structure of the household. 
+
+These two typologies could of course be modified, depending on what you want to focus on. 
+
+## Family-based classification
+
+At the top level this classificaiton has four main types: 
+
+1. *One person household*—A single person living alone. This is defined the same in both typologies presented here.
+2. *Nuclear household*—a couple with or without children, or a single parent.
+3. *Extended household*—members beyond the family nucleus are related by blood or marriage.
+4. *Composite household*-other persons are present who are not related to the head.
+
+## Generation-based classification
+
+At the top level this classificaiton has five main types: 
+
+1. *One person household*—A single person living alone. This is defined the same in both typologies presented here.
+2. *One generation household*—at least one more person of the same age group as the head Usually a spouse, but can also be sibling etc.
+3. *Two generation household*—at least one more person one generation younger/older than the head. Usually child(ren), can also be parent etc. 
+4. *Three or more generation household*—at least two more persons of different generations than the head (but without skipping generations).
+5. *Skipped generation household*—at least one generation missing. Usually head with grandchildren but without children.
+
+
+# Data availability and preparation
+
+## Available data
+
+The main variable of interest, `n4 - Relationship with the respondent`, has the following values and distribution in the population of households members living in households headed[^1] by women over the age of 50 (N = `r nrow(ds.mmbr.w.50)`):
+
+```{r prepare, echo = FALSE, warning = FALSE, message = FALSE}
+codebook(ds.mmbr.w.50$n4)
+```
+
+So a random household e.g. looks like this:
+```{r echo = FALSE}
+ds.mmbr.w.50$n4[ds.mmbr.w.50$hh.id == 2,]
+```
+
+## Data Preparation
+
+The following variables are derived in order to facilitate the identificiation of household types:
+
+1. `hh.size` - Household size.
+2. `hh.size.net` - Household size net of migrants
+3. `gen` - generation code = relative to the respondent, who is at 0, children are 1, parents are -1 etc. 
+4. `n.gen` - Number of different generations in household
+
+[^1]: It is not precisely clear to what extent these households can be said to be *headed* by these women, rather they were selected to be the respondents in this survey as they had the most knowledge or were most involved in the decision-making when it came to farming. 
+# References
+
+
