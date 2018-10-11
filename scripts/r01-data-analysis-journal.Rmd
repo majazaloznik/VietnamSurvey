@@ -332,6 +332,22 @@ OK, so do the following checks:
 * `hh.size` np
 * `hh.size.net` - number of people in household - needed to change `n1` to an interval variable, because ohterwise it gets changed to a factor and can't be summed up
 * `gen` - generation relative to respondent
+* `n.gen` -  number of different generations in household
+
+# Thursday 11.10. 2018
+
+1. I can actually add summaries of these new variables to the extent they are interesting? Even better, do histograms of the full  survey data set and the women over 50s side by side. Then I can add the census data as well. 
+
+2. OK, cleaned up, each variable has a summery data table and two histograms or barplots. 
+
+3. Now try skipped generation houeholds using the funciton from the factsheet. 
+
+4. But first add the net version of the number of generations in household
+
+5. Now also add the skipped generations net of migrants. 
+
+
+
 
 
 <!--

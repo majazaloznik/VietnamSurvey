@@ -332,3 +332,14 @@ FunNumberGens <- function(test){
     return(length(unique(test[!is.na(test)])))
   }
 }
+
+## 10 Skipped generation in household #########################################
+# very smooth: check the set difference between the range sequence and the 
+# actual values, if there is a difference, it's a skipped generation 
+FunSkippedGen <- function(test){
+    if(length(setdiff(seq(min(test, na.rm = TRUE), 
+                          max(test, na.rm = TRUE)), 
+                      test)) == 0) {
+      return(0) } else {
+        return(1)}
+}

@@ -339,13 +339,15 @@ annotation(ds.mmbr$hh.size)["origin"] <- "recode from hh.id"
 # Household size net - only people living in household 
 ds.mmbr %>% 
   as.data.frame() %>% 
+  group_by(hh.id) %>% 
   mutate(hh.size.net = sum(n1))%>% 
-  pull(hh.size.net) -> ds.mmbr$hh.size.net
+  pull(hh.size.net)  %>% 
+  as.item() -> ds.mmbr$hh.size.net
 
-description(ds.mmbr$hh.size) <- "Household size net of migrants"
-measurement(ds.mmbr$hh.size) <- "interval"
-annotation(ds.mmbr$hh.size)["flag"] <- "Deriv."
-annotation(ds.mmbr$hh.size)["origin"] <- "recode from hh.id and n1"
+description(ds.mmbr$hh.size.net) <- "Household size net of migrants"
+measurement(ds.mmbr$hh.size.net) <- "interval"
+annotation(ds.mmbr$hh.size.net)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.size.net)["origin"] <- "recode from hh.id and n1"
 
 # gen - generation relative to respondent 
 ds.mmbr$gen <- memisc::recode(ds.mmbr$n4, 
@@ -361,18 +363,65 @@ measurement(ds.mmbr$gen) <- "interval"
 annotation(ds.mmbr$gen)["flag"] <- "Deriv."
 annotation(ds.mmbr$gen)["origin"] <- "recode from n4"
 
-# n.gens - number of generations in hosuehold
+# n.gen - number of generations in hosuehold
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(n.gen = FunNumberGens(gen)) %>% 
+  pull(n.gen) %>% 
+  as.item() -> ds.mmbr$n.gen
+
+description(ds.mmbr$n.gen) <- "Number of different generations in household"
+measurement(ds.mmbr$n.gen) <- "interval"
+annotation(ds.mmbr$n.gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$n.gen)["origin"] <- "recode from gen and hh.id"
+
+# n.gen.net - number of generations in hosuehold net of migrants
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(n.gen.net = FunNumberGens(gen[n1 == 1])) %>% 
+   pull(n.gen.net) %>% 
+  as.item() -> ds.mmbr$n.gen.net 
+
+description(ds.mmbr$n.gen.net) <- "Number of different generations in household net of migrants"
+measurement(ds.mmbr$n.gen.net) <- "interval"
+annotation(ds.mmbr$n.gen.net)["flag"] <- "Deriv."
+annotation(ds.mmbr$n.gen.net)["origin"] <- "recode from gen and hh.id and n1"
+
+# skipped.gen - whether or not a generation is skipped in the household
 
 ds.mmbr %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
-  mutate(n.gens = FunNumberGens(gen))
+  mutate(x = FunSkippedGen(gen)) %>% 
+  pull(x) %>% 
+  as.item() -> ds.mmbr$skipped.gen
 
-description(ds.mmbr$gen) <- "Number of different generations in household"
-measurement(ds.mmbr$gen) <- "interval"
-annotation(ds.mmbr$gen)["flag"] <- "Deriv."
-annotation(ds.mmbr$gen)["origin"] <- "recode from gen and hh.id"
+description(ds.mmbr$skipped.gen) <- "Whether or not there is a skipped generation in the household"
+measurement(ds.mmbr$skipped.gen) <- "interval"
+annotation(ds.mmbr$skipped.gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$skipped.gen)["origin"] <- "recode from gen and hh.id and gen"
+labels(ds.mmbr$skipped.gen) <- c(
+  "Skipped gen"        =  1,
+  "No skipped gen"=  0)
 
+# skipped.gen.net - whether or not a generation is skipped in the household net of migrants
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(x = FunSkippedGen(gen[n1 == 1])) %>% 
+  pull(x) %>% 
+  as.item() -> ds.mmbr$skipped.gen.net
+
+description(ds.mmbr$skipped.gen.net) <- "Whether or not there is a skipped generation in the household net of mirgants"
+measurement(ds.mmbr$skipped.gen.net) <- "interval"
+annotation(ds.mmbr$skipped.gen.net)["flag"] <- "Deriv."
+annotation(ds.mmbr$skipped.gen.net)["origin"] <- "recode from gen and hh.id and gen and n1"
+labels(ds.mmbr$skipped.gen.net) <- c(
+  "Skipped generation"        =  1,
+  "No skipped generation"=  0)
 
 ## 3. add hh ids to the plots #################################################
 ###############################################################################

@@ -4,8 +4,10 @@ author: maja
 date: "10.10.2018"
 tables: yes
 output:
-  pdf_document: default
-  word_document: default
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 3
 toc: yes
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
@@ -66,31 +68,212 @@ At the top level this classificaiton has five main types:
 5. *Skipped generation household*—at least one generation missing. Usually head with grandchildren but without children.
 
 
-# Data availability and preparation
+#  Available data
 
-## Available data
+## `n4 - Relationship with the respondent`
 
 The main variable of interest, `n4 - Relationship with the respondent`, has the following values and distribution in the population of households members living in households headed[^1] by women over the age of 50 (N = `r nrow(ds.mmbr.w.50)`):
 
 ```{r prepare, echo = FALSE, warning = FALSE, message = FALSE}
-codebook(ds.mmbr.w.50$n4)
+x <- summary(ds.mmbr.w.50$n4)
+x <- c(x[1:6], 0, x[7:12])
+x <- c(x[1:12], 0, x[13])
+knitr::kable(cbind(all = summary(ds.mmbr$n4), 
+                   women_over_50 = x),
+             "latex", booktabs = T)
+
+par(mfrow = c(1,2))
+par(mar = c(2.5,4,4,1))
+barplot(table(ds.mmbr$n4),    xlim = c(0, 400),
+        xlab = "", horiz = TRUE, col = "white", las = 2, cex.names = 0.6)
+mtext("Relationship  - all", side = 3)
+barplot(table(ds.mmbr.w.50$n4),  xlim = c(0, 400),
+        xlab = "", horiz = TRUE, col = "white", las = 2,cex.names = 0.6)
+mtext("Relationship  - women over 50", side = 3)
 ```
 
-So a random household e.g. looks like this:
-```{r echo = FALSE}
-ds.mmbr.w.50$n4[ds.mmbr.w.50$hh.id == 2,]
-```
 
-## Data Preparation
+# Data Preparation - Variables of Interest
 
 The following variables are derived in order to facilitate the identificiation of household types:
 
-1. `hh.size` - Household size.
-2. `hh.size.net` - Household size net of migrants
-3. `gen` - generation code = relative to the respondent, who is at 0, children are 1, parents are -1 etc. 
-4. `n.gen` - Number of different generations in household
+## `hh.size` - Household size
 
-[^1]: It is not precisely clear to what extent these households can be said to be *headed* by these women, rather they were selected to be the respondents in this survey as they had the most knowledge or were most involved in the decision-making when it came to farming. 
+The average household size iverall is 4.94 and is slightly higher for the households headed by women over 50 at 5.17. 
+
+```{r echo = FALSE, fig.height = 4, fig.width = 8}
+knitr::kable(rbind("hh.size - all" = summary(ds.mmbr$hh.size), 
+                   "hh.size - women over 50" = summary(ds.mmbr.w.50$hh.size)),
+             "latex", booktabs = T)
+
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+hist(ds.mmbr$hh.size, xlab = "", ylim = c(0,350))
+mtext(side = 3,  "Household size - all")
+hist(ds.mmbr.w.50$hh.size, xlab = "", ylim = c(0,350))
+mtext(side = 3, "Household size - women over 50")
+```
+
+## `hh.size.net` - Household size net of migrants
+
+The average net household size i.e. subtracting the persons not currently living in the household is 4.55 for the whole sample and 4.75 for those headed by wome over 50. This means the average numer of members not living in the household is almost exactly the same at around 0.4 per household.
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("hh.size - all (net)"= summary(ds.mmbr$hh.size.net), 
+                   "hh.size - women over 50 (net)" = summary(ds.mmbr.w.50$hh.size.net)),
+             "latex", booktabs = T)
+
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+hist(ds.mmbr$hh.size.net, xlab = "", ylim = c(0,350))
+mtext(side = 3, "Household size - all (net)")
+hist(ds.mmbr.w.50$hh.size.net,  xlab = "", ylim = c(0,350))
+mtext(side = 3, "Household size - women over 50 (net)")
+
+# hist(ds.mmbr.w.50$hh.size.net, main = "Household size net of migrants", xlab = "")
+# barplot(table(ds.mmbr.w.50$gen), main = "Relative generation", xlab = "", col = "white")
+# barplot(table(ds.mmbr.w.50$n.gen), main = "Number of generations", xlab = "", col = "white")
+
+```
+
+##  `gen` - generation code relative to the respondent
+
+The respondent is categorized as generation 0, as are their spouse and siblings. Children are coded as 1, grandchildren as 2 etc. [^2]. 
+
+This is an odd variable to interpret, but the larger it is, the more the household tends towards younger generations. It is larger for the female headed households (.82 vs .70) and from the plots it looks like this is mainly to do with there being fewer people in the same generation (0), most likely spouses. 
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("gen - all" = summary(ds.mmbr$gen), 
+                   "gen - women over 50" = summary(ds.mmbr.w.50$gen)),
+             "latex", booktabs = T)
+
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(table(ds.mmbr$gen),  xlab = "", 
+        col = "white", ylim = c(0, 700))
+mtext(side = 3, "Relative generation - all")
+x <- c(0, table(ds.mmbr.w.50$gen))
+attributes(x)$names <- c("-2", "-1", "0", "1", "2")
+barplot(x,  xlab = "", 
+        col = "white", border = c(NA, rep("black", 4)),  ylim = c(0, 700))
+mtext(side = 3, "Relative generation - women over 50")
+rm(x)
+```
+
+
+## `n.gen` - Number of different generations in household
+
+The modal number of different generations in each household is 3 with the average being 2.52 and slighltly higher for female headed households at 2.62. This is due to the fact that there are proportionally fewer one generation households, and instead more three generation hosueholds, while two and four generation households remain roughly the same. 
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("n.gen all" = summary(ds.mmbr$n.gen), 
+                   "n.gen women over 50" = summary(ds.mmbr.w.50$n.gen)),
+             "latex", booktabs = T)
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.mmbr$n.gen)), xlab = "", 
+        col = "white", ylim = c(0, .7))
+mtext(side = 3,  "Number of gens- all")
+barplot(prop.table(table(ds.mmbr.w.50$n.gen)),  xlab = "", 
+        col = "white", ylim = c(0, .7))
+mtext(side = 3, "Number of gens- women over 50")
+```
+
+##  `n.gen.net` - Number of different generations in household net of migrants
+
+Same as the previous variable, but not counting members of the household not living at home. Again there are slightly more generations in female headed households at 2.55 vs 2.44, with the  difference between the distributions being female headed households having fewer one and two generation households and more three and four generation ones. 
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("n.gen.net - all" = summary(ds.mmbr$n.gen.net), 
+                   "n.gen.net - women over 50" = summary(ds.mmbr.w.50$n.gen.net)),
+             "latex", booktabs = T)
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.mmbr$n.gen.net)), xlab = "", 
+        col = "white", ylim = c(0, .7))
+mtext(side = 3,  "Number of gens  - all (net)")
+
+barplot(prop.table(table(ds.mmbr.w.50$n.gen.net)), xlab = "", 
+        col = "white", ylim = c(0, .7))
+mtext(side = 3, "Number of gens- women over 50 (net)")
+```
+
+
+## `skipped.gen` - Whether or not a generation is skipped in the household
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+ds.mmbr%>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  summarise(skipped = first(skipped.gen)) %>% 
+  ungroup() %>% 
+  summarise(skip = sum(skipped)) %>% 
+  pull() -> skip.all
+ds.mmbr.w.50 %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  summarise(skipped = first(skipped.gen)) %>% 
+  ungroup() %>% 
+  summarise(skip = sum(skipped)) %>% 
+  pull() -> skip.w.50
+```
+
+There is only a small difference in the proportion of households with skipped generations between the full sample and the women over 50 sample - 3.2 \% vs 3.4 \%. In the whole sample there are `r skip.all` households with skipped generations, and in the women over 50 sample there are `r skip.w.50`
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("skipped.gen - all" = prop.table(table(ds.mmbr$skipped.gen)), 
+                   "skipped.gen - women over 50" = prop.table(table(ds.mmbr.w.50$skipped.gen))),
+             "latex", booktabs = T)
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.mmbr$skipped.gen)), xlab = "", 
+        col = "white")
+mtext(side = 3,  "Skipped generation household - all")
+
+barplot(prop.table(table(ds.mmbr.w.50$skipped.gen)), xlab = "", 
+        col = "white")
+mtext(side = 3, "Skipped generation household - women over 50")
+```
+
+## `skipped.gen.net` - Whether or not a generation is skipped in the household - net of migrants
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+ds.mmbr%>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  summarise(skipped = first(skipped.gen.net)) %>% 
+  ungroup() %>% 
+  summarise(skip = sum(skipped)) %>% 
+  pull() -> skip.all.net
+ds.mmbr.w.50 %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  summarise(skipped = first(skipped.gen.net)) %>% 
+  ungroup() %>% 
+  summarise(skip = sum(skipped)) %>% 
+  pull() -> skip.w.50.net
+```
+
+As we might expect, if we remove the household members who are absent from the samples, the number of households with skipped generations increases: Now there are 4.83 \% in the entire sample and 4.65 \% in the women only, corresponding to `r skip.all.net` and `r skip.w.50.net` households respectively
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+knitr::kable(rbind("skipped.gen - all" = prop.table(table(ds.mmbr$skipped.gen.net)), 
+                   "skipped.gen - women over 50" = prop.table(table(ds.mmbr.w.50$skipped.gen.net))),
+             "latex", booktabs = T)
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.mmbr$skipped.gen.net)), xlab = "", 
+        col = "white")
+mtext(side = 3,  "Skipped generation household - all (net)")
+
+barplot(prop.table(table(ds.mmbr.w.50$skipped.gen.net)), xlab = "", 
+        col = "white")
+mtext(side = 3, "Skipped generation household - women over 50 (net)")
+```
+
+[^1]: It is not precisely clear to what extent these households can be said to be *headed* by these women, rather they were selected to be the respondents in this survey as they had the most knowledge or were most involved in the decision-making when it came to farming. But for simplicity I refer to them as female headed in the rest of this write up. 
+
+[^2]: In fact we have one category for *(Great)grandchildren*, so we cannot distinguish between a level 2 and level 3 unfortunately. Furthermore *other relatives* and *house servants* are coded as missing, as generational classification is more salient between relatives. 
+
+
 # References
 
 
