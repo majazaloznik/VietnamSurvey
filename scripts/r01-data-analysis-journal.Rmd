@@ -347,7 +347,25 @@ OK, so do the following checks:
 5. Now also add the skipped generations net of migrants. 
 
 
+# Friday 12.10. 2018
 
+1. Now let's try to put together the generation based typology. 
+
+2. The migrants are an issue: what happens is that you can have a skipped generation household including the migrant, but in the household it is actually not. e.g. a granddaughter living away (e.g. household 122) . So we are interested in households that are skipped net of the migrants. 
+
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.type.gen =  factor(ifelse(hh.size == 1, 1,
+                         ifelse(skipped.gen.net == 1, 2, n.gen+2 )), 
+                  levels = 1:6, 
+                  labels = c("single", "skipped", "one gen", 
+                             "two gen", "three gen", "four gen"))) %>% 
+  select(3,6, 9, 17:21) %>% 
+  pull(hh.type.gen) %>% 
+  table() %>% 
+  barplot(, horiz = TRUE, las = 2)
 
 
 <!--

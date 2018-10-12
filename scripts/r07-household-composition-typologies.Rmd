@@ -252,7 +252,8 @@ ds.mmbr.w.50 %>%
   pull() -> skip.w.50.net
 ```
 
-As we might expect, if we remove the household members who are absent from the samples, the number of households with skipped generations increases: Now there are 4.83 \% in the entire sample and 4.65 \% in the women only, corresponding to `r skip.all.net` and `r skip.w.50.net` households respectively
+As we might expect, if we remove the household members who are absent from the samples, the number of households with skipped generations increases: Now there are 4.83 \% in the entire sample and 4.65 \% in the women only, corresponding to `r skip.all.net` and `r skip.w.50.net` households respectively. Since the idea of a skipped generation household only makes sense with respect to the people actually living in the household it is this variable, net of migrant household members, that is used in the classification of households. 
+
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
 knitr::kable(rbind("skipped.gen - all" = prop.table(table(ds.mmbr$skipped.gen.net)), 
