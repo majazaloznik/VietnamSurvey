@@ -423,6 +423,89 @@ labels(ds.mmbr$skipped.gen.net) <- c(
   "Skipped generation"        =  1,
   "No skipped generation"=  0)
 
+# generation typology
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.type.gen =  factor(ifelse(hh.size == 1, 1,
+                                      ifelse(skipped.gen.net == 1, 2, n.gen+2 )), 
+                               levels = 1:6, 
+                               labels = c("single", "skipped", "one gen", 
+                                          "two gen", "three gen", "four gen"))) %>% 
+  select(3,6, 9, 17:21) %>% 
+  pull(hh.type.gen) %>% 
+  as.item() ->  ds.mmbr$hh.type.gen
+
+description(ds.mmbr$hh.type.gen) <- "Generation based household typology"
+measurement(ds.mmbr$hh.type.gen) <- "nominal"
+annotation(ds.mmbr$hh.type.gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.type.gen)["origin"] <- "recode from gen and hh.id and hh.size and skipped.gen.net"
+labels(ds.mmbr$hh.type.gen) <- c(
+  "single"        =  1,
+  "skipped"    =   2,
+  "one gen" =3,
+  "two gen" = 4,
+  "three gen" = 5,
+  "four gen" = 6)
+
+# un based typology
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.type.fam = 
+           factor(ifelse(hh.size == 1, 1,
+                         ifelse(all(unique(as.numeric(n4)) %in% c(1,2,3,4)), 2, 
+                                ifelse(13 %in% as.numeric(n4), 4, 3))), levels = 1:4,
+                  labels = c("single person", "nuclear",  "composite", "extended"))) %>% 
+  select(3,6, 9, 17:22) %>% 
+  pull(hh.type.fam) %>% 
+  as.item() ->  ds.mmbr$hh.type.fam
+
+description(ds.mmbr$hh.type.fam) <- "Family based household typology"
+measurement(ds.mmbr$hh.type.fam) <- "nominal"
+annotation(ds.mmbr$hh.type.fam)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.type.fam)["origin"] <- "recode from and hh.id and hh.size and n4"
+labels(ds.mmbr$hh.type.fam) <- c(
+  "single person"        =  1,
+  "nuclear"    =   2,
+  "extended" = 3,
+  "composite" =4
+)
+
+# is the respondent single
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(single = ifelse(any(2 %in% as.numeric(n4)), 1, 0)) %>% 
+  pull(single) %>%
+  as.item() ->  ds.mmbr$single
+
+description(ds.mmbr$single) <- "Respondent without spouse"
+measurement(ds.mmbr$single) <- "nominal"
+annotation(ds.mmbr$single)["flag"] <- "Deriv."
+annotation(ds.mmbr$single)["origin"] <- "recode from and hh.id and n4"
+labels(ds.mmbr$single) <- c(
+  "single"        =  1,
+  "not single"    =   0)
+
+# is the respondent single - net
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(single = ifelse(any(2 %in% as.numeric(n4)), 1, 0)) %>% 
+  pull(single) %>%
+  as.item() ->  ds.mmbr$single
+
+description(ds.mmbr$single) <- "Respondent without spouse"
+measurement(ds.mmbr$single) <- "nominal"
+annotation(ds.mmbr$single)["flag"] <- "Deriv."
+annotation(ds.mmbr$single)["origin"] <- "recode from and hh.id and n4"
+labels(ds.mmbr$single) <- c(
+  "single"        =  1,
+  "not single"    =   0)
+
 ## 3. add hh ids to the plots #################################################
 ###############################################################################
 ## 3.4. add household id and member id ########################################

@@ -11,7 +11,7 @@ html_document: default
 bibliography: "../misc/vn-lit.bib"
 ---
   
-  ```{r "setup", include=FALSE}
+```{r "setup", include=FALSE}
 ## this is to set up the main folder as the root
 ## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
 require("knitr")
@@ -353,19 +353,32 @@ OK, so do the following checks:
 
 2. The migrants are an issue: what happens is that you can have a skipped generation household including the migrant, but in the household it is actually not. e.g. a granddaughter living away (e.g. household 122) . So we are interested in households that are skipped net of the migrants. 
 
+3. OK, so they second typology seems to be simple enough, but it also looks like ther arean't any complex family types - but only because we only had one option for a non related household member, which is the servant. 
 
-ds.mmbr %>% 
-  as.data.frame() %>% 
-  group_by(hh.id) %>% 
-  mutate(hh.type.gen =  factor(ifelse(hh.size == 1, 1,
-                         ifelse(skipped.gen.net == 1, 2, n.gen+2 )), 
-                  levels = 1:6, 
-                  labels = c("single", "skipped", "one gen", 
-                             "two gen", "three gen", "four gen"))) %>% 
-  select(3,6, 9, 17:21) %>% 
-  pull(hh.type.gen) %>% 
-  table() %>% 
-  barplot(, horiz = TRUE, las = 2)
+4. I could add single parent? Or widowed? How else can I describe the households, what other types of typologies are there? But sinle parent can be added to all of the categories in both classifications. 
+
+5. OK, let's try to see who are the single parents - to the extent that it is even useful. So no spouse?
+
+6. Also, in other news, an .Rdata file that has e.g. a memisc object in it cannot be loaded if the package isn't istalled. 
+
+7. OK, so i've got a variable for single (not running any of this code, since i'm on the train anad didin't download the memics package before getting on the eurostar)
+
+8. But these three should be enough. 
+
+# Monday 15.10.2018
+
+1. OK, ran some of the stuff i hadn't been able to do before witout the internet. 
+
+2. There seems to be no number 13 i.e no composite households even though i thought there should have been one, need to manually check . 
+
+3. Got it. it's because i keep forgetting to use as.numeric with these memisc items... when you do as.data.frame it pulls it out as a character vector..
+
+4. OK, so looks like i have the famiuly typology wrking but it's pretty boring  really. I need to add at least the single partner one to make it more interesting. 
+
+5. Aha, also the household typology summaries - i have to look at households, not at individuals! I basically have to change that in all the variable summaries except the relative generation one, that one is a individual level one, the remaining ones are household level. 
+
+6. Also summaries: probably a reasonalble thing to do is to use frequencies in the table and proportions in the charts. Or maybe only proportions? If I make the N clear, then it's  easy for SH to calculate them if she wanted. 
+
 
 
 <!--
