@@ -428,11 +428,10 @@ ds.mmbr %>%
   as.data.frame() %>% 
   group_by(hh.id) %>% 
   mutate(hh.type.gen =  factor(ifelse(hh.size == 1, 1,
-                                      ifelse(skipped.gen.net == 1, 2, n.gen+2 )), 
+                                      ifelse(skipped.gen.net == 1, 2, n.gen.net+2 )), 
                                levels = 1:6, 
                                labels = c("single", "skipped", "one gen", 
                                           "two gen", "three gen", "four gen"))) %>% 
-  select(3,6, 9, 17:21) %>% 
   pull(hh.type.gen) %>% 
   as.item() ->  ds.mmbr$hh.type.gen
 
@@ -448,16 +447,50 @@ labels(ds.mmbr$hh.type.gen) <- c(
   "three gen" = 5,
   "four gen" = 6)
 
+
+# is the respondent lone
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(single = ifelse(any(2 %in% as.numeric(n4)), 0, 1)) %>% 
+  pull(single) %>%
+  as.item() ->  ds.mmbr$lone.resp
+
+description(ds.mmbr$lone.resp) <- "Lone respondent without spouse"
+measurement(ds.mmbr$lone.resp) <- "nominal"
+annotation(ds.mmbr$lone.resp)["flag"] <- "Deriv."
+annotation(ds.mmbr$lone.resp)["origin"] <- "recode from and hh.id and n4"
+labels(ds.mmbr$lone.resp) <- c(
+  "lone"        =  1,
+  "not lone")
+
+# is the respondent lone - net
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(single = ifelse(any(2 %in% as.numeric(n4[n1 == 1])), 0, 1)) %>% 
+  pull(single) %>%
+  as.item() ->  ds.mmbr$lone.resp.net
+
+description(ds.mmbr$lone.resp.net) <- "Lone respondent without spouse net"
+measurement(ds.mmbr$lone.resp.net) <- "nominal"
+annotation(ds.mmbr$lone.resp.net)["flag"] <- "Deriv."
+annotation(ds.mmbr$lone.resp.net)["origin"] <- "recode from and hh.id and n4"
+labels(ds.mmbr$lone.resp.net) <- c(
+  "lone"        =  1,
+  "not lone"    =   0)
+
 # un based typology
 ds.mmbr %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
   mutate(hh.type.fam = 
-           factor(ifelse(hh.size == 1, 1,
-                         ifelse(all(unique(as.numeric(n4)) %in% c(1,2,3,4)), 2, 
-                                ifelse(13 %in% as.numeric(n4), 4, 3))), levels = 1:4,
+           factor(ifelse(hh.size.net == 1, 1,
+                         ifelse(all(unique(as.numeric(n4[n1 == 1])) %in% c(1,2,3,4)), 2, 
+                                ifelse(13 %in% as.numeric(n4[n1 == 1]), 4, 3))), levels = 1:4,
                   labels = c("single person", "nuclear",  "composite", "extended"))) %>% 
-  select(3,6, 9, 17:22) %>% 
   pull(hh.type.fam) %>% 
   as.item() ->  ds.mmbr$hh.type.fam
 
@@ -472,39 +505,41 @@ labels(ds.mmbr$hh.type.fam) <- c(
   "composite" =4
 )
 
-# is the respondent single
+# un based typology - expanded with lone status
 
 ds.mmbr %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
-  mutate(single = ifelse(any(2 %in% as.numeric(n4)), 1, 0)) %>% 
-  pull(single) %>%
-  as.item() ->  ds.mmbr$single
+  mutate(hh.type.fam.lone = 
+           ifelse(hh.type.fam == "single person", 1,
+                  ifelse(hh.type.fam == "nuclear" & 
+                           lone.resp.net == "lone", 2, 
+                         ifelse(hh.type.fam == "nuclear" & 
+                                  lone.resp.net == "not lone" , 3,
+                                ifelse(hh.type.fam == "extended" & 
+                                         lone.resp.net == "lone" , 4,
+                                       ifelse(hh.type.fam == "extended" & 
+                                                lone.resp.net == "not lone" , 5,
+                                              ifelse(hh.type.fam == "composite" & 
+                                                       lone.resp.net == "lone" , 6, 7))))))) %>% 
+  pull(hh.type.fam.lone) %>% 
+  as.item() ->  ds.mmbr$hh.type.fam.lone
 
-description(ds.mmbr$single) <- "Respondent without spouse"
-measurement(ds.mmbr$single) <- "nominal"
-annotation(ds.mmbr$single)["flag"] <- "Deriv."
-annotation(ds.mmbr$single)["origin"] <- "recode from and hh.id and n4"
-labels(ds.mmbr$single) <- c(
-  "single"        =  1,
-  "not single"    =   0)
+description(ds.mmbr$hh.type.fam.lone) <- "Family based household typology - expanded"
+measurement(ds.mmbr$hh.type.fam.lone) <- "nominal"
+annotation(ds.mmbr$hh.type.fam.lone)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.type.fam.lone)["origin"] <- "recode from and hh.id and hh.size and n4"
+labels(ds.mmbr$hh.type.fam.lone) <- c(
+  "single person"        =  1,
+  "nuclear-lone"    =   2,
+  "nuclear"    =   3,
+  "extended-lone" = 4,
+  "extended" = 5,
+  "composite-lone" = 6,
+  "composite" = 7
+)
 
-# is the respondent single - net
 
-ds.mmbr %>% 
-  as.data.frame() %>% 
-  group_by(hh.id) %>% 
-  mutate(single = ifelse(any(2 %in% as.numeric(n4)), 1, 0)) %>% 
-  pull(single) %>%
-  as.item() ->  ds.mmbr$single
-
-description(ds.mmbr$single) <- "Respondent without spouse"
-measurement(ds.mmbr$single) <- "nominal"
-annotation(ds.mmbr$single)["flag"] <- "Deriv."
-annotation(ds.mmbr$single)["origin"] <- "recode from and hh.id and n4"
-labels(ds.mmbr$single) <- c(
-  "single"        =  1,
-  "not single"    =   0)
 
 ## 3. add hh ids to the plots #################################################
 ###############################################################################

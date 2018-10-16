@@ -8,7 +8,9 @@ output:
     toc: true
     number_sections: true
     toc_depth: 3
-toc: yes
+  word_document:
+    reference_docx: "../misc/style.docx"
+    toc: yes
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
 bibliography: ../reports/bib.bib
@@ -23,8 +25,9 @@ require(knitr)
 require(dplyr)
 require(memisc)
 
-# opts_knit$set(root.dir = "/home/mz/Dropbox/analysis/Vietnam/VietnamSurvey")
-# opts_knit$set(root.dir = "C:/Users/sfos0247/Dropbox/analysis/Vietnam/VietnamSurvey")
+# figure out which type of document i'm knitting to 
+doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+
 ```
 
 
@@ -53,7 +56,7 @@ I set out the typologies and the data first.
 
 # Household typologies
 
-I start out with two typologies: 
+I start out with two typologies[^3]: 
 
 1. *Family-based*: The UN recommended household classification based on family nuclei and the relationship between the nuclei and other members in the hosuehold (see @un2017principles)
 2. *Generation-based*: An ad-hoc classification I used in the household living arrangemnts factsheet (@2016mz) and is based on the generational structure of the household. 
@@ -71,7 +74,7 @@ At the top level this classificaiton has four main types (see @un2017principles)
 
 Unfortunately our questionnaire only had one option for a non-related household member which was `House servant` which means that there is only one household in the whole sample which can be considered composite. 
 
-**Table 1:** Proportion of households of each *Family-based typology* type - four-way classification 
+**Table and Figure:** Proportion of households of each *Family-based classification* type (four-way)
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
 
@@ -79,11 +82,12 @@ all <- c(100*prop.table(summary(ds.hh.sums$hh.type.fam)), nrow(ds.hh.sums))
 names(all)[5] <- "N"
 w.50 <- c(100* prop.table(c(summary(ds.hh.sums.w.50$hh.type.fam), 0)), 
           nrow(ds.hh.sums.w.50))
-
 names(w.50)[4:5] <- c("composite", "N")
-knitr::kable(rbind("Family type - all" = all, 
-                   "Family type - women over 50" = w.50),
-             "latex", booktabs = T, digits = 2)
+tab <- as.data.frame(rbind("Family type - all" = all, 
+                   "Family type - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
 
 par(mfrow = c(1,2))
 par(mar = c(2.5,4,4,1))
@@ -101,29 +105,103 @@ rm(x)
 ```
 
 
+
+
+
 ### Family-based classification (expanded)
 
-One way to expand on the original family-based classificaiton is to distinguish whether or not the respondent has a spouse in the household or not. This is done by checking if anyone with the code *2-Spouse* is in the household
+One way to expand on the original family-based classificaiton is to distinguish whether or not the respondent has a spouse in the household or not. This is done by checking if anyone with the code *2-Spouse* is in the household and if not designating the respondent as *lone*. In combinatin with the family based classificaiton this gives us seven categories now as nuclear, composite and extended can be headed by a lone or non-lone respondent. 
 
 
-## Generation-based classification
+**Table and Figure:** Proportion of households of each *Family-based classification* type (expanded
 
-At the top level this classificaiton has five main types: 
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+
+all <- c(100*prop.table(summary(ds.hh.sums$hh.type.fam.lone)), nrow(ds.hh.sums))
+names(all)[7] <- "N"
+w.50 <- c(100* prop.table(c(summary(ds.hh.sums.w.50$hh.type.fam.lone), 0)), 
+          nrow(ds.hh.sums.w.50))
+names(w.50)[7] <- c( "N")
+tab <- as.data.frame(rbind("Family type - all" = all, 
+                   "Family type - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
+par(mfrow = c(1,2))
+par(mar = c(2.5,4,4,1))
+barplot(prop.table(table(ds.hh.sums$hh.type.fam.lone)),  xlab = "", 
+        col = "white", xlim = c(0, .6),
+        cex.names =  .6, horiz = TRUE, las = 2)
+mtext(side = 3, "Family typology expanded- all")
+x <- prop.table(c(table(ds.hh.sums.w.50$hh.type.fam.lone), 0))
+names(x)[6] <- "composite"
+barplot(x,  xlab = "", 
+        col = "white", border = c( rep("black", 5), NA),  xlim = c(0, .6),
+        cex.names  = .6,  horiz = TRUE, las = 2)
+mtext(side = 3, "Family typology expanded - women over 50")
+rm(x)
+```
+
+
+## Generation-based classification (six-way)
+
+At the top level this classificaiton has six main types: 
 
 1. *One person household*—A single person living alone. This is defined the same in both typologies presented here.
 2. *One generation household*—at least one more person of the same age group as the head Usually a spouse, but can also be sibling etc.
 3. *Two generation household*—at least one more person one generation younger/older than the head. Usually child(ren), can also be parent etc. 
-4. *Three or more generation household*—at least two more persons of different generations than the head (but without skipping generations).
-5. *Skipped generation household*—at least one generation missing. Usually head with grandchildren but without children.
+4. *Three generation household*—at least two more persons of different generations than the head and each other (but without skipping generations).
+5. *Four or more generation household*—at least three persons of different generations than the head and each other (but without skipping generations).
+
+56 *Skipped generation household*—at least one generation missing. Usually head with grandchildren but without children.
+
+This classification--the distributions are given in the table and chart below--finds that three generation households are most common with around 40 percent of households in both samples (slightly more in the female sample) being in this group. the biggest differences between the samples is the fact that there are more single person houeholds in the female sample, but fewer single generation household (which usually means a spouse). Skipped generations represend a good 5 percent of both samples (that is `r sum(ds.hh.sums$hh.type.gen == "skipped")` and `r sum(ds.hh.sums.w.50$hh.type.gen == "skipped")` households respectively)[^3].
+
+**Table and Figure:** Proportion of households of each *Generation-based classification* type (perncentages)
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+
+all <- c(100*prop.table(summary(ds.hh.sums$hh.type.gen)), nrow(ds.hh.sums))
+names(all)[7] <- "N"
+w.50 <- c(100* prop.table(summary(ds.hh.sums.w.50$hh.type.gen)), 
+          nrow(ds.hh.sums.w.50))
+names(w.50)[7] <- "N"
 
 
-#  Available data
+
+tab <- as.data.frame(rbind("Generation type - all" = all, 
+                   "Generation type - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
+par(mfrow = c(1,2))
+par(mar = c(2.5,4,4,1))
+barplot(prop.table(table(ds.hh.sums$hh.type.gen)),  xlab = "", 
+        col = "white", xlim = c(0, .6),
+        cex.names =  .6, horiz = TRUE, las = 2)
+mtext(side = 3, "Generation typology - all")
+x <- prop.table(table(ds.hh.sums.w.50$hh.type.gen))
+barplot(x,  xlab = "", 
+        col = "white",xlim = c(0, .6),
+        cex.names  = .6,  horiz = TRUE, las = 2)
+mtext(side = 3, "Generation typology - women over 50")
+rm(x)
+```
+
+
+
+
+#  Available and derived variables of interest
+
+The following variables are available in the dataset or were derived in order to facilitate the identificiation of household types:
 
 ## `n4 - Relationship with the respondent`
 
 The main variable of interest, `n4 - Relationship with the respondent`, has the following values and distribution in the population of households members living in households headed[^1] by women over the age of 50 (N = `r nrow(ds.mmbr.w.50)`):
 
-**Table and Figure :** Distribution of types of relationships with respondents in the survey sample (percentage)
+**Table and Figure:** Distribution of types of relationships with respondents in the survey sample (percentage)
 ```{r prepare, echo = FALSE, warning = FALSE, message = FALSE}
 all <- c(100*prop.table(summary(ds.mmbr$n4)), nrow(ds.mmbr))
 names(all)[15] <- "N"
@@ -133,9 +211,11 @@ x <- c(x[1:12], 0, x[13])
 names(x) <- names(all)[1:14]
 w.50 <- c(100*prop.table(x), nrow(ds.mmbr.w.50))
 names(w.50) <- names(all)
-knitr::kable(cbind(all = all, 
-                   women_over_50 = w.50),
-             "latex", booktabs = T, digits = 2)
+tab <- as.data.frame(cbind(all = all, 
+                   women_over_50 = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
 
 par(mfrow = c(1,2))
 par(mar = c(2.5,4,4,1))
@@ -151,15 +231,12 @@ mtext("Relationship  - women over 50", side = 3)
 ```
 
 
-# Data Preparation - Variables of Interest
-
-The following variables are derived in order to facilitate the identificiation of household types:
 
 ## `hh.size` - Household size
 
 The average household size overall is `r round(mean(ds.hh.sums$hh.size), 2)` and is slightly higher for the households headed by women over 50 at `r round(mean(ds.hh.sums.w.50$hh.size),2)`. 
 
-**Table and Figure :** Distribution of household sizes in the sample (percentage)
+**Table and Figure:** Distribution of household sizes in the sample (percentage)
 
 ```{r echo = FALSE, fig.height = 4, fig.width = 8}
 
@@ -167,9 +244,11 @@ all <- c(summary(ds.hh.sums$hh.size), nrow(ds.hh.sums))
 names(all)[7] <- "N"
 w.50 <- c(summary(ds.hh.sums.w.50$hh.size), nrow(ds.hh.sums.w.50))
 names(w.50)[7] <- "N"
-knitr::kable(rbind("hh.size - all" = all, 
-                   "hh.size - women over 50" = w.50),
-             "latex", booktabs = T, digits = 2)
+tab <- as.data.frame(rbind("hh.size - all" = all, 
+                   "hh.size - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
 
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
@@ -188,7 +267,7 @@ The average net household size i.e. subtracting the persons not currently living
 
 The average numer of members not living in the household---this is the difference between the household size (previous variable) and the hosuehold size net of migrants (this variable)--is around 0.27 per household or rather 0.28 per household for the women over 50 sample. 
 
-**Table and Figure :** Distribution of household sizes net of migrants in the sample (percentage)
+**Table and Figure:** Distribution of household sizes net of migrants in the sample (percentage)
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
 
@@ -196,18 +275,21 @@ all <- c(summary(ds.hh.sums$hh.size.net), nrow(ds.hh.sums))
 names(all)[7] <- "N"
 w.50 <- c(summary(ds.hh.sums.w.50$hh.size.net), nrow(ds.hh.sums.w.50))
 names(w.50)[7] <- "N"
-knitr::kable(rbind("hh.size - all" = all, 
-                   "hh.size - women over 50" = w.50),
-             "latex", booktabs = T, digits = 2)
+tab <- as.data.frame(rbind("hh.size - all" = all, 
+                   "hh.size - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
 
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
 hist(ds.hh.sums$hh.size.net, xlab = "", ylim = c(0,.35), main = "",
           breaks = seq(0.5, 11.5, 1), freq = FALSE)
-mtext(side = 3,  "Household size - all")
+mtext(side = 3,  "Household size - all (net)")
 hist(ds.hh.sums.w.50$hh.size.net, xlab = "", ylim = c(0,.35), main = "",
       breaks = seq(0.5, 11.5, 1), freq = FALSE)
-mtext(side = 3, "Household size - women over 50")
+mtext(side = 3, "Household size - women over 50 (net)")
 
 ```
 
@@ -225,9 +307,11 @@ all <- c(summary(ds.mmbr$gen), nrow(ds.mmbr))
 names(all)[9] <- "N"
 w.50 <-c( summary(ds.mmbr.w.50$gen), nrow(ds.mmbr.w.50))
 names(w.50)[9] <- "N"
-knitr::kable(rbind("gen - all" = all, 
-                   "gen - women over 50" = w.50),
-             "latex", booktabs = T,digits = 2)
+tab <- as.data.frame(rbind("gen - all" = all, 
+                   "gen - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
 
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
@@ -255,9 +339,11 @@ names(all)[7] <- "N"
 w.50 <- c(summary(ds.hh.sums.w.50$n.gen), nrow(ds.hh.sums.w.50))
 names(w.50)[7] <- "N"
 
-knitr::kable(rbind("n.gen all" = all , 
-                   "n.gen women over 50" = w.50),
-             "latex", booktabs = T, digits = 2)
+tab <- as.data.frame(rbind("n.gen all" = all , 
+                   "n.gen women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
 
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
@@ -271,15 +357,24 @@ mtext(side = 3, "Number of gens- women over 50")
 
 ##  `n.gen.net` - Number of different generations in household net of migrants
 
-Same as the previous variable, but not counting members of the household not living at home. Again there are slightly more generations in female headed households at 2.55 vs 2.44, with the  difference between the distributions being female headed households having fewer one and two generation households and more three and four generation ones. 
+Same as the previous variable, but not counting members of the household not living at home. Again there are slightly more generations in female headed households at `r round(mean(ds.hh.sums$n.gen.net),2)` vs `r round(mean(ds.hh.sums.w.50$n.gen.net),2)`, with the  difference between the distributions being female headed households having fewer one and two generation households and more three and four generation ones. 
 
 **Table and Figure :** Distribution of number of generations in each household (not counting migrants) in the sample (percentage)
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
 ## this is how far i got
-knitr::kable(rbind("n.gen.net - all" = summary(ds.hh.sums$n.gen.net), 
-                   "n.gen.net - women over 50" = summary(ds.hh.sums.w.50$n.gen.net)),
-             "latex", booktabs = T)
+
+all <- c(summary(ds.hh.sums$n.gen.net), nrow(ds.hh.sums))
+names(all)[7] <- "N"
+w.50 <- c(summary(ds.hh.sums.w.50$n.gen.net), nrow(ds.hh.sums.w.50))
+names(w.50)[7] <- "N"
+
+tab <- as.data.frame(rbind("n.gen.net - all" = all, 
+                   "n.gen.net - women over 50" = w.50))
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
 barplot(prop.table(table(ds.hh.sums$n.gen.net)), xlab = "", 
@@ -293,7 +388,10 @@ mtext(side = 3, "Number of gens- women over 50 (net)")
 
 
 ## `skipped.gen` - Whether or not a generation is skipped in the household
+
+
 ```{r echo = FALSE, warning = FALSE, message = FALSE}
+# get number of households so they can be used inline in the text
 ds.mmbr%>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
@@ -310,12 +408,22 @@ ds.mmbr.w.50 %>%
   pull() -> skip.w.50
 ```
 
-There is only a small difference in the proportion of households with skipped generations between the full sample and the women over 50 sample - 3.2 \% vs 3.4 \%. In the whole sample there are `r skip.all` households with skipped generations, and in the women over 50 sample there are `r skip.w.50`
+There is only a small difference in the proportion of households with skipped generations between the full sample and the women over 50 sample - `r 100*round(mean(ds.hh.sums$skipped.gen), 2)` \% vs `r 100* round(mean(ds.hh.sums.w.50$skipped.gen),2)` \%. In the whole sample there are `r skip.all` households with skipped generations, and in the women over 50 sample there are `r skip.w.50`
+
+**Table and Figure :** Proportion of households that have a skipped generation in sample (percentage)
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
-knitr::kable(rbind("skipped.gen - all" = prop.table(table(ds.hh.sums$skipped.gen)), 
-                   "skipped.gen - women over 50" = prop.table(table(ds.hh.sums.w.50$skipped.gen))),
-             "latex", booktabs = T)
+all <- c(100*prop.table(table(ds.hh.sums$skipped.gen)), nrow(ds.hh.sums))
+names(all)[3] <- "N"
+w.50 <- c(100*prop.table(table(ds.hh.sums.w.50$skipped.gen)), nrow(ds.hh.sums.w.50))
+names(w.50)[3] <- "N"
+
+tab <- as.data.frame(rbind("skipped.gen - all" = all, 
+                   "skipped.gen - women over 50" = w.50))
+         
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+    
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
 barplot(prop.table(table(ds.hh.sums$skipped.gen)), xlab = "", 
@@ -329,7 +437,9 @@ mtext(side = 3, "Skipped generation household - women over 50")
 
 ## `skipped.gen.net` - Whether or not a generation is skipped in the household - net of migrants
 
+
 ```{r echo = FALSE, warning = FALSE, message = FALSE}
+# calculate number of households so i can use them inline in the text
 ds.mmbr%>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
@@ -349,10 +459,20 @@ ds.mmbr.w.50 %>%
 As we might expect, if we remove the household members who are absent from the samples, the number of households with skipped generations increases: Now there are 4.83 \% in the entire sample and 4.65 \% in the women only, corresponding to `r skip.all.net` and `r skip.w.50.net` households respectively. Since the idea of a skipped generation household only makes sense with respect to the people actually living in the household it is this variable, net of migrant household members, that is used in the classification of households. 
 
 
+**Table and Figure :** Proportion of households that have a skipped generation (not counting migrants) in sample (percentage)
+
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
-knitr::kable(rbind("skipped.gen - all" = prop.table(table(ds.hh.sums$skipped.gen.net)), 
-                   "skipped.gen - women over 50" = prop.table(table(ds.hh.sums.w.50$skipped.gen.net))),
-             "latex", booktabs = T)
+all <- c(100*prop.table(table(ds.hh.sums$skipped.gen.net)), nrow(ds.hh.sums))
+names(all)[3] <- "N"
+w.50 <- c(100*prop.table(table(ds.hh.sums.w.50$skipped.gen.net)), nrow(ds.hh.sums.w.50))
+names(w.50)[3] <- "N"
+
+tab <- as.data.frame(rbind("skipped.gen - all" = all, 
+                   "skipped.gen - women over 50" = w.50))     
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
 par(mfrow = c(1,2))
 par(mar = c(2,4,4,1))
 barplot(prop.table(table(ds.hh.sums$skipped.gen.net)), xlab = "", 
@@ -364,6 +484,70 @@ barplot(prop.table(table(ds.hh.sums.w.50$skipped.gen.net)), xlab = "",
 mtext(side = 3, "Skipped generation household - women over 50 (net)")
 ```
 
+## `single.respondent` - Whether or not the respondent is single or not
+
+This variable checks whether they have a spouse (including migrants). If not, then the respondent is marked as single and the household as single-headed. Around 25 % of households in the whole sample have a single respondent--this can mean single, widowed, never married, divorced, or their spouse may be living somewhere else (although there is only one such family as we shall see). In the households headed by women over 50, almost 38 % are single-headed.
+
+
+
+**Table and Figure :** Proportion of households in the sample where the respondent does not have a spouse  (percentages)
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+all <- c(100*prop.table(table(ds.hh.sums$lone.resp)), nrow(ds.hh.sums))
+names(all)[3] <- "N"
+w.50 <- c(100*prop.table(table(ds.hh.sums.w.50$lone.resp)), nrow(ds.hh.sums.w.50))
+names(w.50)[3] <- "N"
+
+tab <- as.data.frame(rbind("lone.resp - all" = all, 
+                   "lone.resp - women over 50" = w.50))     
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.hh.sums$lone.resp)), xlab = "", 
+        col = "white", ylim = c(0, .8))
+mtext(side = 3,  "Lone respondent household - all ")
+
+barplot(prop.table(table(ds.hh.sums.w.50$lone.resp)), xlab = "", 
+        col = "white", ylim = c(0, .8))
+mtext(side = 3, "Lone respondent household - women over 50 ")
+```
+
+
+
+## `lone.respondent.net` - Whether or not the respondent is single or not (net of migrants)
+
+This variable checks whether a spouse is present in the household (not counting members that have migrated). As there is only one household in the sample where the husband doesn't live in the houehold these results are almost the same as the previous ones. 
+
+
+
+**Table and Figure :** Proportion of households in the sample where the respondent does not have a spouse (net of migrants)  (percentages)
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
+all <- c(100*prop.table(table(ds.hh.sums$lone.resp.net)), nrow(ds.hh.sums))
+names(all)[3] <- "N"
+w.50 <- c(100*prop.table(table(ds.hh.sums.w.50$lone.resp.net)), nrow(ds.hh.sums.w.50))
+names(w.50)[3] <- "N"
+
+tab <- as.data.frame(rbind("lone.resp.net - all" = all, 
+                   "lone.resp.net - women over 50" = w.50))     
+
+if (doc.type == "pdf"){knitr::kable(tab, "latex", booktabs = T, digits = 2)} else
+{knitr::kable(tab,  booktabs = T, digits = 2)}
+
+par(mfrow = c(1,2))
+par(mar = c(2,4,4,1))
+barplot(prop.table(table(ds.hh.sums$lone.resp.net)), xlab = "", 
+        col = "white", ylim = c(0, .8))
+mtext(side = 3,  "Single respondent household - all (net)")
+
+barplot(prop.table(table(ds.hh.sums.w.50$lone.resp.net)), xlab = "", 
+        col = "white", ylim = c(0, .8))
+mtext(side = 3, "Single respondent household - women over 50 (net)")
+```
+
 
 
 
@@ -371,6 +555,7 @@ mtext(side = 3, "Skipped generation household - women over 50 (net)")
 
 [^2]: In fact we have one category for *(Great)grandchildren*, so we cannot distinguish between a level 2 and level 3 unfortunately. Furthermore *other relatives* and *house servants* are coded as missing, as generational classification is more salient between relatives. 
 
+[^3]: All of the household classifications are calculated based on the household net of migrants.
 
 # References
 

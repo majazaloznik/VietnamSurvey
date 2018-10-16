@@ -379,7 +379,26 @@ OK, so do the following checks:
 
 6. Also summaries: probably a reasonalble thing to do is to use frequencies in the table and proportions in the charts. Or maybe only proportions? If I make the N clear, then it's  easy for SH to calculate them if she wanted. 
 
+# Tuesday 16.10.2018
 
+1. Just check, what happens if I do a word document. 
+
+2. OK, cleaned up so that all tables work in word document as well.
+
+3. Made sure all inline numbers are coded. 
+
+4. Made sure all percentages are calculated and Ns given alongside in the tables. 
+
+5. Now let's do the top level generation classificaiton as well. 
+
+6. Wait, so all the classifications have to be based on net household!
+
+7. OK, so both main classificaitons are done at top level, now for the single respondent. 
+
+8. TODO check that married people have the correct marital status. Four families have an error here: there is a spouse but both the respondent and the spouse are recorded as not being married! WHAT TO DO? c(34, 288, 290, 311) these are the households.. This is an additional question for Long I guess, are these cohabiting people?
+
+
+9. OK, expand the classificaions. 
 
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
