@@ -40,7 +40,9 @@ FunNominal <- function(i, tab, group.by) {
   x <-  cbind(Total = table(var),
               table(var ,tab[,group.by]))
   if (!is.null(rownames(x)))  rownames(x)[rownames(x) == "101"] <- "Missing"
-  prop.table(x, 2)*100
+  x <- prop.table(x, 2)*100
+  x[is.nan(x)] <- 0
+  x
 }
 
 FunNominalTable <- function(i, tab, group.by){
@@ -53,12 +55,14 @@ FunNominalTable <- function(i, tab, group.by){
 ## univariate and by province;
 ###############################################################################
 
-FunNominalBarplot <- function(i, tab, group.by){
+FunNominalBarplot <- function(i, tab, group.by, left = 5){
+  tab <- as.data.frame(tab,stringsAsFactors = FALSE)
+  var <- tab[[i]]
   x <- FunNominal(i, tab, group.by)
   nr <- min(nrow(x)+3, 15)
   w <-  c(sum(table(tab[,group.by])), table(tab[,group.by]))
-  par(mar = c(nr,5,1,1), xpd = TRUE)
-  barplot(x, width = w, space = c(.5,.5,.1),
+  par(mar = c(nr,left,1,1), xpd = TRUE)
+  barplot(x, width = w, space = c(.5,.5, rep(.1, length(w)-2)),
           horiz = TRUE,
           las=2,
           col = colorRampPalette(brewer.pal(11, "PiYG"))(nrow(x)),

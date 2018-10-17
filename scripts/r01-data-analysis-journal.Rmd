@@ -400,6 +400,31 @@ OK, so do the following checks:
 
 9. OK, expand the classificaions. 
 
+# Wednesday 17.10.2018
+
+1. Write nice intro
+
+2. Expand the generational typology
+
+3. Write short writeups of the four typologies
+
+4. All good, the typologies are ok (although i keep changing my mind about doing frequencies or percentages)
+
+5. Now need to give some examples of variables grouped by the typologies. 
+
+6. But the FunTop function doesn't work so well with a different groupung variable, not province.. so need to clear this up. 
+
+7. OK, one problem were spaces in the barplot. solved
+
+8. Another problem are categories with no one - no composite-lone houehold.. Sorted
+
+9. Also the left hand side is too narrow sometimes in the plot for labels - add it to the funciton to adjust.
+
+10. And the tables are way too big, maybe skip on these now?
+
+11. And there is no variation!? I should probably do a full cut through all the variables and pick out the ones that are interesting.. 
+
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 

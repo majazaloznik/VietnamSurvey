@@ -423,29 +423,6 @@ labels(ds.mmbr$skipped.gen.net) <- c(
   "Skipped generation"        =  1,
   "No skipped generation"=  0)
 
-# generation typology
-ds.mmbr %>% 
-  as.data.frame() %>% 
-  group_by(hh.id) %>% 
-  mutate(hh.type.gen =  factor(ifelse(hh.size == 1, 1,
-                                      ifelse(skipped.gen.net == 1, 2, n.gen.net+2 )), 
-                               levels = 1:6, 
-                               labels = c("single", "skipped", "one gen", 
-                                          "two gen", "three gen", "four gen"))) %>% 
-  pull(hh.type.gen) %>% 
-  as.item() ->  ds.mmbr$hh.type.gen
-
-description(ds.mmbr$hh.type.gen) <- "Generation based household typology"
-measurement(ds.mmbr$hh.type.gen) <- "nominal"
-annotation(ds.mmbr$hh.type.gen)["flag"] <- "Deriv."
-annotation(ds.mmbr$hh.type.gen)["origin"] <- "recode from gen and hh.id and hh.size and skipped.gen.net"
-labels(ds.mmbr$hh.type.gen) <- c(
-  "single"        =  1,
-  "skipped"    =   2,
-  "one gen" =3,
-  "two gen" = 4,
-  "three gen" = 5,
-  "four gen" = 6)
 
 
 # is the respondent lone
@@ -539,14 +516,84 @@ labels(ds.mmbr$hh.type.fam.lone) <- c(
   "composite" = 7
 )
 
+# generation typology
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.type.gen =  factor(ifelse(hh.size.net == 1, 1,
+                                      ifelse(skipped.gen.net == 1, 2, n.gen.net+2 )), 
+                               levels = 1:6, 
+                               labels = c("single", "skipped", "one gen", 
+                                          "two gen", "three gen", "four gen"))) %>% 
+  pull(hh.type.gen) %>% 
+  as.item() ->  ds.mmbr$hh.type.gen
+
+description(ds.mmbr$hh.type.gen) <- "Generation based household typology"
+measurement(ds.mmbr$hh.type.gen) <- "nominal"
+annotation(ds.mmbr$hh.type.gen)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.type.gen)["origin"] <- "recode from gen and hh.id and hh.size and skipped.gen.net"
+labels(ds.mmbr$hh.type.gen) <- c(
+  "single person"        =  1,
+  "skipped"    =   2,
+  "one gen" =3,
+  "two gen" = 4,
+  "three gen" = 5,
+  "four gen" = 6)
+
+# generational typology - expanded with lone status
+
+ds.mmbr %>% 
+  as.data.frame() %>% 
+  group_by(hh.id) %>% 
+  mutate(hh.type.gen.lone = 
+           ifelse(hh.type.gen == "single person", 1,
+                  ifelse(hh.type.gen == "skipped" & 
+                           lone.resp.net == "lone", 2, 
+                         ifelse(hh.type.gen == "skipped" & 
+                                  lone.resp.net == "not lone" , 3,
+                                ifelse(hh.type.gen == "one gen" & 
+                                         lone.resp.net == "lone" , 4,
+                                       ifelse(hh.type.gen == "one gen" & 
+                                                lone.resp.net == "not lone" , 5,
+                                              ifelse(hh.type.gen == "two gen" & 
+                                                       lone.resp.net == "lone" , 6, 
+                                                     ifelse(hh.type.gen == "two gen" & 
+                                                              lone.resp.net == "not lone" , 7, 
+                                                            ifelse(hh.type.gen %in% c("three gen", "four gen") & 
+                                                                     lone.resp.net == "lone" , 8,9))))))))) %>% 
+  pull(hh.type.gen.lone) %>% 
+  as.item() ->  ds.mmbr$hh.type.gen.lone
+
+description(ds.mmbr$hh.type.gen.lone) <- "Generation based household typology - expanded"
+measurement(ds.mmbr$hh.type.gen.lone) <- "nominal"
+annotation(ds.mmbr$hh.type.gen.lone)["flag"] <- "Deriv."
+annotation(ds.mmbr$hh.type.gen.lone)["origin"] <- "recode from hh.type.gen and lone.resp.net"
+labels(ds.mmbr$hh.type.gen.lone) <- c(
+  "single person"        =  1,
+  "skipped - lone"    =   2,
+  "skipped"    =   3,
+  "one gen - lone" =4,
+  "one gen" = 5,
+  "two gen - lone" = 6,
+  "two gen" = 7,
+  "three+ gen - lone" = 8,
+  "three+ gen" = 9)
+
+## 2.6 re-join household typologies to household dataset
+
+ds.hohh<- merge(ds.hohh, subset(ds.mmbr, n4 == 1))
+ 
 
 
 ## 3. add hh ids to the plots #################################################
 ###############################################################################
 ## 3.4. add household id and member id ########################################
 ds.plot <- ds.4
+colz <- c("commune", "hhcode", "hh.id")
+colz <- which(names(ds.hohh) %in% colz)
 ds.plot$hh.id <- as.item(left_join(as.data.frame(ds.plot), 
-                                   as.data.frame(ds.hohh[c(3,5,6)]))$hh.id)
+                                   as.data.frame(ds.hohh[colz]))$hh.id)
+
 description(ds.plot$hh.id) <- "Household ID - unique"
 measurement(ds.plot$hh.id) <- "interval"
 annotation(ds.plot$hh.id)["flag"] <- "Deriv."
@@ -554,6 +601,7 @@ annotation(ds.plot$hh.id)["origin"] <- "nrows"
 ds.plot <- FunSwap(ds=ds.plot, New = "hh.id", After =  "hhcode")
 description(ds.plot$plot) <- "Plot code within hh"
 annotation(ds.plot$plot) <- annotation(ds.plot$plot)[c(3,1,2)]
+
 # add back province 
 ds.plot$province <- memisc::recode(ds.plot$commune,   
                                    "Thai Binh" = 1 <- c(111, 112, 121, 122),
