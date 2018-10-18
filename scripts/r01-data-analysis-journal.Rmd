@@ -424,6 +424,36 @@ OK, so do the following checks:
 
 11. And there is no variation!? I should probably do a full cut through all the variables and pick out the ones that are interesting.. 
 
+12. Also i don't need the 'total' in the chart, should get rid of it.. 
+ 
+# Thursday 18.10.2018
+
+1. OK, let's get rid of the total in the charts - need to add an option to the functions. 
+
+2. Added logical argument `total`.
+
+3. The bivariate distributions instead of doing them one by one do them as a loop. 
+
+4. All the bivariates should actually be only women over 50!
+
+5. Have a look at the bivariate distributions if any look interesting.
+
+6. Aah, but the problem are interval variables.. I kinda skipped on that...
+
+6. OK, so first add functionality for more than two categories in teh grouping variable. 
+
+7. OK, FunInterval works, even when you have categories with zero cases.
+
+8. OK, boxplot/violin plots without total also work. They don't have width though. 
+
+9. Now add a Top funciton to check the measurement type of each variable.
+
+10. Oh man, variable 266 (n1) is interval because of some math i was doing with it and it wouldn't sum up otherwise, but now that's causing problems here. but doesn't matter really - i mean everyone is 1-respondent. so i can just throw it out actually. 
+
+11. But there is another one, skipped generation that has everyone in a category have the same result. Oh, but they should be nominal, not interval 
+
+12. There seem to be some nuclear households with more than two generations, that's not cool. 
+#
 
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..

@@ -61,18 +61,19 @@ Structure:
 
 1. I first set out the basic and expanded typologies, giving their definitions and the summary descriptions.
 
-2. I then selected a small selection of the 250 plus survey variables to examine the patterns exhibited by these selected typologies, since it would be a thousand pages of material otherwise. 
+2. I then selected a small selection of the 250 plus survey variables to show the patterns exhibited by these selected typologies, since it would be a thousand pages of material otherwise. Also most of them do not really exhibit much of a pattern anyway. 
 
 3. The Appendix has the definitions and summaries of a series of simple derived variables that were required for the typologies and are interesting in their own right. 
 
 All summary descriptions are given for both (i) the full survey sample and for (ii) the sub-sample of women over 50. Due to uncertainties surrounding the sampling design of the survey, only the second sub-sample should be used, both are presented here only for comparison purposes. 
 
-If required I could also do most of these summaries on the 2009 census sample, which would allow for a comparison of our sample with the population as a whole (or perhaps just the relevant provinces). 
+If required I could also do most of these summaries on the 2009 Vientam census sample, which would allow for a comparison of our sample with the population as a whole (or perhaps just the relevant provinces).[^4]
 
+[^4]: Also, I could quite easily repeat this for our Myanmar survey, which should be an interesting comparison. 
 Feel free to:
 
 * suggest another way of classifying households
-* select topics or questions where you are interested in the differences between different household types. 
+* select topics or questions where you are interested in the differences between different household types like the examples given in section 3.  
 
 # Household typologies
 
@@ -175,7 +176,7 @@ rm(x)
 At the top level this classification has six main types: 
 
 1. *One person household*—A single person living alone. This is defined the same in both typologies presented here.
-2. *One generation household*—at least one more person of the same age group as the head Usually a spouse, but can also be sibling etc.
+2. *One generation household*—at least one more person of the same age group as the head, usually a spouse, but can also be sibling etc.
 3. *Two generation household*—at least one more person one generation younger/older than the head. Usually child(ren), can also be parent etc. 
 4. *Three generation household*—at least two more persons of different generations than the head and each other (but without skipping generations).
 5. *Four or more generation household*—at least three persons of different generations than the head and each other (but without skipping generations).
@@ -260,76 +261,81 @@ mtext(side = 3, "Generation typology expanded- women over 50")
 rm(x)
 ```
 
+## How do the family and generation based classifications relate?
+
+This is just a quick visual aid explaining how the two main types of classificaiton relate to eachother. The family-based typology is represented in the bars and the colours are the generation-based classification. 
+
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 8, fig.width = 8}
+
+FunNominalBarplot(i = 283, 
+                   tab = ds.hohh.w.50,
+                   group.by = "hh.type.fam.lone", 7, total = FALSE)
+```
 
 # Example of use of these four typologies 
 
+The following demontstrates the four typologies using the **women over 50 subsample**. I did not include the tables with frequencies or proportions to keep it simple. Due to the sheer amount of data I only picked six variables and repeated the graphs for all four classification to give you an impression of what it looks like. I did actually look through all of them, and most of the rest shows less variation. 
+
+
 ## Family-based classification (four-way)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
-FunNominalBarplot(i = c(17), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam", 6)
 
-FunNominalBarplot(i = c(18), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam", 6)
+varz <- c(17, 18, 19, 96, 100, 139)
+for (var in varz) {
+FunTopHH.type(var, 
+                  tab = ds.hohh.w.50,
+                  group.by = "hh.type.fam", total = FALSE)
+}
 
-FunNominalBarplot(i = c(19), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam", 6)
 ```
 
 ## Family-based classification (extended)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
-FunNominalBarplot(i = c(17), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam.lone", 6)
 
-FunNominalBarplot(i = c(18), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam.lone", 6)
+varz <- c(17, 18, 19, 96, 100, 139)
+for (var in varz) {
+FunTopHH.type(var, 
+                  tab = ds.hohh.w.50,
+                  group.by = "hh.type.fam.lone", total = FALSE)
+}
 
-FunNominalBarplot(i = c(19), 
-       tab = ds.hohh,
-       group.by = "hh.type.fam.lone", 6)
 ```
+
 
 ## Generation-based classification (simple)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
-FunNominalBarplot(i = c(17), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen", 6)
 
-FunNominalBarplot(i = c(18), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen", 6)
+varz <- c(17, 18, 19, 96, 100, 139)
+for (var in varz) {
+FunTopHH.type(var, 
+                  tab = ds.hohh.w.50,
+                  group.by = "hh.type.gen", total = FALSE)
+}
 
-FunNominalBarplot(i = c(19), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen", 6)
 ```
 
 ## Generation-based classification (extended)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
-FunNominalBarplot(i = c(17), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen.lone", 6)
 
-FunNominalBarplot(i = c(18), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen.lone", 6)
+varz <- c(17, 18, 19, 96, 100, 139)
+for (var in varz) {
+FunTopHH.type(var, 
+                  tab = ds.hohh.w.50,
+                  group.by = "hh.type.gen.lone", total = FALSE)
+}
 
-FunNominalBarplot(i = c(19), 
-       tab = ds.hohh,
-       group.by = "hh.type.gen.lone", 6)
 ```
+
+
+
 #  Appendix: Available and derived variables of interest {-}
 
 The following variables are available in the dataset or were derived in order to facilitate the identification of household types:
@@ -534,15 +540,15 @@ ds.mmbr%>%
   group_by(hh.id) %>% 
   summarise(skipped = first(skipped.gen)) %>% 
   ungroup() %>% 
-  summarise(skip = sum(skipped)) %>% 
-  pull() -> skip.all
+  filter(skipped == "Skipped generation") %>% 
+  nrow() -> skip.all
 ds.mmbr.w.50 %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
   summarise(skipped = first(skipped.gen)) %>% 
   ungroup() %>% 
-  summarise(skip = sum(skipped)) %>% 
-  pull() -> skip.w.50
+  filter(skipped == "Skipped generation") %>% 
+  nrow() ->  skip.w.50
 ```
 
 There is only a small difference in the proportion of households with skipped generations between the full sample and the women over 50 sample - `r 100*round(mean(ds.hh.sums$skipped.gen), 2)` \% vs `r 100* round(mean(ds.hh.sums.w.50$skipped.gen),2)` \%. In the whole sample there are `r skip.all` households with skipped generations, and in the women over 50 sample there are `r skip.w.50`
@@ -582,15 +588,15 @@ ds.mmbr%>%
   group_by(hh.id) %>% 
   summarise(skipped = first(skipped.gen.net)) %>% 
   ungroup() %>% 
-  summarise(skip = sum(skipped)) %>% 
-  pull() -> skip.all.net
+  filter(skipped == "Skipped generation") %>% 
+  nrow() -> skip.all.net
 ds.mmbr.w.50 %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
   summarise(skipped = first(skipped.gen.net)) %>% 
   ungroup() %>% 
-  summarise(skip = sum(skipped)) %>% 
-  pull() -> skip.w.50.net
+  filter(skipped == "Skipped generation") %>% 
+  nrow()  -> skip.w.50.net
 ```
 
 As we might expect, if we remove the household members who are absent from the samples, the number of households with skipped generations increases: Now there are 4.83 \% in the entire sample and 4.65 \% in the women only, corresponding to `r skip.all.net` and `r skip.w.50.net` households respectively. Since the idea of a skipped generation household only makes sense with respect to the people actually living in the household it is this variable, net of migrant household members, that is used in the classification of households. 

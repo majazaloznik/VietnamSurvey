@@ -34,19 +34,20 @@ FunSwap <- function(ds , New, After) {# only use to move back!!
 ## univariate and by province;
 ###############################################################################
 
-FunNominal <- function(i, tab, group.by) {
+FunNominal <- function(i, tab, group.by, total = TRUE) {
   tab <- as.data.frame(tab,stringsAsFactors = FALSE)
   var <- tab[[i]]
-  x <-  cbind(Total = table(var),
-              table(var ,tab[,group.by]))
+  if (total) {x <-  cbind(Total = table(var),
+                          table(var ,tab[,group.by])) } else {
+                            x <- table(var ,tab[,group.by])}
   if (!is.null(rownames(x)))  rownames(x)[rownames(x) == "101"] <- "Missing"
   x <- prop.table(x, 2)*100
   x[is.nan(x)] <- 0
   x
 }
 
-FunNominalTable <- function(i, tab, group.by){
-  kable(FunNominal(i, tab, group.by), digits = 2, booktabs = TRUE, padding = 10)
+FunNominalTable <- function(i, tab, group.by, total = TRUE){
+  kable(FunNominal(i, tab, group.by, total), digits = 2, booktabs = TRUE, padding = 10)
 }
 
 
@@ -55,14 +56,17 @@ FunNominalTable <- function(i, tab, group.by){
 ## univariate and by province;
 ###############################################################################
 
-FunNominalBarplot <- function(i, tab, group.by, left = 5){
+FunNominalBarplot <- function(i, tab, group.by, left = 5, total = TRUE){
   tab <- as.data.frame(tab,stringsAsFactors = FALSE)
   var <- tab[[i]]
-  x <- FunNominal(i, tab, group.by)
+  x <- FunNominal(i, tab, group.by, total)
   nr <- min(nrow(x)+3, 15)
-  w <-  c(sum(table(tab[,group.by])), table(tab[,group.by]))
+  if (total) {w <-  c(sum(table(tab[,group.by])), table(tab[,group.by]))
+  sp <- c(.5,.5, rep(.1, length(w)-2))  } else {
+    w <-   table(tab[,group.by])
+    sp <- .1}
   par(mar = c(nr,left,1,1), xpd = TRUE)
-  barplot(x, width = w, space = c(.5,.5, rep(.1, length(w)-2)),
+  barplot(x, width = w, space = sp,
           horiz = TRUE,
           las=2,
           col = colorRampPalette(brewer.pal(11, "PiYG"))(nrow(x)),
@@ -76,21 +80,20 @@ FunNominalBarplot <- function(i, tab, group.by, left = 5){
 ## univariate and by province;
 ###############################################################################
 
-FunInterval<- function(i, tab, group.by){
+FunInterval<- function(i, tab, group.by, total = TRUE){
   tab <- as.data.frame(tab,stringsAsFactors = FALSE)
   var <- tab[[i]]
   group.summary <- tapply(var,tab[,group.by], summary)
-  length(group.summary[[1]])<- max(sapply(group.summary, length))
-  length(group.summary[[2]])<- max(sapply(group.summary, length))
-  x <- cbind(Total = summary(var),
-             group.summary[[1]],
-             group.summary[[2]])
-  colnames(x)[-1] <- names(group.summary)
+  # add lenght to missing categories (NULL)
+  group.summary <- lapply(group.summary, function(x) if(length(x) == 0){ NA} else{ x})
+  x <- sapply(group.summary, '[', seq(max(sapply(group.summary,length))))
+  if(total){x <- cbind(Total = summary(var), x)
+  colnames(x)[-1] <- names(group.summary)} 
   x
 }
 
-FunIntervalTable<- function(i, tab, group.by){
-  kable(FunInterval(i, tab, group.by), digits = 2, booktabs = TRUE, padding = 10)
+FunIntervalTable<- function(i, tab, group.by, total = TRUE){
+  kable(FunInterval(i, tab, group.by, total), digits = 2, booktabs = TRUE, padding = 10)
 }
 
 ## 3.2  Interval variables - Boxplot
@@ -99,18 +102,28 @@ FunIntervalTable<- function(i, tab, group.by){
 ###############################################################################
 
 
-FunIntervalBoxplot <- function(i, tab, group.by) {
+FunIntervalBoxplot <- function(i, tab, group.by, total = TRUE) {
   tab <- as.data.frame(tab,stringsAsFactors = FALSE)
   var <- tab[[i]]
   par(mar = c(5,3,1,1), xpd = TRUE)
-  par(mfrow = c(1,2))
-  if (!all(is.missing(var))) FunVioplot(list(as.vector(var[!is.missing(var)])), col = "rosybrown1", names = "Total")
-  two <- split(as.vector(var[!is.missing(var)]), tab[,group.by][!is.missing(var)])
-  
-  two.non.missing <- two[!sapply(two, function(x) length(x))==0]
-  two.non.missing.names <- names(two)[!sapply(two, function(x) length(x))==0]
-  
-  if (length(two.non.missing) != 0) FunVioplot(two.non.missing, col = "papayawhip", names = two.non.missing.names)
+  if(total){
+    par(mfrow = c(1,2))
+    if (!all(is.missing(var))) FunVioplot(list(as.vector(var[!is.missing(var)])), col = "rosybrown1", names = "Total")
+      two <- split(as.vector(var[!is.missing(var)]), tab[,group.by][!is.missing(var)])
+      
+      two.non.missing <- two[!sapply(two, function(x) length(x))==0]
+      two.non.missing.names <- names(two)[!sapply(two, function(x) length(x))==0]
+      
+      if (length(two.non.missing) != 0) FunVioplot(two.non.missing, col = "papayawhip", names = two.non.missing.names)
+    } else {
+      par(mfrow = c(1,1))
+      two <- split(as.vector(var[!is.missing(var)]), tab[,group.by][!is.missing(var)])
+      
+      two.non.missing <- two[!sapply(two, function(x) length(x))==0]
+      two.non.missing.names <- names(two)[!sapply(two, function(x) length(x))==0]
+      
+      if (length(two.non.missing) != 0) FunVioplot(two.non.missing, col = "papayawhip", names = two.non.missing.names)
+    }
   
   par(mfrow = c(1,1))
 }
@@ -226,6 +239,24 @@ FunTopM.C <- function(i, group.by = ds.mmbr$province){
       FunIntervalBoxplot(var, group.by = group.by)}
   cat("  \n")
 }
+
+## 7.1 consolidate title and plot funcitons for household typology plots
+###############################################################################
+
+FunTopHH.type <- function(i, tab = ds.hohh.w.50,
+                          group.by = "hh.type.gen.lone", total = TRUE){
+  cat("  \n")
+  cat(i, "---", colnames(tab[i]), "--", sep = "")
+  cat(description(tab[[i]])) 
+  cat("  \n")
+  var <- tab[[i]]
+  if (measurement(var) == "nominal") {
+    FunNominalBarplot(i, tab, group.by, 6, total = FALSE)} else {
+      FunIntervalBoxplot(i, tab, group.by, total = FALSE)}
+  cat("  \n")
+}
+
+
 
 ## 8 My vioplot
 FunVioplot <- function(x, range = 1.5, h = NULL, ylim = NULL, names = NULL, 

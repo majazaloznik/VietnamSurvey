@@ -399,11 +399,11 @@ ds.mmbr %>%
   as.item() -> ds.mmbr$skipped.gen
 
 description(ds.mmbr$skipped.gen) <- "Whether or not there is a skipped generation in the household"
-measurement(ds.mmbr$skipped.gen) <- "interval"
+measurement(ds.mmbr$skipped.gen) <- "nominal"
 annotation(ds.mmbr$skipped.gen)["flag"] <- "Deriv."
 annotation(ds.mmbr$skipped.gen)["origin"] <- "recode from gen and hh.id and gen"
 labels(ds.mmbr$skipped.gen) <- c(
-  "Skipped gen"        =  1,
+  "Skipped generation"        =  1,
   "No skipped gen"=  0)
 
 # skipped.gen.net - whether or not a generation is skipped in the household net of migrants
@@ -416,7 +416,7 @@ ds.mmbr %>%
   as.item() -> ds.mmbr$skipped.gen.net
 
 description(ds.mmbr$skipped.gen.net) <- "Whether or not there is a skipped generation in the household net of mirgants"
-measurement(ds.mmbr$skipped.gen.net) <- "interval"
+measurement(ds.mmbr$skipped.gen.net) <- "nominal"
 annotation(ds.mmbr$skipped.gen.net)["flag"] <- "Deriv."
 annotation(ds.mmbr$skipped.gen.net)["origin"] <- "recode from gen and hh.id and gen and n1"
 labels(ds.mmbr$skipped.gen.net) <- c(
@@ -520,11 +520,8 @@ labels(ds.mmbr$hh.type.fam.lone) <- c(
 ds.mmbr %>% 
   as.data.frame() %>% 
   group_by(hh.id) %>% 
-  mutate(hh.type.gen =  factor(ifelse(hh.size.net == 1, 1,
-                                      ifelse(skipped.gen.net == 1, 2, n.gen.net+2 )), 
-                               levels = 1:6, 
-                               labels = c("single", "skipped", "one gen", 
-                                          "two gen", "three gen", "four gen"))) %>% 
+  mutate(hh.type.gen = ifelse(hh.size.net == 1, 1,
+                                      ifelse(skipped.gen.net == "Skipped generation", 2, n.gen.net+2 )))%>% 
   pull(hh.type.gen) %>% 
   as.item() ->  ds.mmbr$hh.type.gen
 
@@ -581,7 +578,7 @@ labels(ds.mmbr$hh.type.gen.lone) <- c(
 
 ## 2.6 re-join household typologies to household dataset
 
-ds.hohh<- merge(ds.hohh, subset(ds.mmbr, n4 == 1))
+ds.hohh<- merge(ds.hohh, subset(ds.mmbr, n4 == 1, select = -c(n1, gen)))
  
 
 
