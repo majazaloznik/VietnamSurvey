@@ -9,6 +9,8 @@ toc: yes
 toc_depth: 3
 html_document: default
 bibliography: "../misc/vn-lit.bib"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
 ---
   
 ```{r "setup", include=FALSE}
@@ -450,10 +452,43 @@ OK, so do the following checks:
 
 10. Oh man, variable 266 (n1) is interval because of some math i was doing with it and it wouldn't sum up otherwise, but now that's causing problems here. but doesn't matter really - i mean everyone is 1-respondent. so i can just throw it out actually. 
 
-11. But there is another one, skipped generation that has everyone in a category have the same result. Oh, but they should be nominal, not interval 
+11. But there is another one, skipped generation that has everyone in a category have the same result. Oh, but they should be nominal, not interval..
 
-12. There seem to be some nuclear households with more than two generations, that's not cool. 
-#
+12. There seem to be some nuclear households with more than two generations, that's not cool. Ah, it's fine, they're the migrants. 
+
+13. 281 by 283 - the two big classificaitons can be crosstabulated nicely. 
+
+14. oops, i lost the skipped households?! Man, that was because of the nominal variables... 
+
+15. One generation ignores NAs, maybe that's not great. 
+
+
+# Friday 19.10.2018
+
+1. OK, figure out how to properly account for the NA generations. Because there are also NA relationships actually. Should I remove them? Add other (non-relative?) 
+
+2. Do I add errata? 
+
+3. Re missing generations. These are due to house servant, other relatives or missing due to input error. In total 8 household members are such, affecting eight households. Change
+
+4. Write errata for the changes already made. 
+
+5. OK, now all i am missing are the non married spouses. This is an errata issue I can deal with later, it does not affect the household typology, which seems to be done now.
+
+6. Ok, household typology report done and sent off
+
+7. Unmarried spouses?
+
+8. Generations: In order to find out the number of generations in each household the relative generation has to be ascertained from the relationship (`n4`). We have a total of 8 household members in 8 households who are coded as *other relatives*, *house servants* or have a missing relationship code. In these 8 cases a judgment was made manually as tho which generation they are in relative to the respondent using their year of birth as additional information. In two cases the age difference was over 20 years, so a different generation was assigned, while in the other six cases the remaining household structure was such, that it didn't matter what these members were assigned.
+
+The two cases are: 
+
+`hh.id == 319 & hh.member.id ==1145`---`gen= "0" <- "-1"`
+
+`hh.id == 69 & hh.member.id == 222`---`gen = "0" <- "-1"`
+
+9. Written up 'errata' - although I have temporarily changed them as I expect they should be, I will wait for Long's reply and then George's decision.
+
 
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..

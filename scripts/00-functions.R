@@ -245,7 +245,6 @@ FunTopM.C <- function(i, group.by = ds.mmbr$province){
 
 FunTopHH.type <- function(i, tab = ds.hohh.w.50,
                           group.by = "hh.type.gen.lone", total = TRUE){
-  cat("  \n")
   cat(i, "---", colnames(tab[i]), "--", sep = "")
   cat(description(tab[[i]])) 
   cat("  \n")
@@ -253,7 +252,6 @@ FunTopHH.type <- function(i, tab = ds.hohh.w.50,
   if (measurement(var) == "nominal") {
     FunNominalBarplot(i, tab, group.by, 6, total = FALSE)} else {
       FunIntervalBoxplot(i, tab, group.by, total = FALSE)}
-  cat("  \n")
 }
 
 

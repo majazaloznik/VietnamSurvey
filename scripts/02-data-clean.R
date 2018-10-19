@@ -307,8 +307,10 @@ ds.mmbr$province <- memisc::recode(ds.mmbr$commune,
 
 ## additional errors fixed 5.10. (see x1-data-checking-additional for reasons)
 ds.mmbr$n4[ds.mmbr$hh.member.id == 99] <- 1 # "Respondent"
-ds.mmbr$n4[ds.mmbr$hh.member.id == 115] <- 3 #"Son"
+ds.mmbr$n4[ds.mmbr$hh.member.id == 116] <- 3 #"Son"
 ds.mmbr$n4[ds.mmbr$hh.member.id == 370] <- 1 # "Respondent"
+ds.mmbr$n4[ds.mmbr$hh.member.id == 1024] <- 3 # "Son"
+ds.hohh$a3[ds.hohh$hh.id == 290] <- 2 # "Married" 
 
 # add married respondent variable
 ds.mmbr$n8 <- ds.hohh$n7[match(ds.mmbr$hh.id, ds.hohh$hh.id)]  
@@ -358,6 +360,11 @@ ds.mmbr$gen <- memisc::recode(ds.mmbr$n4,
                               2 <- 10,
                               0 <- 11,
                               otherwise = NA)
+
+# two manual changes of generation to -1 instead of NA
+ds.mmbr[ds.mmbr$hh.id == 319 & ds.mmbr$mcode == 3,]$gen  <- -1
+ds.mmbr[ds.mmbr$hh.id == 69 & ds.mmbr$mcode == 3,]$gen  <- -1
+
 description(ds.mmbr$gen) <- "Generation relative to respondent"
 measurement(ds.mmbr$gen) <- "interval"
 annotation(ds.mmbr$gen)["flag"] <- "Deriv."

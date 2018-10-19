@@ -67,9 +67,10 @@ Structure:
 
 All summary descriptions are given for both (i) the full survey sample and for (ii) the sub-sample of women over 50. Due to uncertainties surrounding the sampling design of the survey, only the second sub-sample should be used, both are presented here only for comparison purposes. 
 
-If required I could also do most of these summaries on the 2009 Vientam census sample, which would allow for a comparison of our sample with the population as a whole (or perhaps just the relevant provinces).[^4]
+If required I could also do most of these summaries on the 2009 Vietnam census sample, which would allow for a comparison of our sample with the population as a whole (or perhaps just the relevant provinces).[^4]
 
 [^4]: Also, I could quite easily repeat this for our Myanmar survey, which should be an interesting comparison. 
+
 Feel free to:
 
 * suggest another way of classifying households
@@ -137,10 +138,10 @@ rm(x)
 
 One way to expand on the original family-based classification is to distinguish whether or not the respondent has a spouse in the household or not. This is done by checking if anyone with the code *2-Spouse* is in the household and if not designating the respondent as *lone*. In combination with the family based classification this gives us seven categories now as nuclear, composite and extended can be headed by a lone or non-lone respondent. 
 
-As can be seen fro the frequency distribution in the table, almost all the lone head of household households are headed by women over 50 (due to sampling issues do not generalise this!). This pattern can also be seen looking at the percentage distribution: women have higer proportions if single person, nuclear lone and extended lone households than the full sample. 
+As can be seen from the frequency distribution in the table, almost all the lone head of household households are headed by women over 50 (due to sampling issues do not generalise this!). This pattern can also be seen looking at the percentage distribution: women have higher proportions if single person, nuclear lone and extended lone households than the full sample. 
 
 
-**Table and Figure:** Distribution of households of each *expanded family-based classification* type (frequencies and perncentages)
+**Table and Figure:** Distribution of households of each *expanded family-based classification* type (frequencies and percentages)
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4, fig.width = 8}
 
@@ -263,7 +264,8 @@ rm(x)
 
 ## How do the family and generation based classifications relate?
 
-This is just a quick visual aid explaining how the two main types of classificaiton relate to eachother. The family-based typology is represented in the bars and the colours are the generation-based classification. 
+This is just a quick visual aid explaining how the two main types of classification relate to each other. The family-based typology is represented in the bars and the colours are the generation-based classification. We can see for example that skipped generation households (light and medium pink) are more likely in extended households led by a lone respondent than in extended households with a married respondent. Lone headed extended households are also more likely to be three or more generational (84 %) compared to 75 % if the respondent has a partner. 
+
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 8, fig.width = 8}
 
@@ -274,12 +276,12 @@ FunNominalBarplot(i = 283,
 
 # Example of use of these four typologies 
 
-The following demontstrates the four typologies using the **women over 50 subsample**. I did not include the tables with frequencies or proportions to keep it simple. Due to the sheer amount of data I only picked six variables and repeated the graphs for all four classification to give you an impression of what it looks like. I did actually look through all of them, and most of the rest shows less variation. 
+The following demonstrates the four typologies using the **women over 50 subsample**. I did not include the tables with frequencies or proportions to keep it simple. Due to the sheer amount of data I only picked six variables and repeated the graphs for all four classification to give you an impression of what it looks like. I did actually look through all of them, and most of the rest shows less variation. 
 
 
 ## Family-based classification (four-way)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4.8, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
 
 varz <- c(17, 18, 19, 96, 100, 139)
@@ -293,7 +295,7 @@ FunTopHH.type(var,
 
 ## Family-based classification (extended)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4.8, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
 
 varz <- c(17, 18, 19, 96, 100, 139)
@@ -308,7 +310,7 @@ FunTopHH.type(var,
 
 ## Generation-based classification (simple)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4.8, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
 
 varz <- c(17, 18, 19, 96, 100, 139)
@@ -322,7 +324,7 @@ FunTopHH.type(var,
 
 ## Generation-based classification (extended)
 
-```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 5, fig.width = 8, results='asis'}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.height = 4.8, fig.width = 8, results='asis'}
 par(mfrow = c(1,1))
 
 varz <- c(17, 18, 19, 96, 100, 139)
@@ -440,6 +442,8 @@ mtext(side = 3, "Household size - women over 50 (net)")
 
 The respondent is categorized as generation 0, as are their spouse and siblings. Children are coded as 1, grandchildren as 2 etc. [^2]. 
 
+Furthermore we have a total of 8 household members in 8 households who are coded as *other relatives*, *house servants* or have a missing relationship code. In these 8 cases a judgement was made manually as to which generation they are in relative to the respondent using their year of birth as additional information. In two cases the age difference was over 20 years, so a different generation was assigned, while in the other six cases the remaining household structure was such, that it didn't matter what these members were assigned. 
+ 
 This is an odd variable to interpret as an average, but the larger it is, the more the sample tends towards younger generations. It is larger for the female headed households (.82 vs .70) and from the plots it looks like this is mainly to do with there being fewer people in the same generation (0), most likely spouses. 
 
 
@@ -696,7 +700,7 @@ mtext(side = 3, "Single respondent household - women over 50 (net)")
 
 [^1]: It is not precisely clear to what extent these households can be said to be *headed* by these women, rather they were selected to be the respondents in this survey as they had the most knowledge or were most involved in the decision-making when it came to farming. But for simplicity I refer to them as female headed in the rest of this write up. 
 
-[^2]: In fact we have one category for *(Great)grandchildren*, so we cannot distinguish between a level 2 and level 3 unfortunately. Furthermore *other relatives* and *house servants* are coded as missing, as generational classification is more salient between relatives. 
+[^2]: In fact we have one category for *(Great)grandchildren*, so we cannot distinguish between a level 2 and level 3 unfortunately.
 
 [^3]: All of the household classifications are calculated based on the household net of migrants.
 

@@ -76,3 +76,9 @@ nrow(ds.mmbr.w.50[ds.mmbr.w.50$n1 == 1 & ds.mmbr.w.50$n4 != 1,])
 nrow(ds.mmbr.w.50[ds.mmbr.w.50$n1 == 2 & ds.mmbr.w.50$n4 != 1,])
 nrow(ds.mmbr.w.50[ds.mmbr.w.50$n1 == 2 & ds.mmbr.w.50$n4 == 1,])
 
+
+
+# What about households with spouses but the respondent is not married?
+
+x <- left_join(as.data.frame(ds.mmbr[,c(3,5,8:9)]), as.data.frame(ds.hohh[,c(4,12)]))
+subset(x, a3 !="Married"& n4 == "Spouse")
