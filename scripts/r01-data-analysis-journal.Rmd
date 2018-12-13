@@ -489,6 +489,24 @@ The two cases are:
 
 9. Written up 'errata' - although I have temporarily changed them as I expect they should be, I will wait for Long's reply and then George's decision.
 
+# Tuesday 11.12.2018
+
+Start working on introduction for papers as requested by SH:
+
+1.introduce the area
+2 describe the different methods plus the analysis of each 
+3 give a basic data description of the survey material
+
+The report is called `09-background.Rmd` and will be presented in pdf and docx. 
+
+
+# Thursday 13.12.2018
+
+Well, I've certainly done fa in the past few days.. 
+
+1. Bloody hell, again spent way too much time writing a table that compiled to word... using flextable this time, required i upgrade to pandoc > 2... 
+
+2. After compiling to word i think you need to manually update the table of contents. 
 
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..

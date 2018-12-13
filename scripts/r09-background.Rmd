@@ -1,0 +1,152 @@
+---
+title: "Vietnam FoF Background"
+author: "mz---12.12.18"
+html_document: default
+output:
+  word_document:
+    reference_docx: ../misc/style.docx
+  number_sections: yes
+  pdf_document:
+bibliography: ../misc/vn-lit.bib
+toc: yes
+toc_depth: 3
+---
+
+
+# Introduction
+
+The goal of the Vietnam Future of Food research project was to explore the impact of the changing age and gender structure of smallholders on food production in the context of changing climatic circumstances, specifically how it affects the farmers’ decision-making process with regard to pest management in conditions of uncertainty. In addition to gender, age, education, and socio-economic characteristics, other relevant drivers and opportunities that shape farmers’ decision-making include their past experience, social networks, government mandates, access to lending, labour availability, migration patterns, knowledge and training. 
+
+This document describes the primary data collection undertaken as part of this project in the North of Vietnam
+
+* Focus group discussions with 228 smallholder rice farmers that took place in August and September of 2015; 
+* A survey of 413 households actively engaged in farming activities, that took place in December of 2016.
+
+# Focus Groups
+
+## Organization 
+
+### Partners and roles
+
+The Vietnamese Association of the Elderly (VAE) is one of the largest *mass organizations* in the country[^1]. Established in 1995 it has over 8.3 million members (out of approx 9.4 million elderly in the country). Eligibility is at age 60 for men and 55 for women. Most importantly for our purposes: the organization has chapters at all levels of the Vietnamese administrative hierarchy: all provinces, districts and communes, which at the lowest level means over 11,000 branches. 
+
+[^1]:The main mass organizations are the *Labour Union*, *Women's Union*, *Farmer's Union*, *Youth Union* and *Veteran Union*, which are all joined under the umbrella organization *The Vietnamese Fatherland Front* These organizations go beyond being civil society organizations, as they are funded by the state and given certain political responsibilities. The VAE is similar in structure and size to the them, albeit it's political power is lesser, but it is also considered more independent from the Party.
+
+The VAE provided administrative support in organizing the appropriate visas and research permits to conduct the research as well as the organizational and logistical support in carrying it out in the field. Their involvment meant our work was officially sanctioned and local level authorities allowed the fieldwork to progress without any interference. Additionally the organizational structure of the VAE meant that at the local level there were easily contactable officials to help with the organization and participant selection. It also meant we were granted free access to facilities within the commune administrative complex where the focus groups could be held. 
+
+At the local level the Vietnamese Farmers' Union (VFU) was our second partner in organizing the fieldwork. This was necessary due to the requirement for half the focus group participants to not be *elderly*, making the VFU the natural choice. As with the VAE, the VFU is a mass organization, one that additionally has a political standing in Vietnam, but for our purposes the important aspects are the same as above: membership with almost complete coverage (over 10,000,000 members) and local branches at all levels of the administrative hierarchy. The cooperation with the VFU local level branches was coordinated via the VAE. 
+
+Two members of the VAE International Relations Department alternated as research assistants and focus group facilitators and an interpreter was engaged to translate during the FGDs. The research assistants were instrumental in the planning andt organization of the fieldwork as well as in the execution of the focus groups themselves. Both had had previous experience in running focus groups in similar settings, but were of course unfamiliar with the novel BBN framework used to conduct the discussions. The different skill levels of both assistants were one of the reasons the actual implenentation of the groups was adapted (see below in the Methodology section) and split into two different *styles*.
+
+
+### Implementation
+
+#### Focus group design
+The focus group design was based on three key variables deemed as relevant to the discussions as well as to obtain reasonable homogeneity of the groups: (i) age, (ii) gender and (iii) socio-economic status. The gender breaking variable is non-problematic and was straightforward to achieve. The age breaking point was based on the standard Vietnamese retirement age, which is 55 for women and 60 for men. People only become eligible for VAE membership after this age, although they may still remain members of the VFU. We additionally asked both organizations to attempt the following age distributions:
+
+* VAE: one or two participants over 75 years of age
+* VFU: half of the participants (four) under 40 years of age.
+
+However by and large however these two requirements were not met in practice see Figure for age distributions. 
+
+```{r, echo = FALSE}
+
+library(flextable)
+library(magrittr)
+tab <- data.frame(v1 = c("Deprived", "Not deprived"),
+                  v2 = c("over 60", "over 60"),
+                  v3 = c("over 55", "over 55"),
+                  v4 = c("under 60", "under 60"),
+                  v5 = c("under 55", "under 55"))
+tab <- regulartable(tab)
+tab <- set_header_labels(tab, v1 = "", v2 = "older men", v3 = "older women", v4 = "younger men", v5 = "younger women")
+tab
+
+```
+
+The final breaking variable was socio-economic status.  We label these groups *deprived* and *not deprived* although in practice it was difficult to see (as agreed by the Vietnamese research assistants as well) much difference between the groups[^2]. 
+
+[^2]: Vietnamese authorities define poor households based on income levels (currently set at 400,000 VND per person per month - approx £11.50 in rural areas); these classifications are used as official measures of eligibility for various programmes and are known to organizations such as the VAE and VFU. The VAE staff however suggested that there would not be enough participants if we split the groups based on this definition alone. Even including a second group labelled *near-poor* (currently set at 520,000 VND per person per month - approx £15.00) would still be difficult in their opinion, so they suggested adding a third group as well, described as *difficult life* - meaning their household situation was difficult although they did not technically qualify as being poor (older people living alone, having to take care of grandchildren etc.).
+
+A group size of eight was decided upon - on the one hand to avoid too large a number of participants rendering the discussion too difficult to manage, and at the same time given the uncertainty of the levels of attendance we also wanted to avoid too few people turning up. The discussions were scheduled to last up to 2.5 hours with a short break for refreshments in between.  
+
+This combination of eight groups described above was to be conducted in each of the four locations (communes).  This resulted in 32 scheduled focus groups based on the described design along with their locations, however only 31 were conducted, with the final one having to be cancelled due to too low attendance. 
+
+#### Participant recruitment
+
+The focus group design as described above was communicated to the local VAE and VFU chapters about two weeks in advance of the fieldwork commencing in each of the districts. It was understood that the organizations would contact and invite participants from within their membership based on the design requirements, fulfilling the main three criteria of age, gender and socio-economic categorization, except as already mentioned, for the age subgroups. It was however unclear, and impossible to establish, exactly how the sampling was in fact performed, beyond the description that the participants were selected from a memebership lists. 
+
+#### Consent
+
+All participants in the focus groups gave their consent, and it is my belief this consent was always informed. Participants were given an *Information sheet* describing the purpose of the research, the reasons for the focus groups and their participation and information about how their information will be used. Consent was obtained from all focus group participants at the start of each session after the facilitator gave the introduction.
+
+## Locations
+
+## Methodology
+
+The focus groups were designed to use Bayesian Belief Networs (BBNs) as the conceptual and strucutral framework of the data collection process. For more details of the focus group methodology can be found see Založnik et al. (2018). 
+
+The original plan was to build a BBN of all the relevant factors and their connections in each focus group, however the first set of FGDs made it clear clear that while the BBN method worked remarkably well in guiding and structuring the discussion, after a while it also became quite repetitive, since the network had to be built from scratch each time, which made it difficult to speed through topics that were sufficiently covered. Additionally there were concers about both reseach assistants beign equally skilled at this task. The decision was therefore made that in the second set of eight groups we would adapt the discussion framework to *elaborate on an existing BBN* instead of building a new one each time. These groups were in the same district, so it was not unreasonable to expect the general context would be similar enough to the first set of eight.
+
+### BBN-Building Focus Groups - from Založnik et al. 2018
+
+The research assistant was provided with a Focus Group Facilitator's Guide (see suplementary materials to Založnik et al. 2018). 
+
+> "The aim of the first stage of focus group discussions is to gain insight
+into the system as a whole, its most important determinants, and how these
+different factors connect causally. The BBN is built with the active partici-
+pation of the participants and represents their collectively negotiated under-
+standing of their environment. This is accomplished using a combination of
+magnetic cards and ribbon connections."
+
+>"The focus group facilitation guide listed suggested topics for discussion
+but made it clear that the list was not exhaustive and that the moderator
+should explore any new factors that emerged in the process (the guide we
+used in the field is provided as Supplementary Material). Instead a more
+abstract set of instructions was given, explaining how the discussion should
+be structured and simultaneously mapped onto the network being built in
+front of us. This involved two components: new topics or factors, which are
+represented by the magnetic cards, and how they influence each other or
+causal connections, which are represented by the ribbons."
+
+> "Each new factor that came up would be written on a card, trying to ensure
+it was a simple concept, clearly described, which served as a discussion point
+to ensure a common understanding of the factor was reached. The card then needed to be placed in relation to the existing factors allowing us to explore and discuss the nature of the connections. These represent the mechanisms of influence as the participants understand them
+and by interrogating the why and the how of these connections the card
+would be situated within the network context."
+
+### BBN-Elaborating Focus Groups - from Založnik et al. 2018 
+
+> "The aim of the second round of focus groups is to further elaborate the
+framework that was the consolidated outcome of the previous round. Having
+established a provisional network structure that is common to all of the different groups, the flexibility of the network is now secondary (although it
+is still amendable) and the moderator can focus more systematically on
+questioning how participants’ behavioral intentions are formed."
+
+ This existing BBN was printed on a large A0 poster and was presented in each group as the result of discussions with farmers in the previous commune, while at the same time making it immediately clear that it was not a *correct* model, and that it was open to debate and amendments. These were made with markers directly on to the posters, which were then photographed at the end of each session. 
+
+The BBNs used in this set of focus groups further distinguished between *behaviours* (printed in red) and factors may affect a behaviour or that are an outcome of a behaviour. Thus each behaviour was connected with at least one other factor - either an influencing factor (parent node) or outcome (child node). The framework for the focus group was grounded in the *Theory of planned behaviour* i.e. trying to elicit the (i) attitudes towards a certain behaviour (knowledge and understanding of the behaviour and it's impacts and utility of it's outcome), (ii) controls over a certain behaviour (what restricts or limits a behaviour and how much control does the person have over it) and (iii) subjective norms in the shape of perceived social norms to perform a certain behaviour. 
+
+
+## Outcomes
+
+## Constraints and other issues
+
+# Survey
+
+## Organization 
+
+### Partners 
+
+### Implementation
+
+## Locations
+
+## Methodology
+
+### Survey Design and Sampling
+
+## Outcomes
+
+## Constraints and other issues
+
