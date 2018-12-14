@@ -508,6 +508,13 @@ Well, I've certainly done fa in the past few days..
 
 2. After compiling to word i think you need to manually update the table of contents. 
 
+# Friday 14.12.2018
+
+1. Continue on the fgd material. 
+
+2. OK, that's sth, it only compiles to docx. now, because of flextable and because there are a few vietnamese characters in there..
+
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 

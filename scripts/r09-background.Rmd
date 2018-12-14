@@ -1,6 +1,6 @@
 ---
 title: "Vietnam FoF Background"
-author: "mz---12.12.18"
+author: "mz---14.12.18"
 html_document: default
 output:
   word_document:
@@ -32,11 +32,11 @@ The Vietnamese Association of the Elderly (VAE) is one of the largest *mass orga
 
 [^1]:The main mass organizations are the *Labour Union*, *Women's Union*, *Farmer's Union*, *Youth Union* and *Veteran Union*, which are all joined under the umbrella organization *The Vietnamese Fatherland Front* These organizations go beyond being civil society organizations, as they are funded by the state and given certain political responsibilities. The VAE is similar in structure and size to the them, albeit it's political power is lesser, but it is also considered more independent from the Party.
 
-The VAE provided administrative support in organizing the appropriate visas and research permits to conduct the research as well as the organizational and logistical support in carrying it out in the field. Their involvment meant our work was officially sanctioned and local level authorities allowed the fieldwork to progress without any interference. Additionally the organizational structure of the VAE meant that at the local level there were easily contactable officials to help with the organization and participant selection. It also meant we were granted free access to facilities within the commune administrative complex where the focus groups could be held. 
+The VAE provided administrative support in organizing the appropriate visas and research permits to conduct the research as well as the organizational and logistical support in carrying it out in the field. Their involvement meant our work was officially sanctioned and local level authorities allowed the fieldwork to progress without any interference. Additionally the organizational structure of the VAE meant that at the local level there were easily contactable officials to help with the organization and participant selection. It also meant we were granted free access to facilities within the commune administrative complex where the focus groups could be held. 
 
 At the local level the Vietnamese Farmers' Union (VFU) was our second partner in organizing the fieldwork. This was necessary due to the requirement for half the focus group participants to not be *elderly*, making the VFU the natural choice. As with the VAE, the VFU is a mass organization, one that additionally has a political standing in Vietnam, but for our purposes the important aspects are the same as above: membership with almost complete coverage (over 10,000,000 members) and local branches at all levels of the administrative hierarchy. The cooperation with the VFU local level branches was coordinated via the VAE. 
 
-Two members of the VAE International Relations Department alternated as research assistants and focus group facilitators and an interpreter was engaged to translate during the FGDs. The research assistants were instrumental in the planning andt organization of the fieldwork as well as in the execution of the focus groups themselves. Both had had previous experience in running focus groups in similar settings, but were of course unfamiliar with the novel BBN framework used to conduct the discussions. The different skill levels of both assistants were one of the reasons the actual implenentation of the groups was adapted (see below in the Methodology section) and split into two different *styles*.
+Two members of the VAE International Relations Department alternated as research assistants and focus group facilitators and an interpreter was engaged to translate during the FGDs. The research assistants were instrumental in the planning and organization of the fieldwork as well as in the execution of the focus groups themselves. Both had had previous experience in running focus groups in similar settings, but were of course unfamiliar with the novel BBN framework used to conduct the discussions. The different skill levels of both assistants were one of the reasons the actual implementation of the groups was adapted (see below in the Methodology section) and split into two different *styles*.
 
 
 ### Implementation
@@ -60,7 +60,7 @@ tab <- data.frame(v1 = c("Deprived", "Not deprived"),
                   v5 = c("under 55", "under 55"))
 tab <- regulartable(tab)
 tab <- set_header_labels(tab, v1 = "", v2 = "older men", v3 = "older women", v4 = "younger men", v5 = "younger women")
-tab
+# tab
 
 ```
 
@@ -74,13 +74,56 @@ This combination of eight groups described above was to be conducted in each of 
 
 #### Participant recruitment
 
-The focus group design as described above was communicated to the local VAE and VFU chapters about two weeks in advance of the fieldwork commencing in each of the districts. It was understood that the organizations would contact and invite participants from within their membership based on the design requirements, fulfilling the main three criteria of age, gender and socio-economic categorization, except as already mentioned, for the age subgroups. It was however unclear, and impossible to establish, exactly how the sampling was in fact performed, beyond the description that the participants were selected from a memebership lists. 
+The focus group design as described above was communicated to the local VAE and VFU chapters about two weeks in advance of the fieldwork commencing in each of the districts. It was understood that the organizations would contact and invite participants from within their membership based on the design requirements, fulfilling the main three criteria of age, gender and socio-economic categorization, except as already mentioned, for the age subgroups. It was however unclear, and impossible to establish, exactly how the sampling was in fact performed, beyond the description that the participants were selected from a membership lists. 
 
 #### Consent
 
 All participants in the focus groups gave their consent, and it is my belief this consent was always informed. Participants were given an *Information sheet* describing the purpose of the research, the reasons for the focus groups and their participation and information about how their information will be used. Consent was obtained from all focus group participants at the start of each session after the facilitator gave the introduction.
 
 ## Locations
+
+The selection of the fieldwork sites was based heavily on the inputs and suggestions of the VAE, with a view of selecting sites where they had good local knowledge and established relations with the local communities that did not require additional facilitation. Additional site criteria were applied to ensure appropriate age and gender structure, farming practices with a focus on rice farming, communities with access to lending and agricultural training and support, as well as being relatively easy to access both geographically and in terms of permits. 
+
+Two districts were chosen in two provinces, and within each district two communes were selected.
+
+In the Ha Noi province the Hoai Duc district is a district with a population of 229,000 located immediately to the West of Ha Noi in the Red River Delta region. 
+
+
+```{r, fig.width=3.5, fig.height=3.5, echo=FALSE, fig.cap = "Figure 1: The Hoai Duc district in Ha Noi province"}
+library(png)
+library(grid)
+img <- readPNG("../figures/hanoi.png")
+grid.raster(img)
+```
+
+Two communes, Yen So and Kim Chung were selected as the locations of the two sets of focus groups. The area is rapidly urbanising with agriculture representing around 20% of the economy. 
+
+
+```{r, fig.width=3.5, fig.height=3.5, echo=FALSE, fig.cap = "Figure 2: The Yen So and Kim Chung communes in Hoai Duc district"}
+library(png)
+library(grid)
+img <- readPNG("../figures/hanoicommunes.png")
+grid.raster(img)
+```
+
+The Hoang Hoa district in the Thanh Hoa province is a coastal plain district located in the North Cetral Coast region of Vietnam and has a slightly larger population of 250,000. 
+
+```{r, fig.width=3.5, fig.height=3.5, echo=FALSE, fig.cap = "Figure 3: The Hoang Hoa district in Thanh Hoa province"}
+library(png)
+library(grid)
+img <- readPNG("../figures/thanhhoa.png")
+grid.raster(img)
+```
+
+The two communes we visited there were Huang Trung and Huang Phu. Over half the land in the district is agricultural and over 80% of it is planted with rice. 
+
+
+```{r, fig.width=3.5, fig.height=3.5, echo=FALSE, fig.cap = "Figure 4: The Huang Trung and Huang Phu communes in Hoang Hoa district"}
+library(png)
+library(grid)
+img <- readPNG("../figures/thanhhoacommunes.png")
+grid.raster(img)
+```
 
 ## Methodology
 
@@ -127,10 +170,121 @@ questioning how participants’ behavioral intentions are formed."
 
 The BBNs used in this set of focus groups further distinguished between *behaviours* (printed in red) and factors may affect a behaviour or that are an outcome of a behaviour. Thus each behaviour was connected with at least one other factor - either an influencing factor (parent node) or outcome (child node). The framework for the focus group was grounded in the *Theory of planned behaviour* i.e. trying to elicit the (i) attitudes towards a certain behaviour (knowledge and understanding of the behaviour and it's impacts and utility of it's outcome), (ii) controls over a certain behaviour (what restricts or limits a behaviour and how much control does the person have over it) and (iii) subjective norms in the shape of perceived social norms to perform a certain behaviour. 
 
+## Descriptive Statistics
 
-## Outcomes
+### Participation rates
+
+A total of 228 participants took part in 31 focus group discussions. In each case
+there were eight participants invited, and most of the time all of them arrived to take
+part (17 out of 31), or only one participant didn’t make it (10 out of 31). Only two
+groups each had two or three participants missing. This does not include the final
+32. group which got cancelled after only two participants turned up over 45 minutes
+late and was therefore cancelled[^3]. 
+
+[^3]: The reason for this dramatic nonattendance was related to the rain stopping in the afternoon. It was peak rice harvest time and the weather had been quite wet, so the farmers needed to take advantage of the weather to quickly harvest the rice still in the fields and attempt to dry it.
+
+Figure 5 summarizes the attendance rate along the four group criteria: gender,
+age, socio-economic status and district. Only the chart on the top left hand side
+represents relationship where the difference between groups was significant (at α =
+0.05) i.e. the attendance was higher in female groups, as well as being higher
+(p = 0.058) in groups of participants categorised as deprived (poor, near poor or
+otherwise de privileged). Differences in attendance between the different aged groups
+(which is the same as the organizational membership) and between the two districts
+(which also correlates with the timing of the focus groups) were not significant.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE, fig.cap = "Figure 5: Number of participants attending FGD by group characteristics"}
+library(png)
+library(grid)
+img <- readPNG("../figures/participation.png")
+grid.raster(img)
+```
+
+### Participant Ages
+
+Before describing the age structure of the participants we should note that discrepancies were discovered in their recorded ages. There were two sources as to the age of the participants. On the one hand the organizations (VAE or VFU) provided us with a list of the participants along with their ages, and on the other hand each focus group began with a short introduction in which the participants stated their ages as well. While there is some missing data in the second set - it was not really meant as a data collection exercise, but rather an introduction, so omissions were not followed up - they are considered the more reliable source. However upon inspection it transpires that there are considerable discrepancies between the two sources [^4]. 
+
+[^4]: We can consider up to two year discrepancies as expected given the idiosyncrasies of how a person’s age is commonly expressed in Vietnam. Contrary to the standard accounting, a person’s age is calculated starting from conception (approximately), making them one year old at birth, and then increased by one year every new year - not their actual birthday. Thus for example a baby born just before the Vietnamese new year (Tết - based on the lunar calendar) would already be considered 2 years old the next day. It is not clear whether the official registers and the self reporting used this colloquial Vietnamese counting or the official one and to what extent that is the cause of the discrepancies.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE, fig.cap = "Figure 6: Inconsistency in age reporting in the two districts (green are consistent, blue up to 2 years difference, orange over 2 years)"}
+library(png)
+library(grid)
+img <- readPNG("../figures/ageerror.png")
+grid.raster(img)
+``` 
+Furthermore it becomes quickly obvious that the discrepancies were dramatically worse in the two communes in Hoằng Hoá district, as is clear from Figure 6, which plots the ages of the participants from the two sources against each other, with the green points indicating complete consistency, blue indicating up to two years difference and orange the ones that were more than two years out. The data has been split by district and makes it clear that the issue is location specific. For the rest of this analysis we use the self-reported data but in cases these were not recorded (N=23) are they supplemented with the *official* data.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE, fig.cap = "Figure 7: Age distributions with means in groups from Vietnam association of the Elderly (top row) and Vietnamese Farmers’ Union (bottom row) for both men (left) and women (right)"}
+library(png)
+library(grid)
+img <- readPNG("../figures/agedist.png")
+grid.raster(img)
+``` 
+
+Figure 7 summarizes the age distribution in the groups divided by age (i.e. organization) and gender. Men can become members of the VAE at age 60 and women at age 55 and in both cases only a few participants in the elderly groups fell under the cut-off point. Although we had asked the organizers to try to get one to two participants aged over 75, this proved difficult to accomplish in practice. In the end there were a total of 7 men over the age of 75 (ages consistent) and only one woman (self-reported as 75, on official register as 68). 
+
+The Farmer’s Union on the other hand has no cut off point and people can stay members even after they reach retirement age, although many do not. The average age in these groups was around 50 for both genders, although the spread was much larger for men. This was despite the fact that we had asked to have half the group under the age of 40. Again this proved difficult to pull off by the VFU - although it was not clear if this was due to membership age structure or other reasons. Just under a fifth of the VFU male participants were under 40, and approximately one tenth of the women.
+
+### Participant Education
+
+The education levels of the participants were obtained through self-reporting on the form they signed at the end of the focus group to confirm they had received their travel compensation money. Being in the North of Vietnam, both provinces used to have a 10-year system (somewhat similar to the USSR one), which was only unified with the Southern 12-year system in 1980. Participants would describe their education as e.g. 8/10 or 7/12 depending on the system in which they had been educated.
+
+```{r, fig.width=6, fig.height=1.5, echo=FALSE, fig.cap = "Figure 8: Recoding of Education variable based on old (10-year) or new(12-year) system"}
+library(png)
+library(grid)
+img <- readPNG("../figures/educonv.png")
+grid.raster(img)
+``` 
+
+The two systems were recoded into education levels - primary, lower secondary and high secondary - as they were categorised within each system (see scheme in Figure 8). This was deemed more appropriate given that that was the relevant categorisation at the time the participants were in school, although an alternative categorization based on years only could also be argued for. Only two participants of the 228 reported having more than higher secondary school, one a vocational college and another university degree, both are coded as tertiary education.
+
+Figure 9 summarizes the participants educational attainment by gender and age group. Both participants with tertiary education were male and there were a total of three participants that had not completed primary school, all of them over 70. Overall it there is a clear gender difference in educational attainment across most age groups as well as a clear generational trend with younger participants being more likely to have completed more years of schooling.
+
+
+```{r, fig.width=6, fig.height=4, echo=FALSE, fig.cap = "Figure 9: Distribution of participants’ educational attainment by age group and gender"}
+library(png)
+library(grid)
+img <- readPNG("../figures/edu.png")
+grid.raster(img)
+``` 
+
+### Size of rice fields farmed by the participants
+
+In the introduction phase of the focus groups, the participants were also asked to report the size of land on which they grow rice. It should be clear they were not reporting on the area of land they owned - they may have been renting (part of) the land - nor were other crops considered. The data therefore refers to the area of land they cultivate rice on.
+
+The charts in Figure 10  summarise the distribution of land areas between the different groups. It should be kept in mind that these samples are not representative, so any patterns should be treated with care when interpreting. The rice field sizes are grouped into categories for convenience, with the first three ( under 2 hectares) often considered smallholder levels of landholdings, however this definition is not generally accepted and depends on local context, additionally we are only counting land used for rice farming and farmers may well have additional land used for other corps that is not counted here.
+
+
+```{r, fig.width=6, fig.height=4, echo=FALSE, fig.cap = "Figure 10: Distribution of participants’ rice field sizes given gender, organisation membership, deprivation level, commune, education and age group"}
+library(png)
+library(grid)
+img <- readPNG("../figures/land.png")
+grid.raster(img)
+``` 
+
+
+On the left hand side we first have the difference between the men and the women. On average women came from households that farmed rice on an area almost 700m 2 smaller than men (significant at α = 0.05). Similarly the average landholding of VAE members was smaller by around 640m 2 than the area farmed by VFU members (also significant at α = 0.05)). The differences between the so-called deprived and not deprived groups are minimal (average difference about 150m 2 ) and not significant.
+
+Looking at the differences between the communes only Hoằng Phú was significantly different from the other three communes, with the average landholding of the participants around .3 ha larger than in the other three communes. On the right hand side of the figure we can see the land are distributions disaggregated by education level and age group. The largest rice fields are being farmed by the highest educated participants and the 4-50 year group respectively, however the differences between the groups are not statistically significant.
+
 
 ## Constraints and other issues
+
+The descriptive analysis in the previous section has several implications which should
+be kept in mind during analysis of the qualitative data as well as during planning
+the next stage of the fieldwork.
+
+### Organisation and logistics
+
+The attendance rates confirm the general impression on the ground that using the VAE and VFU as partners in recruiting the participants and organizing the focus groups allowed for a high degree of success, at least in terms of numbers of participants. The fact that only one focus group got cancelled due to the weather and harvest calendar is quite remarkable, given that there was plenty of similar situations throughout the period in question, which did not prevent the participants from attending anyway. It is not immediately clear to what degree the financial compensation might have incentivized the participants and to what degree the official invitation from either of the mass organizations was interpreted as indicating attendance was compulsory. My general impression however, corroborated by my research assistants, was that the authority of the VAE and VFU is not substantial enough to warrant this level of compliance. Despite being a single party socialist country, the level of oversight and control enforced by these mass organizations is relatively weak and the voluntary nature of membership seems genuinely real. 
+
+### Participant Sampling
+
+The data analysis shows up some important concerns regarding the way the participants were selected. The fortuitous fact that we had two sets of age data allowed us to perform somewhat of an audit on the participant selection, which turned up some unexpected results. In particular this refers to the data shown in Figure 6, where it is clear that something dramatically different was happening in the two Hoằng Hoá communes. One possible explanation for this inconsistency is that a number of originally invited participants sent someone else in their place, not being able to attend themselves. This is partly confirmed by some inconsistencies in the name lists, although this is more difficult to confirm, since the names were not deemed important and double record keeping was not enforced very strictly. Neither the interpreter nor the research assistants seemed to have noticed that anything like this was going on at the time. 
+
+As far as the qualitative data analysis is concerned, this discrepancy does not in affect the collected data. The participants - even if they were not the ones originally invited - fit the requirements of the data gathering scheme: They were of the correct gender and age, and most importantly, they were all involved in their households’ rice farming decision making process (the deprived/not deprived aspect is potentially more problematic and discussed further below). 
+
+The issue of the so called deprived and not deprived groups was observed in the field from the start, namely that there it seemed impossible to distinguish which group was which without asking a representative of the organization. The interpreter and research assistants all agreed on this, and the data analysis seems to confirm there are very few differences between the groups. In particular one might expect that area farmed would be significanlty different for the two groups, but that was not the case. Two points need to be made in this regard. One is that using the official definitions of poverty, we had originally wanted half the groups to be composed of participants that classify as such. However we were informed in our preliminary inquiries that there simply are not enough people officially classed as poor to fulfil our requirements - that would have meant 32 participants per commune.
+
 
 # Survey
 
