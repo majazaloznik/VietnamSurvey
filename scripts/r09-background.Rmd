@@ -300,7 +300,7 @@ The survey questionnaire was drafted based on the analysis of the focus group tr
 
 In mid March 2017 we received the stata file with the survey data. A first 'trawl' through the data uncovered several issues with the data (see Constraints and other issues section below), which were written up and reported back. Among them were many errors, typos, inconsistencies in the data as well as a lack of labelling and no survey metadata i.e. information on sampling design etc. The data was therefore refused and returned to IPPM by the end of March with a list of requests to be met. 
 
-
+In May 2017 IPPM returned with a new version of the data, which this time included the survey tools and a report with the requested metadata. A more in depth analysis of the data revealed again some more questions with regard to the quality of the implementation and quality of the data (see Constraints and other issues section below), which was reported to the PI in October 2017. Although we received a short reply in January 2018, that did not resolve any of the serious questions that had been asked, especially with regard to the unusualy distributions in the sample. 
 
 ## Locations
 

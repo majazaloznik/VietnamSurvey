@@ -515,6 +515,11 @@ Well, I've certainly done fa in the past few days..
 2. OK, that's sth, it only compiles to docx. now, because of flextable and because there are a few vietnamese characters in there..
 
 
+# Thursday 10.1.2019
+
+1. OK, continue on the background report. Now 
+
+
 <!--
   RANDOM COMMENTS, TO DO, KEEP FOR LATER..
 TODO - a 'make file, that runs all the stuff in one go. 
