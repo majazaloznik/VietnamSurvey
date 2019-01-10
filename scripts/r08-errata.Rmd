@@ -10,7 +10,16 @@ bibliography: "../misc/vn-lit.bib"
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../reports") })
 ---
-  
+```{r setup, include=FALSE, message = FALSE, warning = FALSE, echo= FALSE}
+## this is to set up the main folder as the root
+## although this doesnot work for the YAML designations e.g. bibliography, css files etc..:(
+require(knitr)
+require(dplyr)
+require(memisc)
+
+load(here::here("data/outputs/clean.Rdata"))
+
+```
 # Errata - errors in raw data
   
 This is a log of all the errors found in the raw original dataset.  
@@ -23,33 +32,33 @@ There are two respondents missing. The number of households is not the same as t
 
 In household 28 member code 99 is incorrectly coded as a Spouse/husband i.e. there are two spouses in the house. It seems clear from the hosuehold dataset that he is infact the respondent. 
 
-`hh.id == 28 & hh.member.id == 99`---`"Spouse" <- "Respondent"`
+`commune == `r ds.hohh$commune[ds.hohh$hh.id == 28][[1]]` & hhcode == `r ds.hohh$hhcode[ds.hohh$hh.id == 28][[1]]` hh.member.id == 99`---`"Spouse" <- "Respondent"`
 
 ### hh.id 118
 
 In household 118 member code 370 is incorrectly coded as a Spouse/wife i.e. there are two spouses in the house. It seems clear from the hosuehold dataset that she is infact the respondent. 
 
-`hh.id == 118 & hh.member.id == 371`---`"Spouse" <- "Respondent"`
+`commune == `r ds.hohh$commune[ds.hohh$hh.id == 118][[1]]` & hhcode == `r ds.hohh$hhcode[ds.hohh$hh.id == 118][[1]]` hh.member.id == 371`---`"Spouse" <- "Respondent"`
 
 ## Unmarried Spouses
 
 ###  hh.id 288
 Household 288 has a female respondent registered as a widow but also a male member living outside of the household, registered as the spouse. Since household members outside the home do not have a year of birth we don't know their age. However the hosehold includes a daughter in law and two grandchildren, making it very likely that the member that has migrated must be the son. 
 
-`hh.id == 288 & hh.member.id == 1024`---`"Spouse" <- "Son"`
+`commune == `r ds.hohh$commune[ds.hohh$hh.id == 288][[1]]` & hhcode == `r ds.hohh$hhcode[ds.hohh$hh.id == 288][[1]]` hh.member.id == 1024`---`"Spouse" <- "Son"`
 
 ### hh.id 290
 
 In Household 290 a 59 year old female respondent registered as a widow but a 61 year old male member of the family is registered as her spouse. Most likely the martial status of the respondent is wrong?
 
-`hh.id == 290 & hh.member.id == 1035`---`"widow/widower" <- "married"`
+``commune == `r ds.hohh$commune[ds.hohh$hh.id == 290][[1]]` & hhcode == `r ds.hohh$hhcode[ds.hohh$hh.id == 290][[1]]` hh.member.id == 1035`---`"widow/widower" <- "married"`
 
 
 ### hh.id 34
 
 In household 34 member code 116 is registered as the Spouse i.e. husband of a female respondent. However the Respondent is also 29 years older than this 'spouse' and furthermore is listed as 'widow/widower'. It is therefore clear that 116 is not the husband, but is most likely a son. This seems especially likely since the household also includes a daughter in law and two grandchildren. 
 
-`hh.id == 34 & hh.member.id == 116`---`"Spouse" <- "Son"`
+``commune == `r ds.hohh$commune[ds.hohh$hh.id == 34][[1]]` & hhcode == `r ds.hohh$hhcode[ds.hohh$hh.id == 34][[1]]` & hh.member.id == 116`---`"Spouse" <- "Son"`
 
 
 

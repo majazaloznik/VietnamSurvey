@@ -290,9 +290,17 @@ The issue of the so called deprived and not deprived groups was observed in the 
 
 ## Organization 
 
-### Partners 
+### Partners and roles
+
+The local partner that helped with the survey preparation and design and carried out the actual survey on the ground was the *Institute of Public Policy and Management* (IPPM) at the National Economics University (NEU) in Hanoi, Vietnam. The principal investigator for the local partner was Assoc. Prof. Giang Thanh Long, who is also an affiliate research fellow at OIPA. The survey team leader was Dr. Vu Bich Ngoc, also from the NEU.
 
 ### Implementation
+
+The survey questionnaire was drafted based on the analysis of the focus group transcripts by the project team at OIPA in June 2016. The draft was sent to IPPM, who pilot tested the  questionnaire "with a small sample of respondents in a rural area which is nearby Hanoi" and returned comments and suggestions, which were incorpoprated into the final version by September 2016 (@ippm2018). The survey was conducted by the IPPM team in North Vietnam in late December 2016. 
+
+In mid March 2017 we received the stata file with the survey data. A first 'trawl' through the data uncovered several issues with the data (see Constraints and other issues section below), which were written up and reported back. Among them were many errors, typos, inconsistencies in the data as well as a lack of labelling and no survey metadata i.e. information on sampling design etc. The data was therefore refused and returned to IPPM by the end of March with a list of requests to be met. 
+
+
 
 ## Locations
 
@@ -304,3 +312,4 @@ The issue of the so called deprived and not deprived groups was observed in the 
 
 ## Constraints and other issues
 
+# References
